@@ -1,0 +1,73 @@
+# begin questions-schema.yaml
+Questions:
+  - # Description of question №1
+    gid: "q0326208-57c7-43fa-9beb-59dcb371e35g"
+
+    # Question type (single-choice|multiple-choice|open-choice)
+    type: "single-choice"
+
+    # Name of discipline or title of knowledge area
+    section: "Physics"
+
+    # Name of discipline section or subsection of knowledge area
+    subsection: "Quantum field theory"
+
+    # The body of question that was asked
+    body: "What is different between The Higgs boson and W-boson?"
+
+    # Array of alternate answers
+    answers:
+     -
+      id: "b21d5a4d-7dc6-4618-bfdf-eaf8a6918a69"
+      body: "The Higgs boson is a scalar boson, while the W-boson is a vector boson"
+      isRight: "false"
+     -
+      id: "00edf8c9-81f3-4332-83b2-07320beb90bc"
+      body: "The Higgs boson carries electric charge, while the W-boson is electrically neutral."
+      isRight: "false"
+     -
+      id: "0beb8e8a-e85f-4616-9389-e2510eaf2a1c"
+      body: "The Higgs boson mediates the Higgs field, while the W-boson mediates the weak nuclear force."
+      isRight: "true"
+     -
+      id: "d33575be-48ca-4683-9d2b-c51a379d186f"
+      body: "The Higgs boson has a mass of approximately 125 GeV/c^2, while the W-boson has a mass of around 8,0 GeV/c^2."
+      isRight: "false"
+
+  - # Description of question №2
+    id: "f0326208-57c7-43fa-9beb-59dcb371e35g"
+
+    # Question type (single-choice|multiple-choice|open-choice)
+    type: "multiple-choice"
+
+    # Name of discipline or title of knowledge area
+    section: "Physics"
+
+    # Name of discipline section or subsection of knowledge area
+    subsection: "Quantum field theory"
+
+    # The body of question that was asked
+    body: "What properties does light have?"
+
+    # Array of alternate answers
+    answers:
+     -
+      id: "c21d5a4d-7dc6-4618-bfdf-eaf8a6918a69"
+      body: "Wave properties"
+      isRight: "true"
+     -
+      id: "d0edf8c9-81f3-4332-83b2-07320beb90bc"
+      body: "Particle properties"
+      isRight: "true"
+     -
+      id: "ebeb8e8a-e85f-4616-9389-e2510eaf2a1c"
+      body: "Soft properties"
+      isRight: "false"
+     -
+      id: "f33575be-48ca-4683-9d2b-c51a379d186f"
+      body: "Form properties"
+      isRight: "false"
+
+
+
+

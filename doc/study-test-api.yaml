@@ -1,0 +1,398 @@
+# begin study-test-api.yaml
+openapi: 3.0.0
+info:
+  title: Study-Test.Online - сервис проведения тестирования
+  version: 0.0.1
+servers:
+  - url: http://localhost:7500/
+    description: Backend server of Study-Test.Online; сreated with Qt & C++
+tags:
+  - name: "Challenges [Users]"
+    description: "Users API to chellenges operate"
+  - name: "Challenges [Administrator]"
+    description: "Administrator API to chellenges operate"
+  - name: "Session [Users]"
+    description: "Users API to test session opertate"
+paths:
+  /challenges:
+    get:
+      summary: "Get list of opened challenges [Users]"
+      tags:
+        - "Challenges [Users]"
+      operationId: getAllChallenges
+      responses:
+        '200':
+          description: "[OK] List of challenges received"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Challenges'
+        default:
+          description: "Unknown response"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'        
+    post:
+      summary: "Add new challenge into store"
+      tags:
+        - "Challenges [Administrator]"
+      operationId: addChallenge
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Challenge'
+      responses:
+        '200':
+          description: "[OK] Return successfull created challenge"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Challenge'
+        default:
+          description: "Unknown response"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'        
+  /chellenges/{challenge_gid}:
+    get:
+      summary: "Get challenge by it's gid"
+      tags:
+        - "Challenges [Users]"
+      operationId: getChallengeById
+      parameters:
+        - name: challenge_gid
+          in: path
+          required: true
+          description: "GID of requested  challenge"
+          schema:
+            type: string
+          example: "ce161171-faea-4d9d-8a50-ea2875b76384"
+      responses:
+        '200':
+          description: "[OK] Challenge recieved"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Challenge'
+        default:
+          description: "Unknown response"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'        
+    delete:
+      summary: "Delete challenge by GID"
+      tags:
+        - "Challenges [Administrator]"
+      operationId: deleteChallengeById
+      parameters:
+        - name: challenge_gid
+          in: path
+          required: true
+          description: "GID of requested  challenge"
+          schema:
+            type: string
+          example: "ce161171-faea-4d9d-8a50-ea2875b76384"
+      responses:
+        '200':
+          description: "[OK] Challenge was deleted"
+          content:
+            application/json: {}
+        default:
+          description: "Unknown response"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'        
+  /session/{challenge_gid}:              
+    get:
+      summary: "Start new test session"
+      tags:
+        - "Session [Users]"
+      operationId: startTestSession
+      parameters:
+        - name: challenge_gid
+          in: path
+          required: true
+          description: "GID of selected challenge"
+          schema:
+            type: string
+          example: "ce161171-faea-4d9d-8a50-ea2875b76384"
+      responses:
+        '200':
+          description: "[OK] New test session started. Response session_gid"
+          content:
+            application/json:
+              schema:
+                type: string
+              example: "d0a9e3a1-65c9-4f6e-bd41-7b4a6860c56e"
+        default:
+          description: "Unknown response"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'     
+  /session/{session_gid}:
+    get:
+      parameters:
+        - name: session_gid
+          in: path
+          required: true
+          description: "GID of users test session"
+          schema:
+            type: string
+          example: "ba254f6c-5e3c-4f63-8990-f4d9b3effdc1"
+      summary: "Get current session state by it's GID"
+      tags:
+        - "Session [Users]"
+      operationId: getSessionState
+      responses:
+        '200':
+          description: "[OK]"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        default:
+          description: "Unknown response"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'        
+  
+  /question/{session_gid}:
+    get:
+      parameters:
+        - name: session_gid
+          in: path
+          required: true
+          description: "GID of users test session"
+          schema:
+            type: string
+          example: "ba254f6c-5e3c-4f63-8990-f4d9b3effdc1"
+      summary: "Get question for current test session by it's GID"
+      tags:
+        - "Session [Users]"
+      operationId: getQuestionBySessionID
+      responses:
+        '200':
+          description: "[OK]"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
+          headers:
+            X-Last-Request:
+              description: "Was this the last question in current test session?"
+              schema:
+                type: string
+        default:
+          description: "Unknown response"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'        
+    
+  /answers:
+      post:
+        summary: "Post answer for question by questionID and current session by sessionID"
+        tags:
+          - "Session [Users]"
+        operationId: pushAnswer
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Answer'
+        responses:
+          '200':
+            description: "[OK] Return successfull created challenge"
+            content:
+              application/json: {}
+          default:
+            description: "Unknown response"
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'        
+components:
+  schemas:
+    # Challenge component schema
+    Challenge:
+      type: object
+      required:
+        - gid
+        - totalQuestions
+        - maxTime
+        - testType
+        - section
+        - subsection
+        - annotation
+        - qIDs
+      properties:
+        gid:
+          type: string
+          example: "ce161171-faea-4d9d-8a50-ea2875b76384"
+        totalQuestion:
+          type: number
+          example: "68"
+        maxTime:
+          type: number
+          example: "240"
+        testType:
+          type: string
+          example: "education"
+        section:
+          type: string
+          example: "Безопасность жизнедеятельности"
+        subsection:
+          type: array
+          items:
+            type: string
+          example:
+            - "Раздел 1. Общие вопросы безопасности жизнедеятельности"
+            - "Раздел 2. Общие вопросы охраны труда"
+            - "Раздел 3. Основы производственной санитарии"
+        annotation:
+          type: string
+          example: "Пример тестирования по БЖД (Разделы 1-3)"
+        qIDs:
+          type: array
+          items:
+            type: string
+          example:
+            - "b1b9f887-2fd7-4a8d-8766-9ab4c7195be5"
+            - "998a4fa5-e0af-4497-a4a9-35a9d9c6a0a5"
+            - "c90ea859-1b8b-4234-87fe-963397ee7cd3"
+    
+    # Challenges component schema
+    Challenges:
+      type: array
+      items:
+        $ref: '#/components/schemas/Challenge'
+        
+    # Question component schema        
+    Question:
+      type: object
+      required:
+        - gid
+        - type
+        - body
+        - answers
+      properties:
+        id:
+          type: string
+          example: "q0326208-57c7-43fa-9beb-59dcb371e35g"
+        type:
+          type: string
+          example: "single-choice"
+          description: "Question type (single-choice|multiple-choice|open-choice)"
+        body:
+          type: string
+          example: "What is different between The Higgs boson and W-boson?"
+        answers:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+          example:
+            - 
+              id: "b21d5a4d-7dc6-4618-bfdf-eaf8a6918a69"
+              body: "The Higgs boson is a scalar boson, while the W-boson is a vector boson"
+            - 
+              id: "00edf8c9-81f3-4332-83b2-07320beb90bc"
+              body: "The Higgs boson carries electric charge, while the W-boson is electrically neutral."
+            - 
+              id: "0beb8e8a-e85f-4616-9389-e2510eaf2a1c"
+              body: "[true] The Higgs boson mediates the Higgs field, while the W-boson mediates the weak nuclear force."
+            -
+              id: "d33575be-48ca-4683-9d2b-c51a379d186f"
+              body: "The Higgs boson has a mass of approximately 125 GeV/c^2, while the W-boson has a mass of around 8,0 GeV/c^2"
+
+    # Answer components schema
+    Answer:
+      type: object
+      required:
+        - session_id
+        - question_id
+        - answers
+      properties:
+        session_id:
+          type: string
+          example: "221e67e4-28bc-4a0d-a6e3-4a72a1db255a"
+        question_id:
+          type: string
+          example: "q0326208-57c7-43fa-9beb-59dcb371e35g"
+        answers:
+          type: array
+          items:
+            type: array
+            items: 
+              type: string
+          example: 
+            - 
+              id: "c21d5a4d-7dc6-4618-bfdf-eaf8a6918a69"
+              body: "Wave properties"
+            - 
+              id: "ebeb8e8a-e85f-4616-9389-e2510eaf2a1c"
+              body: "Soft properties"
+    
+    # Session component schema
+    Session:
+      type: object
+      required:
+        - gid
+        - beginAt
+        - endAt
+        - result
+        - userInfo
+        - testInfo
+      properties:
+        gid:
+          type: string
+          example: "221e67e4-28bc-4a0d-a6e3-4a72a1db255a"
+        beginAt:
+          type: string
+          example: "2012-04-23T18:25:43.511Z"
+        endAt:
+          type: string
+          example: "2012-04-23T20:25:43.511Z"          
+        result:
+          type: string
+          example: "4.2"
+        userInfo: 
+          type: array
+          items:
+            type: string
+          example:
+            - id: "40501c92-d006-4144-9909-79ba59352b8d"
+            - name: "Petrov I.D."
+            - group: "Group with best student group"
+        testInfo: 
+          type: array
+          items:
+            type: string
+          example: 
+            - totalQuestions: "25"
+            - testType: "education"
+            - section: "Physics"
+            - subsection: "Quantum field theory"
+            - testAnnotation: "Brief info about Quantum field theory test"
+    
+    # Error component schema
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+        message:
+          type: string

@@ -1,0 +1,14 @@
+
+Domen
+ > study-test.online
+ > study-test.net
+
+ > studytest.online
+ > studytest.net
+
+YAML-файлы
+ > challenge-schema.yaml - описание формата созданных преподавателем тестов (отобраны предметы, разделы, вопросы и т.д.)
+ > questions-db.yaml     - общая база вопросов
+ > questions-schema.yaml - описание формата вопросов;
+ > solutions-schema.yaml - описание формата сохраняемых сессий ответов пользователей;
+ > study-test-api.yaml   - описание openapi backend'а
