@@ -1,11 +1,11 @@
-// Begin testEngine.h
-#ifndef QTESTENGINE_H
-#define QTESTENGINE_H 1
+// Begin testManager.h
+#ifndef QTESTMANAGER_H
+#define QTESTMANAGER_H 1
 
-class TestEngine {
+class TestManager {
     public:
-        TestEngine();
-        ~TestEngine();
+        TestManager();
+        ~TestManager();
 
         // Admin/teacher/ creates specific challange
         // [*] testInfo:
@@ -18,10 +18,11 @@ class TestEngine {
         // subsection
         void runSession();
 
+        void createSession();
 
 };
 
 
 
 #endif
-// End testEngine.h
+// End testManager.h

@@ -2,7 +2,8 @@
   "Challenges": [
     {
       "gid": "ce161171-faea-4d9d-8a50-ea2875b76384",
-      "totalQuestions": "68",
+      "totalQuestions": 68,
+      "maxTime": 240,
       "testType": "education",
       "section": "Безопасность жизнедеятельности",
       "subsection": [
@@ -84,7 +85,8 @@
     },
     {
       "gid": "f03c7144-8816-484e-8bac-39148c303583",
-      "totalQuestions": "20",
+      "totalQuestions": 20,
+      "maxTime": 240,
       "testType": "education",
       "section": "Безопасность жизнедеятельности",
       "subsection": [

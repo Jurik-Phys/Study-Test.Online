@@ -32,7 +32,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'        
+                $ref: '#/components/schemas/Error'
     post:
       summary: "Add new challenge into store"
       tags:
@@ -56,7 +56,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'        
+                $ref: '#/components/schemas/Error'
   /chellenges/{challenge_gid}:
     get:
       summary: "Get challenge by it's gid"
@@ -83,7 +83,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'        
+                $ref: '#/components/schemas/Error'
     delete:
       summary: "Delete challenge by GID"
       tags:
@@ -107,8 +107,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'        
-  /session/{challenge_gid}:              
+                $ref: '#/components/schemas/Error'
+  /session/{challenge_gid}:
     get:
       summary: "Start new test session"
       tags:
@@ -135,7 +135,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'     
+                $ref: '#/components/schemas/Error'
   /session/{session_gid}:
     get:
       parameters:
@@ -162,8 +162,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'        
-  
+                $ref: '#/components/schemas/Error'
+
   /question/{session_gid}:
     get:
       parameters:
@@ -195,8 +195,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'        
-    
+                $ref: '#/components/schemas/Error'
+
   /answers:
       post:
         summary: "Post answer for question by questionID and current session by sessionID"
@@ -219,7 +219,7 @@ paths:
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/Error'        
+                  $ref: '#/components/schemas/Error'
 components:
   schemas:
     # Challenge component schema
@@ -238,12 +238,12 @@ components:
         gid:
           type: string
           example: "ce161171-faea-4d9d-8a50-ea2875b76384"
-        totalQuestion:
+        totalQuestions:
           type: number
-          example: "68"
+          example: 68
         maxTime:
           type: number
-          example: "240"
+          example: 240
         testType:
           type: string
           example: "education"
@@ -269,14 +269,14 @@ components:
             - "b1b9f887-2fd7-4a8d-8766-9ab4c7195be5"
             - "998a4fa5-e0af-4497-a4a9-35a9d9c6a0a5"
             - "c90ea859-1b8b-4234-87fe-963397ee7cd3"
-    
+
     # Challenges component schema
     Challenges:
       type: array
       items:
         $ref: '#/components/schemas/Challenge'
-        
-    # Question component schema        
+
+    # Question component schema
     Question:
       type: object
       required:
@@ -302,13 +302,13 @@ components:
             items:
               type: string
           example:
-            - 
+            -
               id: "b21d5a4d-7dc6-4618-bfdf-eaf8a6918a69"
               body: "The Higgs boson is a scalar boson, while the W-boson is a vector boson"
-            - 
+            -
               id: "00edf8c9-81f3-4332-83b2-07320beb90bc"
               body: "The Higgs boson carries electric charge, while the W-boson is electrically neutral."
-            - 
+            -
               id: "0beb8e8a-e85f-4616-9389-e2510eaf2a1c"
               body: "[true] The Higgs boson mediates the Higgs field, while the W-boson mediates the weak nuclear force."
             -
@@ -333,16 +333,16 @@ components:
           type: array
           items:
             type: array
-            items: 
+            items:
               type: string
-          example: 
-            - 
+          example:
+            -
               id: "c21d5a4d-7dc6-4618-bfdf-eaf8a6918a69"
               body: "Wave properties"
-            - 
+            -
               id: "ebeb8e8a-e85f-4616-9389-e2510eaf2a1c"
               body: "Soft properties"
-    
+
     # Session component schema
     Session:
       type: object
@@ -362,11 +362,11 @@ components:
           example: "2012-04-23T18:25:43.511Z"
         endAt:
           type: string
-          example: "2012-04-23T20:25:43.511Z"          
+          example: "2012-04-23T20:25:43.511Z"
         result:
           type: string
           example: "4.2"
-        userInfo: 
+        userInfo:
           type: array
           items:
             type: string
@@ -374,17 +374,17 @@ components:
             - id: "40501c92-d006-4144-9909-79ba59352b8d"
             - name: "Petrov I.D."
             - group: "Group with best student group"
-        testInfo: 
+        testInfo:
           type: array
           items:
             type: string
-          example: 
-            - totalQuestions: "25"
+          example:
+            - totalQuestions: 25
             - testType: "education"
             - section: "Physics"
             - subsection: "Quantum field theory"
             - testAnnotation: "Brief info about Quantum field theory test"
-    
+
     # Error component schema
     Error:
       type: object

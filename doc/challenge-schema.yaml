@@ -5,10 +5,10 @@ Challenges:
   gid: "ce161171-faea-4d9d-8a50-ea2875b76384"
 
   # Total questions in this challenge
-  totalQuestions: "68"
-  
+  totalQuestions: 68
+
   # Maximum time in minutes to complete challenge
-  maxTime: "240"
+  maxTime: 240
 
   # Area of knowledge (education|psychology|funny)
   testType: "education"
@@ -101,11 +101,11 @@ Challenges:
   gid: "f03c7144-8816-484e-8bac-39148c303583"
 
   # Total questions in this challenge
-  totalQuestions: "20"
+  totalQuestions: 20
 
   # Maximum time in minutes to complete challenge
-  maxTime: "240"
-  
+  maxTime: 240
+
   # Area of knowledge (education|psychology|funny)
   testType: "education"
 
