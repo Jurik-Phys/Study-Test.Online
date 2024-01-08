@@ -51,6 +51,7 @@ void OAIChallengesUsersApiHandler::getChallengeById(QString challenge_gid) {
         QList<OAIChallenge> res;
         QJsonArray jsonArray(mDataManager->getAllChallenges(challenge_gid));
         for (int i = 0; i < jsonArray.count(); i++){
+            qDebug() << "I = " << i;
             QString returnedJSON = QJsonDocument(jsonArray.at(i).toObject()).toJson();
             OpenAPI::OAIChallenge tempChallenge(returnedJSON);
 

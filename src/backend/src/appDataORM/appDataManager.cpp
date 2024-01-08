@@ -74,7 +74,7 @@ QJsonArray DataManager::getAllChallenges(const QString& challengeGID){
     // Output json after "gid filter"
     for (QJsonArray::iterator it = jsonArrayData.begin(); it !=  jsonArrayData.end(); it++){
         QJsonObject tmpJsonObject = it->toObject();
-        if (tmpJsonObject.value("gid") == challengeGID){
+        if (tmpJsonObject.value("gid").toString().toLower() == challengeGID.toLower()){
             outJsonArrayData.append(QJsonValue(tmpJsonObject));
         }
     }
