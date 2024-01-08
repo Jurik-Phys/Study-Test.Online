@@ -61,7 +61,7 @@ void OAIChallengesUsersApiRequest::getAllChallengesRequest(){
 
 
 void OAIChallengesUsersApiRequest::getChallengeByIdRequest(const QString& challenge_gidstr){
-    qDebug() << "/chellenges/{challenge_gid}";
+    qDebug() << "/challenges/{challenge_gid}";
     connect(this, &OAIChallengesUsersApiRequest::getChallengeById, handler.data(), &OAIChallengesUsersApiHandler::getChallengeById);
 
     

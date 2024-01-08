@@ -8,9 +8,9 @@ servers:
     description: Backend server of Study-Test.Online; сreated with Qt & C++
 tags:
   - name: "Challenges [Users]"
-    description: "Users API to chellenges operate"
+    description: "Users API to challenges operate"
   - name: "Challenges [Administrator]"
-    description: "Administrator API to chellenges operate"
+    description: "Administrator API to challengeses operate"
   - name: "Session [Users]"
     description: "Users API to test session opertate"
 paths:
@@ -57,7 +57,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /chellenges/{challenge_gid}:
+  /challenges/{challenge_gid}:
     get:
       summary: "Get challenge by it's gid"
       tags:

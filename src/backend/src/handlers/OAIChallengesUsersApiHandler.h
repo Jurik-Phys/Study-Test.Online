@@ -14,8 +14,8 @@
 
 #include <QObject>
 
-#include "OAIChallenge.h"
-#include "OAIError.h"
+#include "../models/OAIChallenge.h"
+#include "../models/OAIError.h"
 #include <QList>
 #include <QString>
 

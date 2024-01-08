@@ -14,9 +14,12 @@
 
 #include <QObject>
 
-#include "OAIChallenge.h"
-#include "OAIError.h"
+#include "../models/OAIChallenge.h"
+#include "../models/OAIError.h"
 #include <QString>
+
+#include "../appEngine/testManager.h"
+#include "../appDataORM/appDataManager.h"
 
 namespace OpenAPI {
 
@@ -32,8 +35,10 @@ public:
 public slots:
     virtual void addChallenge(OAIChallenge oai_challenge);
     virtual void deleteChallengeById(QString challenge_gid);
-    
 
+private:
+    TestManager* mTestManager;
+    DataManager* mDataManager;
 };
 
 }

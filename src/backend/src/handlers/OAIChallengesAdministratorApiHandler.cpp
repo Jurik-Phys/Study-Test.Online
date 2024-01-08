@@ -21,11 +21,13 @@
 namespace OpenAPI {
 
 OAIChallengesAdministratorApiHandler::OAIChallengesAdministratorApiHandler(){
-
+    mTestManager = new TestManager();
+    mDataManager = new DataManager();
 }
 
 OAIChallengesAdministratorApiHandler::~OAIChallengesAdministratorApiHandler(){
-
+    delete mTestManager;
+    delete mDataManager;
 }
 
 void OAIChallengesAdministratorApiHandler::addChallenge(OAIChallenge oai_challenge) {
@@ -34,6 +36,9 @@ void OAIChallengesAdministratorApiHandler::addChallenge(OAIChallenge oai_challen
     if( reqObj != nullptr )
     {
         OAIChallenge res;
+        if (mDataManager->addChallengeToFile(oai_challenge.asJsonObject())){
+            res = oai_challenge;
+        }
         reqObj->addChallengeResponse(res);
     }
 }
@@ -42,7 +47,7 @@ void OAIChallengesAdministratorApiHandler::deleteChallengeById(QString challenge
     auto reqObj = qobject_cast<OAIChallengesAdministratorApiRequest*>(sender());
     if( reqObj != nullptr )
     {
-        
+
         reqObj->deleteChallengeByIdResponse();
     }
 }

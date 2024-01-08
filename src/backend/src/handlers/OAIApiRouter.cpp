@@ -90,7 +90,7 @@ bool OAIApiRouter::handleRequest(QHttpEngine::Socket *socket){
 bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket){
     auto reqPath = QString("%1 %2").arg(fromQHttpEngineMethod(socket->method())).arg(socket->path()).toLower();
     {
-        auto completePath = QString("%1 %2").arg("DELETE").arg("/chellenges/{challenge_gid}").toLower();
+        auto completePath = QString("%1 %2").arg("DELETE").arg("/challenges/{challenge_gid}").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
             QRegularExpressionMatch match = getRequestMatch( completePath, reqPath );
             if ( match.hasMatch() ){
@@ -102,7 +102,7 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
         }
     }
     {
-        auto completePath = QString("%1 %2").arg("GET").arg("/chellenges/{challenge_gid}").toLower();
+        auto completePath = QString("%1 %2").arg("GET").arg("/challenges/{challenge_gid}").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
             QRegularExpressionMatch match = getRequestMatch( completePath, reqPath );
             if ( match.hasMatch() ){

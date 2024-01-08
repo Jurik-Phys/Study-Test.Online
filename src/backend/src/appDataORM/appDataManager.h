@@ -14,6 +14,8 @@ class DataManager {
         ~DataManager();
 
         QJsonArray getAllChallenges();
+        QJsonArray getAllChallenges(const QString&);
+        bool       addChallengeToFile(const QJsonObject&);
 
     private:
         QString mChallengesJsonName;
