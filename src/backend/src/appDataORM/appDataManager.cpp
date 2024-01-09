@@ -7,6 +7,8 @@ DataManager::DataManager(){
     qDebug() << "[*] DataManager was created";
     mChallengesJsonName = "challengs.json";
     mChallengesJsonFile.setFileName(mChallengesJsonName);
+    mSessionsJsonName = "fsessions.json";
+    mSessionsJsonFile.setFileName(mSessionsJsonName);
 }
 
 DataManager::~DataManager(){
@@ -161,6 +163,59 @@ bool DataManager::delChallengeFromFile(const QString& rmID){
     }
     return res;
 }
+
+bool DataManager::addSessionToFile(const QJsonObject& newSessionJSON){
+    QJsonDocument   jsonData;
+    QJsonObject     updJsonObj;
+    QJsonParseError jsonParseError;
+    bool            res = false;
+
+    if (mSessionsJsonFile.open(QIODevice::ReadOnly | QIODevice::Text)){
+        jsonData = QJsonDocument::fromJson(QByteArray(mSessionsJsonFile.readAll()), &jsonParseError);
+        mSessionsJsonFile.close();
+
+        if (jsonParseError.error == QJsonParseError::NoError){
+            QJsonArray jsonArrayData = QJsonValue(jsonData.object().value("Sessions")).toArray();
+            jsonArrayData.append(QJsonValue(newSessionJSON));
+            updJsonObj["Sessions"] = jsonArrayData;
+            jsonData = QJsonDocument(updJsonObj);
+
+            if (mSessionsJsonFile.open(QIODevice::WriteOnly | QIODevice::Text)){
+                if (jsonParseError.error == QJsonParseError::NoError){
+                    mSessionsJsonFile.write(jsonData.toJson());
+                    mSessionsJsonFile.close();
+                    res = true;
+                }
+            }
+            else {
+                qDebug() << "[*] При записи файла " << mSessionsJsonName << "возникла ошибка" << jsonParseError.errorString();
+            }
+        }
+        else {
+            qDebug() << "[*] Парсинг файла" << mSessionsJsonName << "вызвал ошибку" << jsonParseError.errorString();
+        }
+    }
+    else{
+        qDebug() << "[*] Ошибка чтения файла данных" << mSessionsJsonName;
+        // Create new file and write new session data
+        QJsonArray jsonArrayData;
+        jsonArrayData.append(QJsonValue(newSessionJSON));
+        updJsonObj["Sessions"] = jsonArrayData;
+        qDebug() << updJsonObj;
+        if (mSessionsJsonFile.open(QIODevice::WriteOnly | QIODevice::Text)){
+            if (jsonParseError.error == QJsonParseError::NoError){
+                mSessionsJsonFile.write(QJsonDocument(updJsonObj).toJson());
+                mSessionsJsonFile.close();
+                res = true;
+            }
+        }
+        else {
+            qDebug() << "[*] При записи файла " << mSessionsJsonName << "возникла ошибка" << jsonParseError.errorString();
+        }
+    }
+    return res;
+}
+
 
 // Pattern singletone
 DataManager* DataManager::getInstance(){

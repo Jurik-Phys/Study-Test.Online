@@ -2,8 +2,11 @@
 #ifndef QTESTMANAGER_H
 #define QTESTMANAGER_H 1
 
+#include "./../models/OAISession.h"
 #include "./../appDataORM/appDataManager.h"
 #include <QString>
+#include <QUuid>
+#include <QDateTime>
 
 class TestManager {
     public:
