@@ -25,11 +25,11 @@
 namespace OpenAPI {
 
 OAISessionUsersApiHandler::OAISessionUsersApiHandler(){
-
+    mTestManager = TestManager::getInstance();
 }
 
 OAISessionUsersApiHandler::~OAISessionUsersApiHandler(){
-
+    delete mTestManager;
 }
 
 void OAISessionUsersApiHandler::getQuestionBySessionID(QString session_gid) {
@@ -43,6 +43,7 @@ void OAISessionUsersApiHandler::getQuestionBySessionID(QString session_gid) {
 }
 void OAISessionUsersApiHandler::getSessionState(QString session_gid) {
     Q_UNUSED(session_gid);
+    qDebug() << "Hi session";
     auto reqObj = qobject_cast<OAISessionUsersApiRequest*>(sender());
     if( reqObj != nullptr )
     {
@@ -60,11 +61,11 @@ void OAISessionUsersApiHandler::pushAnswer(OAIAnswer oai_answer) {
     }
 }
 void OAISessionUsersApiHandler::startTestSession(QString challenge_gid) {
-    Q_UNUSED(challenge_gid);
+    qDebug() << "Hi challenge";
     auto reqObj = qobject_cast<OAISessionUsersApiRequest*>(sender());
     if( reqObj != nullptr )
     {
-        QString res;
+        QString res(mTestManager->createSession(challenge_gid));
         reqObj->startTestSessionResponse(res);
     }
 }

@@ -108,20 +108,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /session/{challenge_gid}:
-    get:
+  /session/:
+    post:
       summary: "Start new test session"
       tags:
         - "Session [Users]"
       operationId: startTestSession
-      parameters:
-        - name: challenge_gid
-          in: path
-          required: true
-          description: "GID of selected challenge"
-          schema:
-            type: string
-          example: "ce161171-faea-4d9d-8a50-ea2875b76384"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengeID'
       responses:
         '200':
           description: "[OK] New test session started. Response session_gid"
@@ -269,6 +267,14 @@ components:
             - "b1b9f887-2fd7-4a8d-8766-9ab4c7195be5"
             - "998a4fa5-e0af-4497-a4a9-35a9d9c6a0a5"
             - "c90ea859-1b8b-4234-87fe-963397ee7cd3"
+    ChallengeID:
+      type: object
+      required:
+        - gid
+      properties:
+        gid:
+          type: string
+          example: "ce161171-faea-4d9d-8a50-ea2875b76384"
 
     # Challenges component schema
     Challenges:

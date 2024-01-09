@@ -20,6 +20,8 @@
 #include "OAISession.h"
 #include <QString>
 
+#include "../appEngine/testManager.h"
+
 namespace OpenAPI {
 
 class OAISessionUsersApiHandler : public QObject
@@ -36,8 +38,9 @@ public slots:
     virtual void getSessionState(QString session_gid);
     virtual void pushAnswer(OAIAnswer oai_answer);
     virtual void startTestSession(QString challenge_gid);
-    
 
+private:
+    TestManager* mTestManager;
 };
 
 }

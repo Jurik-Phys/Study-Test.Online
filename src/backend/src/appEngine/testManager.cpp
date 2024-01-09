@@ -13,11 +13,11 @@ TestManager::~TestManager(){
     // Destructor stub
 }
 
-bool TestManager::createSession(const QString& challengeId){
-    // QJsonArray jsonArray = DataManager::getAllChallenges(challengeId);
-    // QJsonDocument challengeJsonDoc(jsonArray[0].toObject());
-    // qDebug() << challengeJsonDoc;
-    return true;
+QString TestManager::createSession(const QString& challengeId){
+    QJsonArray jsonArray = mDataManager->getAllChallenges(challengeId);
+    QJsonDocument challengeJsonDoc(jsonArray[0].toObject());
+    qDebug() << challengeJsonDoc;
+    return QString("session-id");
 }
 
 // Pattern singletone

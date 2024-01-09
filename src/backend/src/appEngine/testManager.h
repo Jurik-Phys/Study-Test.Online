@@ -21,7 +21,7 @@ class TestManager {
         // section
         // subsection
         void runSession();
-        bool createSession(const QString&);
+        QString createSession(const QString&);
 
     private:
         // Pattern singletone
