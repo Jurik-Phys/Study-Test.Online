@@ -2,12 +2,16 @@
 #ifndef QTESTMANAGER_H
 #define QTESTMANAGER_H 1
 
+#include "./../appDataORM/appDataManager.h"
+#include <QString>
+
 class TestManager {
     public:
-        TestManager();
         ~TestManager();
+        // Pattern singletone
+        static TestManager* getInstance();
 
-        // Admin/teacher/ creates specific challange
+        // Admin/teacher/ creates specific challenge
         // [*] testInfo:
         //      > testType   - area of knowledge (education|psychology|funny)
         //      > section    - name of discipline or knowledge area
@@ -17,9 +21,13 @@ class TestManager {
         // section
         // subsection
         void runSession();
+        bool createSession(const QString&);
 
-        void createSession();
-
+    private:
+        // Pattern singletone
+        static TestManager* p_instance;
+        TestManager();
+        DataManager* mDataManager;
 };
 
 

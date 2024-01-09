@@ -21,8 +21,9 @@
 namespace OpenAPI {
 
 OAIChallengesAdministratorApiHandler::OAIChallengesAdministratorApiHandler(){
-    mTestManager = new TestManager();
-    mDataManager = new DataManager();
+    // Pattern singletone
+    mTestManager = TestManager::getInstance();
+    mDataManager = DataManager::getInstance();
 }
 
 OAIChallengesAdministratorApiHandler::~OAIChallengesAdministratorApiHandler(){

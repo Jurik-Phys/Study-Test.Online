@@ -10,8 +10,9 @@
 
 class DataManager {
     public:
-        DataManager();
         ~DataManager();
+        // Pattern singletone
+        static DataManager* getInstance();
 
         QJsonArray getAllChallenges();
         QJsonArray getAllChallenges(const QString&);
@@ -19,6 +20,10 @@ class DataManager {
         bool       delChallengeFromFile(const QString&);
 
     private:
+        // Pattern singletone
+        static DataManager* p_instance;
+        DataManager();
+
         QString mChallengesJsonName;
         QFile   mChallengesJsonFile;
 };

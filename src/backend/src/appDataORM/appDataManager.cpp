@@ -4,9 +4,7 @@
 #include <QDebug>
 
 DataManager::DataManager(){
-    // Constructor stub
-    qDebug() << "[*] DataManager was created into constructor";
-
+    qDebug() << "[*] DataManager was created";
     mChallengesJsonName = "challengs.json";
     mChallengesJsonFile.setFileName(mChallengesJsonName);
 }
@@ -163,4 +161,14 @@ bool DataManager::delChallengeFromFile(const QString& rmID){
     }
     return res;
 }
+
+// Pattern singletone
+DataManager* DataManager::getInstance(){
+    if(!p_instance){
+        p_instance = new DataManager();
+    }
+    return p_instance;
+}
+
+DataManager* DataManager::p_instance = nullptr;
 // End file appDataManager.cpp

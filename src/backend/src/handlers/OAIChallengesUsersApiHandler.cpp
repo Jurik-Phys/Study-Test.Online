@@ -21,8 +21,8 @@
 namespace OpenAPI {
 
 OAIChallengesUsersApiHandler::OAIChallengesUsersApiHandler(){
-    mTestManager = new TestManager();
-    mDataManager = new DataManager();
+    mTestManager = TestManager::getInstance();
+    mDataManager = DataManager::getInstance();
 }
 
 OAIChallengesUsersApiHandler::~OAIChallengesUsersApiHandler(){
