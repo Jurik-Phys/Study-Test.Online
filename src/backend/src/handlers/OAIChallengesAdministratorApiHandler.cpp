@@ -31,7 +31,6 @@ OAIChallengesAdministratorApiHandler::~OAIChallengesAdministratorApiHandler(){
 }
 
 void OAIChallengesAdministratorApiHandler::addChallenge(OAIChallenge oai_challenge) {
-    Q_UNUSED(oai_challenge);
     auto reqObj = qobject_cast<OAIChallengesAdministratorApiRequest*>(sender());
     if( reqObj != nullptr )
     {
@@ -43,12 +42,16 @@ void OAIChallengesAdministratorApiHandler::addChallenge(OAIChallenge oai_challen
     }
 }
 void OAIChallengesAdministratorApiHandler::deleteChallengeById(QString challenge_gid) {
-    Q_UNUSED(challenge_gid);
     auto reqObj = qobject_cast<OAIChallengesAdministratorApiRequest*>(sender());
     if( reqObj != nullptr )
     {
-
-        reqObj->deleteChallengeByIdResponse();
+        if (mDataManager->delChallengeFromFile(challenge_gid)){
+            reqObj->deleteChallengeByIdResponse();
+        }
+        else{
+            QString error("Challenge delete error!");
+            reqObj->deleteChallengeByIdError(QNetworkReply::ContentGoneError, error);
+        }
     }
 }
 

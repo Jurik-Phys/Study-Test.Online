@@ -118,4 +118,49 @@ bool DataManager::addChallengeToFile(const QJsonObject& newChallengeJSON){
     }
     return res;
 }
+
+bool DataManager::delChallengeFromFile(const QString& rmID){
+    bool res = false;
+    QJsonDocument   jsonData;
+    QJsonObject     updJsonObj;
+    QJsonParseError jsonParseError;
+    QJsonArray      outJsonArrayData;
+
+    if (mChallengesJsonFile.open(QIODevice::ReadOnly | QIODevice::Text)){
+        jsonData = QJsonDocument::fromJson(QByteArray(mChallengesJsonFile.readAll()), &jsonParseError);
+        mChallengesJsonFile.close();
+
+        if (jsonParseError.error == QJsonParseError::NoError){
+            QJsonArray jsonArrayData = QJsonValue(jsonData.object().value("Challenges")).toArray();
+            for (QJsonArray::iterator it = jsonArrayData.begin(); it !=  jsonArrayData.end(); it++){
+                QJsonObject tmpJsonObject = it->toObject();
+                if (tmpJsonObject.value("gid").toString().toLower() != rmID.toLower()){
+                    outJsonArrayData.append(QJsonValue(tmpJsonObject));
+                }
+                else{
+                    res = true;
+                }
+            }
+            updJsonObj["Challenges"] = outJsonArrayData;
+            jsonData = QJsonDocument(updJsonObj);
+
+            if (mChallengesJsonFile.open(QIODevice::WriteOnly | QIODevice::Text)){
+                if (jsonParseError.error == QJsonParseError::NoError){
+                    mChallengesJsonFile.write(jsonData.toJson());
+                    mChallengesJsonFile.close();
+                }
+            }
+            else {
+                qDebug() << "[*] При записи файла " << mChallengesJsonName << "возникла ошибка" << jsonParseError.errorString();
+            }
+        }
+        else {
+            qDebug() << "[*] Парсинг файла" << mChallengesJsonName << "вызвал ошибку" << jsonParseError.errorString();
+        }
+    }
+    else{
+        qDebug() << "[*] Ошибка чтения файла данных" << mChallengesJsonName;
+    }
+    return res;
+}
 // End file appDataManager.cpp
