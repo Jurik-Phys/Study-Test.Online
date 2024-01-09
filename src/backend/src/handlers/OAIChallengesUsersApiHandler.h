@@ -37,7 +37,6 @@ public slots:
     virtual void getAllChallenges();
     virtual void getChallengeById(QString challenge_gid);
 
-
 private:
     TestManager* mTestManager;
     DataManager* mDataManager;

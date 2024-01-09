@@ -15,6 +15,7 @@
 #include <QObject>
 
 #include "OAIAnswer.h"
+#include "OAIChallengeID.h"
 #include "OAIError.h"
 #include "OAIQuestion.h"
 #include "OAISession.h"
@@ -37,7 +38,7 @@ public slots:
     virtual void getQuestionBySessionID(QString session_gid);
     virtual void getSessionState(QString session_gid);
     virtual void pushAnswer(OAIAnswer oai_answer);
-    virtual void startTestSession(QString challenge_gid);
+    virtual void startTestSession(OAIChallengeID oai_challenge_id);
 
 private:
     TestManager* mTestManager;

@@ -31,7 +31,7 @@ OAIApiRouter::~OAIApiRouter(){
 
 }
 
-void OAIApiRouter::createApiHandlers() { 
+void OAIApiRouter::createApiHandlers() {
     mOAIChallengesAdministratorApiHandler = QSharedPointer<OAIChallengesAdministratorApiHandler>::create();
     mOAIChallengesUsersApiHandler = QSharedPointer<OAIChallengesUsersApiHandler>::create();
     mOAISessionUsersApiHandler = QSharedPointer<OAISessionUsersApiHandler>::create();
@@ -49,7 +49,7 @@ void OAIApiRouter::setOAISessionUsersApiHandler(QSharedPointer<OAISessionUsersAp
 }
 
 void OAIApiRouter::setUpRoutes() {
-    
+
     Routes.insert(QString("%1 %2").arg("POST").arg("/challenges").toLower(), [this](QHttpEngine::Socket *socket) {
             auto reqObj = new OAIChallengesAdministratorApiRequest(socket, mOAIChallengesAdministratorApiHandler);
             reqObj->addChallengeRequest();
@@ -61,6 +61,10 @@ void OAIApiRouter::setUpRoutes() {
     Routes.insert(QString("%1 %2").arg("POST").arg("/answers").toLower(), [this](QHttpEngine::Socket *socket) {
             auto reqObj = new OAISessionUsersApiRequest(socket, mOAISessionUsersApiHandler);
             reqObj->pushAnswerRequest();
+    });
+    Routes.insert(QString("%1 %2").arg("POST").arg("/session").toLower(), [this](QHttpEngine::Socket *socket) {
+            auto reqObj = new OAISessionUsersApiRequest(socket, mOAISessionUsersApiHandler);
+            reqObj->startTestSessionRequest();
     });
 }
 
@@ -133,18 +137,6 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
                 QString session_gid = match.captured(QString("session_gid").toLower());
                 auto reqObj = new OAISessionUsersApiRequest(socket, mOAISessionUsersApiHandler);
                 reqObj->getSessionStateRequest(session_gid);
-                return true;
-            }
-        }
-    }
-    {
-        auto completePath = QString("%1 %2").arg("GET").arg("/session/{challenge_gid}").toLower();
-        if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
-            QRegularExpressionMatch match = getRequestMatch( completePath, reqPath );
-            if ( match.hasMatch() ){
-                QString challenge_gid = match.captured(QString("challenge_gid").toLower());
-                auto reqObj = new OAISessionUsersApiRequest(socket, mOAISessionUsersApiHandler);
-                reqObj->startTestSessionRequest(challenge_gid);
                 return true;
             }
         }

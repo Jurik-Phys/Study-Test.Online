@@ -20,6 +20,7 @@
 
 #include <qhttpengine/socket.h>
 #include "OAIAnswer.h"
+#include "OAIChallengeID.h"
 #include "OAIError.h"
 #include "OAIQuestion.h"
 #include "OAISession.h"
@@ -39,7 +40,7 @@ public:
     void getQuestionBySessionIDRequest(const QString& session_gid);
     void getSessionStateRequest(const QString& session_gid);
     void pushAnswerRequest();
-    void startTestSessionRequest(const QString& challenge_gid);
+    void startTestSessionRequest();
     
 
     void getQuestionBySessionIDResponse(const OAIQuestion& res);
@@ -68,7 +69,7 @@ signals:
     void getQuestionBySessionID(QString session_gid);
     void getSessionState(QString session_gid);
     void pushAnswer(OAIAnswer oai_answer);
-    void startTestSession(QString challenge_gid);
+    void startTestSession(OAIChallengeID oai_challenge_id);
     
 
 private:

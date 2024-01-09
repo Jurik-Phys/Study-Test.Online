@@ -60,15 +60,15 @@ void OAISessionUsersApiHandler::pushAnswer(OAIAnswer oai_answer) {
         reqObj->pushAnswerResponse();
     }
 }
-void OAISessionUsersApiHandler::startTestSession(QString challenge_gid) {
-    qDebug() << "Hi challenge";
+
+void OAISessionUsersApiHandler::startTestSession(OAIChallengeID oai_challenge_id) {
     auto reqObj = qobject_cast<OAISessionUsersApiRequest*>(sender());
     if( reqObj != nullptr )
     {
-        QString res(mTestManager->createSession(challenge_gid));
+        QJsonObject jsonObj = oai_challenge_id.asJsonObject();
+        QString challengeGID = jsonObj["gid"].toString();
+        QString res(mTestManager->createSession(challengeGID));
         reqObj->startTestSessionResponse(res);
     }
-}
-
-
+  }
 }

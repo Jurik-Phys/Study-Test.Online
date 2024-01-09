@@ -14,10 +14,18 @@ TestManager::~TestManager(){
 }
 
 QString TestManager::createSession(const QString& challengeId){
+    QString res;
     QJsonArray jsonArray = mDataManager->getAllChallenges(challengeId);
     QJsonDocument challengeJsonDoc(jsonArray[0].toObject());
-    qDebug() << challengeJsonDoc;
-    return QString("session-id");
+    if (jsonArray.size() > 0){
+        qDebug() << challengeJsonDoc;
+        res = "session-id";
+    }
+    else {
+        qDebug() << "Challenge" << challengeId << "does not exist!";
+        res = "n/a";
+    }
+    return res;
 }
 
 // Pattern singletone

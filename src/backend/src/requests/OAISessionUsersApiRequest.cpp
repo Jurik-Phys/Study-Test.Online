@@ -53,10 +53,10 @@ void OAISessionUsersApiRequest::getQuestionBySessionIDRequest(const QString& ses
     qDebug() << "/question/{session_gid}";
     connect(this, &OAISessionUsersApiRequest::getQuestionBySessionID, handler.data(), &OAISessionUsersApiHandler::getQuestionBySessionID);
 
-    
+
     QString session_gid;
     fromStringValue(session_gidstr, session_gid);
-    
+
 
     emit getQuestionBySessionID(session_gid);
 }
@@ -66,10 +66,10 @@ void OAISessionUsersApiRequest::getSessionStateRequest(const QString& session_gi
     qDebug() << "/session/{session_gid}";
     connect(this, &OAISessionUsersApiRequest::getSessionState, handler.data(), &OAISessionUsersApiHandler::getSessionState);
 
-    
+
     QString session_gid;
     fromStringValue(session_gidstr, session_gid);
-    
+
 
     emit getSessionState(session_gid);
 }
@@ -79,30 +79,31 @@ void OAISessionUsersApiRequest::pushAnswerRequest(){
     qDebug() << "/answers";
     connect(this, &OAISessionUsersApiRequest::pushAnswer, handler.data(), &OAISessionUsersApiHandler::pushAnswer);
 
-    
- 
-    
+
+
+
     QJsonDocument doc;
     socket->readJson(doc);
     QJsonObject obj = doc.object();
     OAIAnswer oai_answer;
     ::OpenAPI::fromJsonValue(oai_answer, obj);
-    
+
 
     emit pushAnswer(oai_answer);
 }
 
 
-void OAISessionUsersApiRequest::startTestSessionRequest(const QString& challenge_gidstr){
-    qDebug() << "/session/{challenge_gid}";
+void OAISessionUsersApiRequest::startTestSessionRequest(){
+    qDebug() << "/session";
     connect(this, &OAISessionUsersApiRequest::startTestSession, handler.data(), &OAISessionUsersApiHandler::startTestSession);
 
-    
-    QString challenge_gid;
-    fromStringValue(challenge_gidstr, challenge_gid);
-    
+    QJsonDocument doc;
+    socket->readJson(doc);
+    QJsonObject obj = doc.object();
+    OAIChallengeID oai_challenge_id;
+    ::OpenAPI::fromJsonValue(oai_challenge_id, obj);
 
-    emit startTestSession(challenge_gid);
+    emit startTestSession(oai_challenge_id);
 }
 
 
