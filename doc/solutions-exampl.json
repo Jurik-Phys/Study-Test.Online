@@ -1,0 +1,45 @@
+{
+  "Answers": [
+    {
+      "sId": "b21d5a4d-7dc6-4618-bfdf-eaf8a6918a69",
+      "body": [
+        {
+          "qId": "2fc74d06-3e1c-4a5a-885a-53cf574ae6f9",
+          "answers": [
+            {
+              "answerId": "40501c92-d006-4144-9909-79ba59352b8d",
+              "answerBody": "First selected answer"
+            },
+            {
+              "answerId": "another-answer-id",
+              "answerBody": "Another first selected answer"
+            }
+            // Добавьте еще элементов при необходимости
+          ]
+        }
+        // Добавьте еще элементов при необходимости
+      ]
+    },
+    {
+      "sId": "another-sId",
+      "body": [
+        {
+          "qId": "yet-another-question-id",
+          "answers": [
+            {
+              "answerId": "yet-another-answer-id",
+              "answerBody": "Yet another first selected answer"
+            },
+            {
+              "answerId": "yet-another-answer-id-2",
+              "answerBody": "Yet another second selected answer"
+            }
+            // Добавьте еще элементов при необходимости
+          ]
+        }
+        // Добавьте еще элементов при необходимости
+      ]
+    }
+    // Добавьте еще элементов при необходимости
+  ]
+}
