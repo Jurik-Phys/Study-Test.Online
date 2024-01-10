@@ -19,9 +19,9 @@
 #include <QSharedPointer>
 
 #include <qhttpengine/socket.h>
-#include "OAIAnswer.h"
 #include "OAIChallengeID.h"
 #include "OAIError.h"
+#include "OAIPushAnswer_request.h"
 #include "OAIQuestion.h"
 #include "OAISession.h"
 #include <QString>
@@ -68,7 +68,7 @@ public:
 signals:
     void getQuestionBySessionID(QString session_id);
     void getSessionState(QString session_id);
-    void pushAnswer(OAIAnswer oai_answer);
+    void pushAnswer(OAIPushAnswer_request oai_push_answer_request);
     void startTestSession(OAIChallengeID oai_challenge_id);
     
 

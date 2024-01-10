@@ -20,8 +20,6 @@
 
 #include <QJsonObject>
 
-#include "OAIAnswer_answers_inner.h"
-#include <QList>
 #include <QString>
 
 #include "OAIEnum.h"
@@ -40,20 +38,15 @@ public:
     void fromJsonObject(QJsonObject json) override;
     void fromJson(QString jsonString) override;
 
-    QString getSessionId() const;
-    void setSessionId(const QString &session_id);
-    bool is_session_id_Set() const;
-    bool is_session_id_Valid() const;
+    QString getId() const;
+    void setId(const QString &id);
+    bool is_id_Set() const;
+    bool is_id_Valid() const;
 
-    QString getQuestionId() const;
-    void setQuestionId(const QString &question_id);
-    bool is_question_id_Set() const;
-    bool is_question_id_Valid() const;
-
-    QList<OAIAnswer_answers_inner> getAnswers() const;
-    void setAnswers(const QList<OAIAnswer_answers_inner> &answers);
-    bool is_answers_Set() const;
-    bool is_answers_Valid() const;
+    QString getBody() const;
+    void setBody(const QString &body);
+    bool is_body_Set() const;
+    bool is_body_Valid() const;
 
     virtual bool isSet() const override;
     virtual bool isValid() const override;
@@ -61,17 +54,13 @@ public:
 private:
     void initializeModel();
 
-    QString session_id;
-    bool m_session_id_isSet;
-    bool m_session_id_isValid;
+    QString id;
+    bool m_id_isSet;
+    bool m_id_isValid;
 
-    QString question_id;
-    bool m_question_id_isSet;
-    bool m_question_id_isValid;
-
-    QList<OAIAnswer_answers_inner> answers;
-    bool m_answers_isSet;
-    bool m_answers_isValid;
+    QString body;
+    bool m_body_isSet;
+    bool m_body_isValid;
 };
 
 } // namespace OpenAPI

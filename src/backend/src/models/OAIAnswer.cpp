@@ -33,14 +33,11 @@ OAIAnswer::~OAIAnswer() {}
 
 void OAIAnswer::initializeModel() {
 
-    m_session_id_isSet = false;
-    m_session_id_isValid = false;
+    m_id_isSet = false;
+    m_id_isValid = false;
 
-    m_question_id_isSet = false;
-    m_question_id_isValid = false;
-
-    m_answers_isSet = false;
-    m_answers_isValid = false;
+    m_body_isSet = false;
+    m_body_isValid = false;
 }
 
 void OAIAnswer::fromJson(QString jsonString) {
@@ -52,14 +49,11 @@ void OAIAnswer::fromJson(QString jsonString) {
 
 void OAIAnswer::fromJsonObject(QJsonObject json) {
 
-    m_session_id_isValid = ::OpenAPI::fromJsonValue(session_id, json[QString("session_id")]);
-    m_session_id_isSet = !json[QString("session_id")].isNull() && m_session_id_isValid;
+    m_id_isValid = ::OpenAPI::fromJsonValue(id, json[QString("id")]);
+    m_id_isSet = !json[QString("id")].isNull() && m_id_isValid;
 
-    m_question_id_isValid = ::OpenAPI::fromJsonValue(question_id, json[QString("question_id")]);
-    m_question_id_isSet = !json[QString("question_id")].isNull() && m_question_id_isValid;
-
-    m_answers_isValid = ::OpenAPI::fromJsonValue(answers, json[QString("answers")]);
-    m_answers_isSet = !json[QString("answers")].isNull() && m_answers_isValid;
+    m_body_isValid = ::OpenAPI::fromJsonValue(body, json[QString("body")]);
+    m_body_isSet = !json[QString("body")].isNull() && m_body_isValid;
 }
 
 QString OAIAnswer::asJson() const {
@@ -71,80 +65,56 @@ QString OAIAnswer::asJson() const {
 
 QJsonObject OAIAnswer::asJsonObject() const {
     QJsonObject obj;
-    if (m_session_id_isSet) {
-        obj.insert(QString("session_id"), ::OpenAPI::toJsonValue(session_id));
+    if (m_id_isSet) {
+        obj.insert(QString("id"), ::OpenAPI::toJsonValue(id));
     }
-    if (m_question_id_isSet) {
-        obj.insert(QString("question_id"), ::OpenAPI::toJsonValue(question_id));
-    }
-    if (answers.size() > 0) {
-        obj.insert(QString("answers"), ::OpenAPI::toJsonValue(answers));
+    if (m_body_isSet) {
+        obj.insert(QString("body"), ::OpenAPI::toJsonValue(body));
     }
     return obj;
 }
 
-QString OAIAnswer::getSessionId() const {
-    return session_id;
+QString OAIAnswer::getId() const {
+    return id;
 }
-void OAIAnswer::setSessionId(const QString &session_id) {
-    this->session_id = session_id;
-    this->m_session_id_isSet = true;
-}
-
-bool OAIAnswer::is_session_id_Set() const{
-    return m_session_id_isSet;
+void OAIAnswer::setId(const QString &id) {
+    this->id = id;
+    this->m_id_isSet = true;
 }
 
-bool OAIAnswer::is_session_id_Valid() const{
-    return m_session_id_isValid;
+bool OAIAnswer::is_id_Set() const{
+    return m_id_isSet;
 }
 
-QString OAIAnswer::getQuestionId() const {
-    return question_id;
-}
-void OAIAnswer::setQuestionId(const QString &question_id) {
-    this->question_id = question_id;
-    this->m_question_id_isSet = true;
+bool OAIAnswer::is_id_Valid() const{
+    return m_id_isValid;
 }
 
-bool OAIAnswer::is_question_id_Set() const{
-    return m_question_id_isSet;
+QString OAIAnswer::getBody() const {
+    return body;
+}
+void OAIAnswer::setBody(const QString &body) {
+    this->body = body;
+    this->m_body_isSet = true;
 }
 
-bool OAIAnswer::is_question_id_Valid() const{
-    return m_question_id_isValid;
+bool OAIAnswer::is_body_Set() const{
+    return m_body_isSet;
 }
 
-QList<OAIAnswer_answers_inner> OAIAnswer::getAnswers() const {
-    return answers;
-}
-void OAIAnswer::setAnswers(const QList<OAIAnswer_answers_inner> &answers) {
-    this->answers = answers;
-    this->m_answers_isSet = true;
-}
-
-bool OAIAnswer::is_answers_Set() const{
-    return m_answers_isSet;
-}
-
-bool OAIAnswer::is_answers_Valid() const{
-    return m_answers_isValid;
+bool OAIAnswer::is_body_Valid() const{
+    return m_body_isValid;
 }
 
 bool OAIAnswer::isSet() const {
     bool isObjectUpdated = false;
     do {
-        if (m_session_id_isSet) {
+        if (m_id_isSet) {
             isObjectUpdated = true;
             break;
         }
 
-        if (m_question_id_isSet) {
-            isObjectUpdated = true;
-            break;
-        }
-
-        if (answers.size() > 0) {
+        if (m_body_isSet) {
             isObjectUpdated = true;
             break;
         }
@@ -154,7 +124,7 @@ bool OAIAnswer::isSet() const {
 
 bool OAIAnswer::isValid() const {
     // only required properties are required for the object to be considered valid
-    return m_session_id_isValid && m_question_id_isValid && m_answers_isValid && true;
+    return true;
 }
 
 } // namespace OpenAPI

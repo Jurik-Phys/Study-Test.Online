@@ -207,7 +207,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Answer'
+                type: object
+                properties:
+                  session_id:
+                    type: string
+                    example: "221e67e4-28bc-4a0d-a6e3-4a72a1db255a"
+                  question_id:
+                    type: string
+                    example: "q0326208-57c7-43fa-9beb-59dcb371e35g"
+                  answers:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Answer'
         responses:
           '200':
             description: "[OK] Return successfull created challenge"
@@ -320,28 +331,13 @@ components:
     # Answer components schema
     Answer:
       type: object
-      required:
-        - session_id
-        - question_id
-        - answers
       properties:
-        session_id:
+        id:
           type: string
-          example: "221e67e4-28bc-4a0d-a6e3-4a72a1db255a"
-        question_id:
+          example: "c04e925b-678c-42ea-998e-1805435006e5"
+        body:
           type: string
-          example: "q0326208-57c7-43fa-9beb-59dcb371e35g"
-        answers:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                example: "a03e925b-678c-42ea-998e-1805435006e5"
-              body:
-                type: string
-                example: "The Higgs boson mediates the Higgs field, while the W-boson mediates the weak nuclear force."
+          example: "The Higgs boson mediates the Higgs field, while the W-boson mediates the weak nuclear force."
 
     # Session component schema
     Session:

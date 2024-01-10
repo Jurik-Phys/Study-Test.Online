@@ -51,12 +51,12 @@ void OAISessionUsersApiHandler::getSessionState(QString session_id) {
         reqObj->getSessionStateResponse(res);
     }
 }
-void OAISessionUsersApiHandler::pushAnswer(OAIAnswer oai_answer) {
-    Q_UNUSED(oai_answer);
+void OAISessionUsersApiHandler::pushAnswer(OAIPushAnswer_request oai_push_answer_request) {
     auto reqObj = qobject_cast<OAISessionUsersApiRequest*>(sender());
     if( reqObj != nullptr )
     {
-
+        qDebug() << "Push answer";
+        qDebug() << oai_push_answer_request.asJson();
         reqObj->pushAnswerResponse();
     }
 }
