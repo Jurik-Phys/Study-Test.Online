@@ -35,8 +35,8 @@ public:
 
 
 public slots:
-    virtual void getQuestionBySessionID(QString session_gid);
-    virtual void getSessionState(QString session_gid);
+    virtual void getQuestionBySessionID(QString session_id);
+    virtual void getSessionState(QString session_id);
     virtual void pushAnswer(OAIAnswer oai_answer);
     virtual void startTestSession(OAIChallengeID oai_challenge_id);
 

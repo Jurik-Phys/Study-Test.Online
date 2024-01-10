@@ -60,16 +60,16 @@ void OAIChallengesUsersApiRequest::getAllChallengesRequest(){
 }
 
 
-void OAIChallengesUsersApiRequest::getChallengeByIdRequest(const QString& challenge_gidstr){
-    qDebug() << "/challenges/{challenge_gid}";
+void OAIChallengesUsersApiRequest::getChallengeByIdRequest(const QString& challenge_idstr){
+    qDebug() << "/challenges/{challenge_id}";
     connect(this, &OAIChallengesUsersApiRequest::getChallengeById, handler.data(), &OAIChallengesUsersApiHandler::getChallengeById);
 
     
-    QString challenge_gid;
-    fromStringValue(challenge_gidstr, challenge_gid);
+    QString challenge_id;
+    fromStringValue(challenge_idstr, challenge_id);
     
 
-    emit getChallengeById(challenge_gid);
+    emit getChallengeById(challenge_id);
 }
 
 

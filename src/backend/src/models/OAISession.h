@@ -40,9 +40,9 @@ public:
     void fromJson(QString jsonString) override;
 
     QString getGid() const;
-    void setGid(const QString &gid);
-    bool is_gid_Set() const;
-    bool is_gid_Valid() const;
+    void setGid(const QString &id);
+    bool is_id_Set() const;
+    bool is_id_Valid() const;
 
     QString getBeginAt() const;
     void setBeginAt(const QString &begin_at);
@@ -75,9 +75,9 @@ public:
 private:
     void initializeModel();
 
-    QString gid;
-    bool m_gid_isSet;
-    bool m_gid_isValid;
+    QString id;
+    bool m_id_isSet;
+    bool m_id_isValid;
 
     QString begin_at;
     bool m_begin_at_isSet;

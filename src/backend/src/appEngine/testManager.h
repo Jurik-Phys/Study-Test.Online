@@ -3,6 +3,7 @@
 #define QTESTMANAGER_H 1
 
 #include "./../models/OAISession.h"
+#include "./../models/OAIQuestion.h"
 #include "./../appDataORM/appDataManager.h"
 #include <QString>
 #include <QUuid>
@@ -25,6 +26,7 @@ class TestManager {
         // subsection
         void runSession();
         QString createSession(const QString&);
+        OpenAPI::OAIQuestion getNextQuestion(const QString&);
 
     private:
         // Pattern singletone

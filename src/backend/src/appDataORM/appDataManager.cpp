@@ -7,8 +7,12 @@ DataManager::DataManager(){
     qDebug() << "[*] DataManager was created";
     mChallengesJsonName = "challengs.json";
     mChallengesJsonFile.setFileName(mChallengesJsonName);
+
     mSessionsJsonName = "fsessions.json";
     mSessionsJsonFile.setFileName(mSessionsJsonName);
+
+    mQuestionsJsonName = "questions.json";
+    mQuestionsJsonFile.setFileName(mQuestionsJsonName);
 }
 
 DataManager::~DataManager(){
@@ -71,10 +75,10 @@ QJsonArray DataManager::getAllChallenges(const QString& challengeGID){
         jsonArrayData = QJsonArray();
     }
 
-    // Output json after "gid filter"
+    // Output json after "id filter"
     for (QJsonArray::iterator it = jsonArrayData.begin(); it !=  jsonArrayData.end(); it++){
         QJsonObject tmpJsonObject = it->toObject();
-        if (tmpJsonObject.value("gid").toString().toLower() == challengeGID.toLower()){
+        if (tmpJsonObject.value("id").toString().toLower() == challengeGID.toLower()){
             outJsonArrayData.append(QJsonValue(tmpJsonObject));
         }
     }
@@ -134,7 +138,7 @@ bool DataManager::delChallengeFromFile(const QString& rmID){
             QJsonArray jsonArrayData = QJsonValue(jsonData.object().value("Challenges")).toArray();
             for (QJsonArray::iterator it = jsonArrayData.begin(); it !=  jsonArrayData.end(); it++){
                 QJsonObject tmpJsonObject = it->toObject();
-                if (tmpJsonObject.value("gid").toString().toLower() != rmID.toLower()){
+                if (tmpJsonObject.value("id").toString().toLower() != rmID.toLower()){
                     outJsonArrayData.append(QJsonValue(tmpJsonObject));
                 }
                 else{
@@ -201,7 +205,6 @@ bool DataManager::addSessionToFile(const QJsonObject& newSessionJSON){
         QJsonArray jsonArrayData;
         jsonArrayData.append(QJsonValue(newSessionJSON));
         updJsonObj["Sessions"] = jsonArrayData;
-        qDebug() << updJsonObj;
         if (mSessionsJsonFile.open(QIODevice::WriteOnly | QIODevice::Text)){
             if (jsonParseError.error == QJsonParseError::NoError){
                 mSessionsJsonFile.write(QJsonDocument(updJsonObj).toJson());
@@ -216,6 +219,76 @@ bool DataManager::addSessionToFile(const QJsonObject& newSessionJSON){
     return res;
 }
 
+QJsonObject DataManager::getSession(const QString& sessionId){
+    QJsonDocument   jsonData;
+    QJsonParseError jsonParseError;
+    QJsonArray      jsonArrayData;
+    QJsonObject     outJsonData;
+
+    if (mSessionsJsonFile.open(QIODevice::ReadOnly | QIODevice::Text)){
+        jsonData = QJsonDocument::fromJson(QByteArray(mSessionsJsonFile.readAll()), &jsonParseError);
+        mSessionsJsonFile.close();
+
+        if (jsonParseError.error == QJsonParseError::NoError){
+            jsonArrayData = QJsonValue(jsonData.object().value("Sessions")).toArray();
+        }
+        else {
+            qDebug() << "[*] Парсинг файла" << mSessionsJsonName << "вызвал ошибку" << jsonParseError.errorString();
+            jsonArrayData = QJsonArray();
+        }
+    }
+    else{
+        qDebug() << "[*] Ошибка чтения файла данных" << mSessionsJsonName;
+        jsonArrayData = QJsonArray();
+    }
+
+    // Output json after "id filter"
+    for (QJsonArray::iterator it = jsonArrayData.begin(); it !=  jsonArrayData.end(); it++){
+        QJsonObject tmpJsonObject = it->toObject();
+        if (tmpJsonObject.value("id").toString().toLower() == sessionId.toLower()){
+            outJsonData = tmpJsonObject;
+        }
+    }
+
+    return outJsonData;
+}
+
+QJsonObject DataManager::getQuestion(const QString& questionId){
+    QJsonDocument   jsonData;
+    QJsonParseError jsonParseError;
+    QJsonArray      jsonArrayData;
+    QJsonObject     outJsonData;
+
+    if (mQuestionsJsonFile.open(QIODevice::ReadOnly | QIODevice::Text)){
+        jsonData = QJsonDocument::fromJson(QByteArray(mQuestionsJsonFile.readAll()), &jsonParseError);
+        mQuestionsJsonFile.close();
+
+        if (jsonParseError.error == QJsonParseError::NoError){
+            jsonArrayData = QJsonValue(jsonData.object().value("Questions")).toArray();
+        }
+        else {
+            qDebug() << "[*] Парсинг файла" << mQuestionsJsonName << "вызвал ошибку" << jsonParseError.errorString();
+            jsonArrayData = QJsonArray();
+        }
+    }
+    else{
+        qDebug() << "[*] Ошибка чтения файла данных" << mQuestionsJsonName;
+        jsonArrayData = QJsonArray();
+    }
+
+    // Output json after "id filter"
+    for (QJsonArray::iterator it = jsonArrayData.begin(); it !=  jsonArrayData.end(); it++){
+        QJsonObject tmpJsonObject = it->toObject();
+
+        // qDebug() << QString::fromUtf8(QJsonDocument(tmpJsonObject).toJson());
+
+        if (tmpJsonObject.value("id").toString().toLower() == questionId.toLower()){
+            outJsonData = tmpJsonObject;
+        }
+    }
+
+    return outJsonData;
+}
 
 // Pattern singletone
 DataManager* DataManager::getInstance(){

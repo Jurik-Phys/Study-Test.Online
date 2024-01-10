@@ -33,8 +33,8 @@ OAIChallenge::~OAIChallenge() {}
 
 void OAIChallenge::initializeModel() {
 
-    m_gid_isSet = false;
-    m_gid_isValid = false;
+    m_id_isSet = false;
+    m_id_isValid = false;
 
     m_total_questions_isSet = false;
     m_total_questions_isValid = false;
@@ -67,8 +67,8 @@ void OAIChallenge::fromJson(QString jsonString) {
 
 void OAIChallenge::fromJsonObject(QJsonObject json) {
 
-    m_gid_isValid = ::OpenAPI::fromJsonValue(gid, json[QString("gid")]);
-    m_gid_isSet = !json[QString("gid")].isNull() && m_gid_isValid;
+    m_id_isValid = ::OpenAPI::fromJsonValue(id, json[QString("id")]);
+    m_id_isSet = !json[QString("id")].isNull() && m_id_isValid;
 
     m_total_questions_isValid = ::OpenAPI::fromJsonValue(total_question, json[QString("totalQuestions")]);
     m_total_questions_isSet = !json[QString("totalQuestions")].isNull() && m_total_questions_isValid;
@@ -101,8 +101,8 @@ QString OAIChallenge::asJson() const {
 
 QJsonObject OAIChallenge::asJsonObject() const {
     QJsonObject obj;
-    if (m_gid_isSet) {
-        obj.insert(QString("gid"), ::OpenAPI::toJsonValue(gid));
+    if (m_id_isSet) {
+        obj.insert(QString("id"), ::OpenAPI::toJsonValue(id));
     }
     if (m_total_questions_isSet) {
         obj.insert(QString("totalQuestions"), ::OpenAPI::toJsonValue(total_question));
@@ -129,19 +129,19 @@ QJsonObject OAIChallenge::asJsonObject() const {
 }
 
 QString OAIChallenge::getGid() const {
-    return gid;
+    return id;
 }
-void OAIChallenge::setGid(const QString &gid) {
-    this->gid = gid;
-    this->m_gid_isSet = true;
-}
-
-bool OAIChallenge::is_gid_Set() const{
-    return m_gid_isSet;
+void OAIChallenge::setGid(const QString &id) {
+    this->id = id;
+    this->m_id_isSet = true;
 }
 
-bool OAIChallenge::is_gid_Valid() const{
-    return m_gid_isValid;
+bool OAIChallenge::is_id_Set() const{
+    return m_id_isSet;
+}
+
+bool OAIChallenge::is_id_Valid() const{
+    return m_id_isValid;
 }
 
 double OAIChallenge::getTotalQuestion() const {
@@ -259,7 +259,7 @@ bool OAIChallenge::is_q_ids_Valid() const{
 bool OAIChallenge::isSet() const {
     bool isObjectUpdated = false;
     do {
-        if (m_gid_isSet) {
+        if (m_id_isSet) {
             isObjectUpdated = true;
             break;
         }
@@ -304,7 +304,7 @@ bool OAIChallenge::isSet() const {
 
 bool OAIChallenge::isValid() const {
     // only required properties are required for the object to be considered valid
-    return m_gid_isValid && m_max_time_isValid && m_test_type_isValid && m_section_isValid && m_subsection_isValid && m_annotation_isValid && m_q_ids_isValid && true;
+    return m_id_isValid && m_max_time_isValid && m_test_type_isValid && m_section_isValid && m_subsection_isValid && m_annotation_isValid && m_q_ids_isValid && true;
 }
 
 } // namespace OpenAPI

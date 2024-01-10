@@ -1,7 +1,7 @@
 # begin questions-schema.yaml
 Questions:
   - # Description of question №1
-    gid: "q0326208-57c7-43fa-9beb-59dcb371e35g"
+    id: "q0326208-57c7-43fa-9beb-59dcb371e35g"
 
     # Question type (single-choice|multiple-choice|open-choice)
     type: "single-choice"

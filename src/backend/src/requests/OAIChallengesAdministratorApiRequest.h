@@ -35,7 +35,7 @@ public:
     virtual ~OAIChallengesAdministratorApiRequest();
 
     void addChallengeRequest();
-    void deleteChallengeByIdRequest(const QString& challenge_gid);
+    void deleteChallengeByIdRequest(const QString& challenge_id);
     
 
     void addChallengeResponse(const OAIChallenge& res);
@@ -58,7 +58,7 @@ public:
 
 signals:
     void addChallenge(OAIChallenge oai_challenge);
-    void deleteChallengeById(QString challenge_gid);
+    void deleteChallengeById(QString challenge_id);
     
 
 private:

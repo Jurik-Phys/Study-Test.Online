@@ -57,14 +57,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /challenges/{challenge_gid}:
+  /challenges/{challenge_id}:
     get:
-      summary: "Get challenge by it's gid"
+      summary: "Get challenge by it's id"
       tags:
         - "Challenges [Users]"
       operationId: getChallengeById
       parameters:
-        - name: challenge_gid
+        - name: challenge_id
           in: path
           required: true
           description: "GID of requested  challenge"
@@ -90,7 +90,7 @@ paths:
         - "Challenges [Administrator]"
       operationId: deleteChallengeById
       parameters:
-        - name: challenge_gid
+        - name: challenge_id
           in: path
           required: true
           description: "GID of requested  challenge"
@@ -108,7 +108,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /session/:
+  /session:
     post:
       summary: "Start new test session"
       tags:
@@ -122,7 +122,7 @@ paths:
               $ref: '#/components/schemas/ChallengeID'
       responses:
         '200':
-          description: "[OK] New test session started. Response session_gid"
+          description: "[OK] New test session started. Response session_id"
           content:
             application/json:
               schema:
@@ -134,10 +134,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /session/{session_gid}:
+  /session/{session_id}:
     get:
       parameters:
-        - name: session_gid
+        - name: session_id
           in: path
           required: true
           description: "GID of users test session"
@@ -162,10 +162,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /question/{session_gid}:
+  /question/{session_id}:
     get:
       parameters:
-        - name: session_gid
+        - name: session_id
           in: path
           required: true
           description: "GID of users test session"
@@ -224,7 +224,7 @@ components:
     Challenge:
       type: object
       required:
-        - gid
+        - id
         - totalQuestions
         - maxTime
         - testType
@@ -233,7 +233,7 @@ components:
         - annotation
         - qIDs
       properties:
-        gid:
+        id:
           type: string
           example: "ce161171-faea-4d9d-8a50-ea2875b76384"
         totalQuestions:
@@ -270,9 +270,9 @@ components:
     ChallengeID:
       type: object
       required:
-        - gid
+        - id
       properties:
-        gid:
+        id:
           type: string
           example: "ce161171-faea-4d9d-8a50-ea2875b76384"
 
@@ -286,7 +286,7 @@ components:
     Question:
       type: object
       required:
-        - gid
+        - id
         - type
         - body
         - answers
@@ -304,22 +304,17 @@ components:
         answers:
           type: array
           items:
-            type: array
-            items:
-              type: string
-          example:
-            -
-              id: "b21d5a4d-7dc6-4618-bfdf-eaf8a6918a69"
-              body: "The Higgs boson is a scalar boson, while the W-boson is a vector boson"
-            -
-              id: "00edf8c9-81f3-4332-83b2-07320beb90bc"
-              body: "The Higgs boson carries electric charge, while the W-boson is electrically neutral."
-            -
-              id: "0beb8e8a-e85f-4616-9389-e2510eaf2a1c"
-              body: "[true] The Higgs boson mediates the Higgs field, while the W-boson mediates the weak nuclear force."
-            -
-              id: "d33575be-48ca-4683-9d2b-c51a379d186f"
-              body: "The Higgs boson has a mass of approximately 125 GeV/c^2, while the W-boson has a mass of around 8,0 GeV/c^2"
+            type: object
+            properties:
+              id:
+                type: string
+                example: "b21d5a4d-7dc6-4618-bfdf-eaf8a6918a69"
+              body:
+                type: string
+                example: "The Higgs boson mediates the Higgs field, while the W-boson mediates the weak nuclear force." 
+              isRight: 
+                type: boolean
+                example: true
 
     # Answer components schema
     Answer:
@@ -338,29 +333,27 @@ components:
         answers:
           type: array
           items:
-            type: array
-            items:
-              type: string
-          example:
-            -
-              id: "c21d5a4d-7dc6-4618-bfdf-eaf8a6918a69"
-              body: "Wave properties"
-            -
-              id: "ebeb8e8a-e85f-4616-9389-e2510eaf2a1c"
-              body: "Soft properties"
+            type: object
+            properties:
+              id:
+                type: string
+                example: "a03e925b-678c-42ea-998e-1805435006e5"
+              body:
+                type: string
+                example: "The Higgs boson mediates the Higgs field, while the W-boson mediates the weak nuclear force." 
 
     # Session component schema
     Session:
       type: object
       required:
-        - gid
+        - id
         - beginAt
         - endAt
         - result
         - userInfo
         - testInfo
       properties:
-        gid:
+        id:
           type: string
           example: "221e67e4-28bc-4a0d-a6e3-4a72a1db255a"
         beginAt:

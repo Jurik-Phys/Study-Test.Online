@@ -37,8 +37,8 @@ public:
     OAISessionUsersApiRequest(QHttpEngine::Socket *s, QSharedPointer<OAISessionUsersApiHandler> handler);
     virtual ~OAISessionUsersApiRequest();
 
-    void getQuestionBySessionIDRequest(const QString& session_gid);
-    void getSessionStateRequest(const QString& session_gid);
+    void getQuestionBySessionIDRequest(const QString& session_id);
+    void getSessionStateRequest(const QString& session_id);
     void pushAnswerRequest();
     void startTestSessionRequest();
     
@@ -66,8 +66,8 @@ public:
     void setResponseHeaders(const QMultiMap<QString,QString>& headers);
 
 signals:
-    void getQuestionBySessionID(QString session_gid);
-    void getSessionState(QString session_gid);
+    void getQuestionBySessionID(QString session_id);
+    void getSessionState(QString session_id);
     void pushAnswer(OAIAnswer oai_answer);
     void startTestSession(OAIChallengeID oai_challenge_id);
     

@@ -39,9 +39,9 @@ public:
     void fromJson(QString jsonString) override;
 
     QString getGid() const;
-    void setGid(const QString &gid);
-    bool is_gid_Set() const;
-    bool is_gid_Valid() const;
+    void setGid(const QString &id);
+    bool is_id_Set() const;
+    bool is_id_Valid() const;
 
     virtual bool isSet() const override;
     virtual bool isValid() const override;
@@ -49,9 +49,9 @@ public:
 private:
     void initializeModel();
 
-    QString gid;
-    bool m_gid_isSet;
-    bool m_gid_isValid;
+    QString id;
+    bool m_id_isSet;
+    bool m_id_isValid;
 };
 
 } // namespace OpenAPI

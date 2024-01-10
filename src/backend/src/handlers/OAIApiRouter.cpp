@@ -94,49 +94,49 @@ bool OAIApiRouter::handleRequest(QHttpEngine::Socket *socket){
 bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket){
     auto reqPath = QString("%1 %2").arg(fromQHttpEngineMethod(socket->method())).arg(socket->path()).toLower();
     {
-        auto completePath = QString("%1 %2").arg("DELETE").arg("/challenges/{challenge_gid}").toLower();
+        auto completePath = QString("%1 %2").arg("DELETE").arg("/challenges/{challenge_id}").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
             QRegularExpressionMatch match = getRequestMatch( completePath, reqPath );
             if ( match.hasMatch() ){
-                QString challenge_gid = match.captured(QString("challenge_gid").toLower());
+                QString challenge_id = match.captured(QString("challenge_id").toLower());
                 auto reqObj = new OAIChallengesAdministratorApiRequest(socket, mOAIChallengesAdministratorApiHandler);
-                reqObj->deleteChallengeByIdRequest(challenge_gid);
+                reqObj->deleteChallengeByIdRequest(challenge_id);
                 return true;
             }
         }
     }
     {
-        auto completePath = QString("%1 %2").arg("GET").arg("/challenges/{challenge_gid}").toLower();
+        auto completePath = QString("%1 %2").arg("GET").arg("/challenges/{challenge_id}").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
             QRegularExpressionMatch match = getRequestMatch( completePath, reqPath );
             if ( match.hasMatch() ){
-                QString challenge_gid = match.captured(QString("challenge_gid").toLower());
+                QString challenge_id = match.captured(QString("challenge_id").toLower());
                 auto reqObj = new OAIChallengesUsersApiRequest(socket, mOAIChallengesUsersApiHandler);
-                reqObj->getChallengeByIdRequest(challenge_gid);
+                reqObj->getChallengeByIdRequest(challenge_id);
                 return true;
             }
         }
     }
     {
-        auto completePath = QString("%1 %2").arg("GET").arg("/question/{session_gid}").toLower();
+        auto completePath = QString("%1 %2").arg("GET").arg("/question/{session_id}").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
             QRegularExpressionMatch match = getRequestMatch( completePath, reqPath );
             if ( match.hasMatch() ){
-                QString session_gid = match.captured(QString("session_gid").toLower());
+                QString session_id = match.captured(QString("session_id").toLower());
                 auto reqObj = new OAISessionUsersApiRequest(socket, mOAISessionUsersApiHandler);
-                reqObj->getQuestionBySessionIDRequest(session_gid);
+                reqObj->getQuestionBySessionIDRequest(session_id);
                 return true;
             }
         }
     }
     {
-        auto completePath = QString("%1 %2").arg("GET").arg("/session/{session_gid}").toLower();
+        auto completePath = QString("%1 %2").arg("GET").arg("/session/{session_id}").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
             QRegularExpressionMatch match = getRequestMatch( completePath, reqPath );
             if ( match.hasMatch() ){
-                QString session_gid = match.captured(QString("session_gid").toLower());
+                QString session_id = match.captured(QString("session_id").toLower());
                 auto reqObj = new OAISessionUsersApiRequest(socket, mOAISessionUsersApiHandler);
-                reqObj->getSessionStateRequest(session_gid);
+                reqObj->getSessionStateRequest(session_id);
                 return true;
             }
         }

@@ -67,16 +67,16 @@ void OAIChallengesAdministratorApiRequest::addChallengeRequest(){
 }
 
 
-void OAIChallengesAdministratorApiRequest::deleteChallengeByIdRequest(const QString& challenge_gidstr){
-    qDebug() << "/chellenges/{challenge_gid}";
+void OAIChallengesAdministratorApiRequest::deleteChallengeByIdRequest(const QString& challenge_idstr){
+    qDebug() << "/chellenges/{challenge_id}";
     connect(this, &OAIChallengesAdministratorApiRequest::deleteChallengeById, handler.data(), &OAIChallengesAdministratorApiHandler::deleteChallengeById);
 
     
-    QString challenge_gid;
-    fromStringValue(challenge_gidstr, challenge_gid);
+    QString challenge_id;
+    fromStringValue(challenge_idstr, challenge_id);
     
 
-    emit deleteChallengeById(challenge_gid);
+    emit deleteChallengeById(challenge_id);
 }
 
 

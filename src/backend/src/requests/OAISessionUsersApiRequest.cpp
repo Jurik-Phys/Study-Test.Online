@@ -49,29 +49,29 @@ QHttpEngine::Socket* OAISessionUsersApiRequest::getRawSocket(){
 }
 
 
-void OAISessionUsersApiRequest::getQuestionBySessionIDRequest(const QString& session_gidstr){
-    qDebug() << "/question/{session_gid}";
+void OAISessionUsersApiRequest::getQuestionBySessionIDRequest(const QString& session_idstr){
+    qDebug() << "/question/{session_id}";
     connect(this, &OAISessionUsersApiRequest::getQuestionBySessionID, handler.data(), &OAISessionUsersApiHandler::getQuestionBySessionID);
 
 
-    QString session_gid;
-    fromStringValue(session_gidstr, session_gid);
+    QString session_id;
+    fromStringValue(session_idstr, session_id);
 
 
-    emit getQuestionBySessionID(session_gid);
+    emit getQuestionBySessionID(session_id);
 }
 
 
-void OAISessionUsersApiRequest::getSessionStateRequest(const QString& session_gidstr){
-    qDebug() << "/session/{session_gid}";
+void OAISessionUsersApiRequest::getSessionStateRequest(const QString& session_idstr){
+    qDebug() << "/session/{session_id}";
     connect(this, &OAISessionUsersApiRequest::getSessionState, handler.data(), &OAISessionUsersApiHandler::getSessionState);
 
 
-    QString session_gid;
-    fromStringValue(session_gidstr, session_gid);
+    QString session_id;
+    fromStringValue(session_idstr, session_id);
 
 
-    emit getSessionState(session_gid);
+    emit getSessionState(session_id);
 }
 
 

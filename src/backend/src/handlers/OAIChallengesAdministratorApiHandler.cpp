@@ -42,11 +42,11 @@ void OAIChallengesAdministratorApiHandler::addChallenge(OAIChallenge oai_challen
         reqObj->addChallengeResponse(res);
     }
 }
-void OAIChallengesAdministratorApiHandler::deleteChallengeById(QString challenge_gid) {
+void OAIChallengesAdministratorApiHandler::deleteChallengeById(QString challenge_id) {
     auto reqObj = qobject_cast<OAIChallengesAdministratorApiRequest*>(sender());
     if( reqObj != nullptr )
     {
-        if (mDataManager->delChallengeFromFile(challenge_gid)){
+        if (mDataManager->delChallengeFromFile(challenge_id)){
             reqObj->deleteChallengeByIdResponse();
         }
         else{

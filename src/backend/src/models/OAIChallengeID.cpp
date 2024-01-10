@@ -33,8 +33,8 @@ OAIChallengeID::~OAIChallengeID() {}
 
 void OAIChallengeID::initializeModel() {
 
-    m_gid_isSet = false;
-    m_gid_isValid = false;
+    m_id_isSet = false;
+    m_id_isValid = false;
 }
 
 void OAIChallengeID::fromJson(QString jsonString) {
@@ -46,8 +46,8 @@ void OAIChallengeID::fromJson(QString jsonString) {
 
 void OAIChallengeID::fromJsonObject(QJsonObject json) {
 
-    m_gid_isValid = ::OpenAPI::fromJsonValue(gid, json[QString("gid")]);
-    m_gid_isSet = !json[QString("gid")].isNull() && m_gid_isValid;
+    m_id_isValid = ::OpenAPI::fromJsonValue(id, json[QString("id")]);
+    m_id_isSet = !json[QString("id")].isNull() && m_id_isValid;
 }
 
 QString OAIChallengeID::asJson() const {
@@ -59,32 +59,32 @@ QString OAIChallengeID::asJson() const {
 
 QJsonObject OAIChallengeID::asJsonObject() const {
     QJsonObject obj;
-    if (m_gid_isSet) {
-        obj.insert(QString("gid"), ::OpenAPI::toJsonValue(gid));
+    if (m_id_isSet) {
+        obj.insert(QString("id"), ::OpenAPI::toJsonValue(id));
     }
     return obj;
 }
 
 QString OAIChallengeID::getGid() const {
-    return gid;
+    return id;
 }
-void OAIChallengeID::setGid(const QString &gid) {
-    this->gid = gid;
-    this->m_gid_isSet = true;
-}
-
-bool OAIChallengeID::is_gid_Set() const{
-    return m_gid_isSet;
+void OAIChallengeID::setGid(const QString &id) {
+    this->id = id;
+    this->m_id_isSet = true;
 }
 
-bool OAIChallengeID::is_gid_Valid() const{
-    return m_gid_isValid;
+bool OAIChallengeID::is_id_Set() const{
+    return m_id_isSet;
+}
+
+bool OAIChallengeID::is_id_Valid() const{
+    return m_id_isValid;
 }
 
 bool OAIChallengeID::isSet() const {
     bool isObjectUpdated = false;
     do {
-        if (m_gid_isSet) {
+        if (m_id_isSet) {
             isObjectUpdated = true;
             break;
         }
@@ -94,7 +94,7 @@ bool OAIChallengeID::isSet() const {
 
 bool OAIChallengeID::isValid() const {
     // only required properties are required for the object to be considered valid
-    return m_gid_isValid && true;
+    return m_id_isValid && true;
 }
 
 } // namespace OpenAPI

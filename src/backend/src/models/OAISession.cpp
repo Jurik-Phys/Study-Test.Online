@@ -33,8 +33,8 @@ OAISession::~OAISession() {}
 
 void OAISession::initializeModel() {
 
-    m_gid_isSet = false;
-    m_gid_isValid = false;
+    m_id_isSet = false;
+    m_id_isValid = false;
 
     m_begin_at_isSet = false;
     m_begin_at_isValid = false;
@@ -61,8 +61,8 @@ void OAISession::fromJson(QString jsonString) {
 
 void OAISession::fromJsonObject(QJsonObject json) {
 
-    m_gid_isValid = ::OpenAPI::fromJsonValue(gid, json[QString("gid")]);
-    m_gid_isSet = !json[QString("gid")].isNull() && m_gid_isValid;
+    m_id_isValid = ::OpenAPI::fromJsonValue(id, json[QString("id")]);
+    m_id_isSet = !json[QString("id")].isNull() && m_id_isValid;
 
     m_begin_at_isValid = ::OpenAPI::fromJsonValue(begin_at, json[QString("beginAt")]);
     m_begin_at_isSet = !json[QString("beginAt")].isNull() && m_begin_at_isValid;
@@ -89,8 +89,8 @@ QString OAISession::asJson() const {
 
 QJsonObject OAISession::asJsonObject() const {
     QJsonObject obj;
-    if (m_gid_isSet) {
-        obj.insert(QString("gid"), ::OpenAPI::toJsonValue(gid));
+    if (m_id_isSet) {
+        obj.insert(QString("id"), ::OpenAPI::toJsonValue(id));
     }
     if (m_begin_at_isSet) {
         obj.insert(QString("beginAt"), ::OpenAPI::toJsonValue(begin_at));
@@ -111,19 +111,19 @@ QJsonObject OAISession::asJsonObject() const {
 }
 
 QString OAISession::getGid() const {
-    return gid;
+    return id;
 }
-void OAISession::setGid(const QString &gid) {
-    this->gid = gid;
-    this->m_gid_isSet = true;
-}
-
-bool OAISession::is_gid_Set() const{
-    return m_gid_isSet;
+void OAISession::setGid(const QString &id) {
+    this->id = id;
+    this->m_id_isSet = true;
 }
 
-bool OAISession::is_gid_Valid() const{
-    return m_gid_isValid;
+bool OAISession::is_id_Set() const{
+    return m_id_isSet;
+}
+
+bool OAISession::is_id_Valid() const{
+    return m_id_isValid;
 }
 
 QString OAISession::getBeginAt() const {
@@ -209,7 +209,7 @@ bool OAISession::is_test_info_Valid() const{
 bool OAISession::isSet() const {
     bool isObjectUpdated = false;
     do {
-        if (m_gid_isSet) {
+        if (m_id_isSet) {
             isObjectUpdated = true;
             break;
         }
@@ -244,7 +244,7 @@ bool OAISession::isSet() const {
 
 bool OAISession::isValid() const {
     // only required properties are required for the object to be considered valid
-    return m_gid_isValid && m_begin_at_isValid && m_end_at_isValid && m_result_isValid && m_user_info_isValid && m_test_info_isValid && true;
+    return m_id_isValid && m_begin_at_isValid && m_end_at_isValid && m_result_isValid && m_user_info_isValid && m_test_info_isValid && true;
 }
 
 } // namespace OpenAPI

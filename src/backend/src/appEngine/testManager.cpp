@@ -2,11 +2,13 @@
 
 #include "testManager.h"
 #include <QDebug>
+#include <QRandomGenerator>
 
 TestManager::TestManager(){
     // Constructor stub
     qDebug() << "[*] TestManager was created";
     mDataManager = DataManager::getInstance();
+    QRandomGenerator::system()->generate();
 }
 
 TestManager::~TestManager(){
@@ -21,10 +23,9 @@ QString TestManager::createSession(const QString& challengeId){
     QJsonArray jsonArray = mDataManager->getAllChallenges(challengeId);
     QJsonDocument challengeJsonDoc(jsonArray[0].toObject());
     if (jsonArray.size() > 0){
-        qDebug() << challengeJsonDoc;
 
-        sessionId = QUuid::createUuid().toString();
-        testSessionInfo["gid"]     = sessionId;
+        sessionId = QUuid::createUuid().toString(QUuid::WithoutBraces);
+        testSessionInfo["id"]     = sessionId;
         testSessionInfo["beginAt"] = QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss");
         testSessionInfo["endAt"]   = "";
         testSessionInfo["result"]  = "";
@@ -59,6 +60,24 @@ QString TestManager::createSession(const QString& challengeId){
     }
     return sessionId;
 }
+
+OpenAPI::OAIQuestion TestManager::getNextQuestion(const QString& sessionId){
+    QJsonObject sessionJsonData = mDataManager->getSession(sessionId);
+
+    // size -> random index -> value by random index -> OAIQuestion object
+    int nextQuestionArraySize = sessionJsonData["nextQuestionsId"].toArray().size();
+    int randomQuestionId = QRandomGenerator::system()->bounded(nextQuestionArraySize);
+    QString nextQuestionsGid = sessionJsonData["nextQuestionsId"].toArray()[randomQuestionId].toString();
+    QJsonObject nextQuestionData = mDataManager->getQuestion(nextQuestionsGid);
+    qDebug() << QString::fromUtf8(QJsonDocument(nextQuestionData).toJson());
+
+    OpenAPI::OAIQuestion res;
+    res.fromJsonObject(nextQuestionData);
+
+    // OpenAPI::OAIQuestion res(QString::fromUtf8(QJsonDocument(nextQuestionData).toJson()));
+    return res;
+}
+
 
 // Pattern singletone
 TestManager* TestManager::getInstance(){

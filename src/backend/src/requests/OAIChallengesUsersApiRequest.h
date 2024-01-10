@@ -36,7 +36,7 @@ public:
     virtual ~OAIChallengesUsersApiRequest();
 
     void getAllChallengesRequest();
-    void getChallengeByIdRequest(const QString& challenge_gid);
+    void getChallengeByIdRequest(const QString& challenge_id);
     
 
     void getAllChallengesResponse(const QList<OAIChallenge>& res);
@@ -59,7 +59,7 @@ public:
 
 signals:
     void getAllChallenges();
-    void getChallengeById(QString challenge_gid);
+    void getChallengeById(QString challenge_id);
     
 
 private:

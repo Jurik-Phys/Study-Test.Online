@@ -32,17 +32,17 @@ OAISessionUsersApiHandler::~OAISessionUsersApiHandler(){
     delete mTestManager;
 }
 
-void OAISessionUsersApiHandler::getQuestionBySessionID(QString session_gid) {
-    Q_UNUSED(session_gid);
+void OAISessionUsersApiHandler::getQuestionBySessionID(QString session_id) {
     auto reqObj = qobject_cast<OAISessionUsersApiRequest*>(sender());
     if( reqObj != nullptr )
     {
-        OAIQuestion res;
+        OAIQuestion res(mTestManager->getNextQuestion(session_id));
+        qDebug() << res.asJson();
         reqObj->getQuestionBySessionIDResponse(res);
     }
 }
-void OAISessionUsersApiHandler::getSessionState(QString session_gid) {
-    Q_UNUSED(session_gid);
+void OAISessionUsersApiHandler::getSessionState(QString session_id) {
+    Q_UNUSED(session_id);
     qDebug() << "Hi session";
     auto reqObj = qobject_cast<OAISessionUsersApiRequest*>(sender());
     if( reqObj != nullptr )
@@ -66,7 +66,7 @@ void OAISessionUsersApiHandler::startTestSession(OAIChallengeID oai_challenge_id
     if( reqObj != nullptr )
     {
         QJsonObject jsonObj = oai_challenge_id.asJsonObject();
-        QString challengeGID = jsonObj["gid"].toString();
+        QString challengeGID = jsonObj["id"].toString();
         QString res(mTestManager->createSession(challengeGID));
         reqObj->startTestSessionResponse(res);
     }

@@ -34,7 +34,7 @@ public:
 
 public slots:
     virtual void addChallenge(OAIChallenge oai_challenge);
-    virtual void deleteChallengeById(QString challenge_gid);
+    virtual void deleteChallengeById(QString challenge_id);
 
 private:
     TestManager* mTestManager;

@@ -44,12 +44,12 @@ void OAIChallengesUsersApiHandler::getAllChallenges() {
         reqObj->getAllChallengesResponse(res);
     }
 }
-void OAIChallengesUsersApiHandler::getChallengeById(QString challenge_gid) {
+void OAIChallengesUsersApiHandler::getChallengeById(QString challenge_id) {
     auto reqObj = qobject_cast<OAIChallengesUsersApiRequest*>(sender());
     if( reqObj != nullptr )
     {
         QList<OAIChallenge> res;
-        QJsonArray jsonArray(mDataManager->getAllChallenges(challenge_gid));
+        QJsonArray jsonArray(mDataManager->getAllChallenges(challenge_id));
         for (int i = 0; i < jsonArray.count(); i++){
             QString returnedJSON = QJsonDocument(jsonArray.at(i).toObject()).toJson();
             OpenAPI::OAIChallenge tempChallenge(returnedJSON);

@@ -2,7 +2,7 @@
 Sessions:
  - # Description of test session #1
    # Unique identifier of tests session
-   gid: "2fc74d06-3e1c-4a5a-885a-53cf574ae6f9"
+   id: "2fc74d06-3e1c-4a5a-885a-53cf574ae6f9"
 
    # Date and time of start tests session
    beginAt: "2012-04-23T18:25:43.511Z"
@@ -132,4 +132,4 @@ Sessions:
              - "a8425246-e95d-46db-8b87-8d21188bb9f1"
             answerRaw: "23.2"
  - # Description of test session #2
-  gid: f0ebd2a1-bab1-42c8-b54a-4cb0eb89df1c
+  id: f0ebd2a1-bab1-42c8-b54a-4cb0eb89df1c
