@@ -20,6 +20,7 @@
 
 #include <QJsonObject>
 
+#include "OAIQuestion_answers_inner.h"
 #include <QList>
 #include <QString>
 
@@ -54,8 +55,8 @@ public:
     bool is_body_Set() const;
     bool is_body_Valid() const;
 
-    QList<QList<QString>> getAnswers() const;
-    void setAnswers(const QList<QList<QString>> &answers);
+    QList<OAIQuestion_answers_inner> getAnswers() const;
+    void setAnswers(const QList<OAIQuestion_answers_inner> &answers);
     bool is_answers_Set() const;
     bool is_answers_Valid() const;
 
@@ -77,7 +78,7 @@ private:
     bool m_body_isSet;
     bool m_body_isValid;
 
-    QList<QList<QString>> answers;
+    QList<OAIQuestion_answers_inner> answers;
     bool m_answers_isSet;
     bool m_answers_isValid;
 };

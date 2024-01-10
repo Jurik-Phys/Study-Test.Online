@@ -64,18 +64,8 @@ void OAIQuestion::fromJsonObject(QJsonObject json) {
     m_body_isValid = ::OpenAPI::fromJsonValue(body, json[QString("body")]);
     m_body_isSet = !json[QString("body")].isNull() && m_body_isValid;
 
-    if(json["answers"].isArray()){
-        auto arr = json["answers"].toArray();
-        m_answers_isValid = true;
-        if(arr.count() > 0) {
-            for (const QJsonValue jval : arr) {
-                QList<QString> item;
-                m_answers_isValid &= ::OpenAPI::fromJsonValue(item, jval);
-                m_answers_isSet = !jval.isNull() && m_answers_isValid;
-                answers.push_back(item);
-            }
-        }
-    }
+    m_answers_isValid = ::OpenAPI::fromJsonValue(answers, json[QString("answers")]);
+    m_answers_isSet = !json[QString("answers")].isNull() && m_answers_isValid;
 }
 
 QString OAIQuestion::asJson() const {
@@ -97,8 +87,7 @@ QJsonObject OAIQuestion::asJsonObject() const {
         obj.insert(QString("body"), ::OpenAPI::toJsonValue(body));
     }
     if (answers.size() > 0) {
-        
-        obj.insert(QString("answers"), toJsonValue(answers));
+        obj.insert(QString("answers"), ::OpenAPI::toJsonValue(answers));
     }
     return obj;
 }
@@ -151,10 +140,10 @@ bool OAIQuestion::is_body_Valid() const{
     return m_body_isValid;
 }
 
-QList<QList<QString>> OAIQuestion::getAnswers() const {
+QList<OAIQuestion_answers_inner> OAIQuestion::getAnswers() const {
     return answers;
 }
-void OAIQuestion::setAnswers(const QList<QList<QString>> &answers) {
+void OAIQuestion::setAnswers(const QList<OAIQuestion_answers_inner> &answers) {
     this->answers = answers;
     this->m_answers_isSet = true;
 }
@@ -195,7 +184,7 @@ bool OAIQuestion::isSet() const {
 
 bool OAIQuestion::isValid() const {
     // only required properties are required for the object to be considered valid
-    return m_type_isValid && m_body_isValid && m_answers_isValid && true;
+    return m_id_isValid && m_type_isValid && m_body_isValid && m_answers_isValid && true;
 }
 
 } // namespace OpenAPI

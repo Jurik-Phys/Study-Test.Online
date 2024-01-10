@@ -58,18 +58,8 @@ void OAIAnswer::fromJsonObject(QJsonObject json) {
     m_question_id_isValid = ::OpenAPI::fromJsonValue(question_id, json[QString("question_id")]);
     m_question_id_isSet = !json[QString("question_id")].isNull() && m_question_id_isValid;
 
-    if(json["answers"].isArray()){
-        auto arr = json["answers"].toArray();
-        m_answers_isValid = true;
-        if(arr.count() > 0) {
-            for (const QJsonValue jval : arr) {
-                QList<QString> item;
-                m_answers_isValid &= ::OpenAPI::fromJsonValue(item, jval);
-                m_answers_isSet = !jval.isNull() && m_answers_isValid;
-                answers.push_back(item);
-            }
-        }
-    }
+    m_answers_isValid = ::OpenAPI::fromJsonValue(answers, json[QString("answers")]);
+    m_answers_isSet = !json[QString("answers")].isNull() && m_answers_isValid;
 }
 
 QString OAIAnswer::asJson() const {
@@ -88,8 +78,7 @@ QJsonObject OAIAnswer::asJsonObject() const {
         obj.insert(QString("question_id"), ::OpenAPI::toJsonValue(question_id));
     }
     if (answers.size() > 0) {
-        
-        obj.insert(QString("answers"), toJsonValue(answers));
+        obj.insert(QString("answers"), ::OpenAPI::toJsonValue(answers));
     }
     return obj;
 }
@@ -126,10 +115,10 @@ bool OAIAnswer::is_question_id_Valid() const{
     return m_question_id_isValid;
 }
 
-QList<QList<QString>> OAIAnswer::getAnswers() const {
+QList<OAIAnswer_answers_inner> OAIAnswer::getAnswers() const {
     return answers;
 }
-void OAIAnswer::setAnswers(const QList<QList<QString>> &answers) {
+void OAIAnswer::setAnswers(const QList<OAIAnswer_answers_inner> &answers) {
     this->answers = answers;
     this->m_answers_isSet = true;
 }
