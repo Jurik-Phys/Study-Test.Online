@@ -1,135 +1,46 @@
 # begin solutions-schema.yaml
-Sessions:
- - # Description of test session #1
-   # Unique identifier of tests session
-   id: "2fc74d06-3e1c-4a5a-885a-53cf574ae6f9"
+# this schema used to keep data
+# into json file in storage
+Solutions:
+  type: array
+  items:
+    type: object
+    properties:
+      sId:
+        type: string
+        example: "b21d5a4d-7dc6-4618-bfdf-eaf8a6918a69"
+      body:
+        type: array
+        items:
+          type: object
+          properties:
+            qId:
+              type: string
+              example: "2fc74d06-3e1c-4a5a-885a-53cf574ae6f9"
+            answers:
+              type: array
+              items:
+                type: object
+                properties:
+                  answerId:
+                    type: string
+                    example: 40501c92-d006-4144-9909-79ba59352b8d"
+                  answerBody:
+                    type: string
+                    example: "First selected answer"
 
-   # Date and time of start tests session
-   beginAt: "2012-04-23T18:25:43.511Z"
-
-   # Date and time of final end tests session
-   endAt: "2012-04-23T20:25:43.511Z"
-
-   # Final result of tests session
-   result: "4.2"
-
-   # Information about users created this session
-   userInfo:
-     # UserID
-     id: "40501c92-d006-4144-9909-79ba59352b8d"
-
-     # Username
-     name: "Petrov I.D."
-
-     # Usergroup
-     group: "Group with best student group"
-
-   # General information about tests session
-   testInfo:
-     # Total number of questions in this tests session
-     totalQuestions: "25"
-
-     # Area of knowledge (education|psychology|funny)
-     testType: "education"
-
-     # Name of discipline or title of knowledge area
-     section: "Physics"
-
-     # Name of discipline section or subsection of knowledge area
-     subsection: "Quantum field theory"
-
-     # Some info about current test
-     testAnnotation: "Brief info about Quantum field theory test"
-   progress:
-     - # Question #1
-       # Serial number of the answered question
-       id: "3647f715-e0e8-44dc-bf0e-f738aea9c061"
-
-       # The question object
-       question:
-         # Unique identifier of asked question
-         id: "f0326208-57c7-43fa-9beb-59dcb371e05f"
-
-         # Name of discipline or title of knowledge area
-         section: "Physics"
-
-         # Name of discipline section or subsection of knowledge area
-         subsection: "Quantum field theory"
-
-         # The body of question that was asked
-         body: "What is different between The Higgs boson and W-boson?"
-
-         # Question type (single-choice|multiple-choice|open-choice)
-         type: "single-choice"
-
-         # Array of alternate answers
-         answers:
-           -
-            id: "b21d5a4d-7dc6-4618-bfdf-eaf8a6918a69"
-            body: "The Higgs boson is a scalar boson, while the W-boson is a vector boson"
-            isRight: "false"
-           -
-            id: "00edf8c9-81f3-4332-83b2-07320beb90bc"
-            body: "The Higgs boson carries electric charge, while the W-boson is electrically neutral."
-            isRight: "false"
-           -
-            id: "0beb8e8a-e85f-4616-9389-e2510eaf2a1c"
-            body: "The Higgs boson mediates the Higgs field, while the W-boson mediates the weak nuclear force."
-            isRight: "true"
-           -
-            id: "d33575be-48ca-4683-9d2b-c51a379d186f"
-            body: "The Higgs boson has a mass of approximately 125 GeV/c^2, while the W-boson has a mass of around 8,0 GeV/c^2."
-            isRight: "false"
-
-         usersChoice:
-            answerId:
-             - "b21d5a4d-7dc6-4618-bfdf-eaf8a6918a69"
-             - "00edf8c9-81f3-4332-83b2-07320beb90bc"
-            answerRaw: "23.2"
-     - # Question #2
-       # Serial number of the answered question
-       id: "17d2e1ed-e0c9-4dbf-a960-e65c466aec11"
-
-       # The question object
-       question:
-         # Unique identifier of asked question
-         id: "71bcce0f-7d41-40b7-bc7f-c71880610bd0"
-
-         # Name of discipline or title of knowledge area
-         section: "Physics"
-
-         # Name of discipline section or subsection of knowledge area
-         subsection: "Quantum field theory"
-
-         # The body of question that was asked
-         body: "What is different between The Higgs boson and W-boson?"
-
-         # Question type (single-choice|multiple-choice|open-choice)
-         type: "single-choice"
-
-         # Array of alternate answers
-         answers:
-           -
-            id: "2bda37e3-0648-4888-ac07-2c95f5cc2be5"
-            body: "The Higgs boson is a scalar boson, while the W-boson is a vector boson"
-            isRight: "false"
-           -
-            id: "8a255a7f-86b3-414a-863a-5a03b9a48dd0"
-            body: "The Higgs boson carries electric charge, while the W-boson is electrically neutral."
-            isRight: "false"
-           -
-            id: "01185384-ce5d-4460-902b-451f8be6ee4b"
-            body: "The Higgs boson mediates the Higgs field, while the W-boson mediates the weak nuclear force."
-            isRight: "true"
-           -
-            id: "a8425246-e95d-46db-8b87-8d21188bb9f1"
-            body: "The Higgs boson has a mass of approximately 125 GeV/c^2, while the W-boson has a mass of around 8,0 GeV/c^2."
-            isRight: "false"
-
-         usersChoice:
-            answerId:
-             - "01185384-ce5d-4460-902b-451f8be6ee4b"
-             - "a8425246-e95d-46db-8b87-8d21188bb9f1"
-            answerRaw: "23.2"
- - # Description of test session #2
-  id: f0ebd2a1-bab1-42c8-b54a-4cb0eb89df1c
+# id: "b21d5a4d-7dc6-4618-bfdf-eaf8a6918a69"
+# body: "The Higgs boson is a scalar boson, while the W-boson is a vector boson"
+# isRight: "false"
+#
+# id: "00edf8c9-81f3-4332-83b2-07320beb90bc"
+# body: "The Higgs boson carries electric charge, while the W-boson is electrically neutral."
+# isRight: "false"
+#
+# id: "0beb8e8a-e85f-4616-9389-e2510eaf2a1c"
+# body: "The Higgs boson mediates the Higgs field, while the W-boson mediates the weak nuclear force."
+# isRight: "true"
+#
+# id: "d33575be-48ca-4683-9d2b-c51a379d186f"
+# body: "The Higgs boson has a mass of approximately 125 GeV/c^2, while the W-boson has a mass of around 8,0 GeV/c^2."
+# isRight: "false"

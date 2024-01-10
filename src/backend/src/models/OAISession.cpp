@@ -101,19 +101,19 @@ QJsonObject OAISession::asJsonObject() const {
     if (m_result_isSet) {
         obj.insert(QString("result"), ::OpenAPI::toJsonValue(result));
     }
-    if (user_info.size() > 0) {
+    if (user_info.isSet()) {
         obj.insert(QString("userInfo"), ::OpenAPI::toJsonValue(user_info));
     }
-    if (test_info.size() > 0) {
+    if (test_info.isSet()) {
         obj.insert(QString("testInfo"), ::OpenAPI::toJsonValue(test_info));
     }
     return obj;
 }
 
-QString OAISession::getGid() const {
+QString OAISession::getId() const {
     return id;
 }
-void OAISession::setGid(const QString &id) {
+void OAISession::setId(const QString &id) {
     this->id = id;
     this->m_id_isSet = true;
 }
@@ -174,10 +174,10 @@ bool OAISession::is_result_Valid() const{
     return m_result_isValid;
 }
 
-QList<QString> OAISession::getUserInfo() const {
+OAISession_userInfo OAISession::getUserInfo() const {
     return user_info;
 }
-void OAISession::setUserInfo(const QList<QString> &user_info) {
+void OAISession::setUserInfo(const OAISession_userInfo &user_info) {
     this->user_info = user_info;
     this->m_user_info_isSet = true;
 }
@@ -190,10 +190,10 @@ bool OAISession::is_user_info_Valid() const{
     return m_user_info_isValid;
 }
 
-QList<QString> OAISession::getTestInfo() const {
+OAISession_testInfo OAISession::getTestInfo() const {
     return test_info;
 }
-void OAISession::setTestInfo(const QList<QString> &test_info) {
+void OAISession::setTestInfo(const OAISession_testInfo &test_info) {
     this->test_info = test_info;
     this->m_test_info_isSet = true;
 }
@@ -229,12 +229,12 @@ bool OAISession::isSet() const {
             break;
         }
 
-        if (user_info.size() > 0) {
+        if (user_info.isSet()) {
             isObjectUpdated = true;
             break;
         }
 
-        if (test_info.size() > 0) {
+        if (test_info.isSet()) {
             isObjectUpdated = true;
             break;
         }

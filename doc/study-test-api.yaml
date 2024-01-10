@@ -28,7 +28,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Challenges'
         default:
-          description: "Unknown response"
+          description: "Study-test server default response"
           content:
             application/json:
               schema:
@@ -52,11 +52,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/Challenge'
         default:
-          description: "Unknown response"
+          description: "Study-test server default response"
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
   /challenges/{challenge_id}:
     get:
       summary: "Get challenge by it's id"
@@ -79,7 +80,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Challenge'
         default:
-          description: "Unknown response"
+          description: "Study-test server default response"
           content:
             application/json:
               schema:
@@ -103,7 +104,7 @@ paths:
           content:
             application/json: {}
         default:
-          description: "Unknown response"
+          description: "Study-test server default response"
           content:
             application/json:
               schema:
@@ -129,7 +130,7 @@ paths:
                 type: string
               example: "d0a9e3a1-65c9-4f6e-bd41-7b4a6860c56e"
         default:
-          description: "Unknown response"
+          description: "Study-test server default response"
           content:
             application/json:
               schema:
@@ -156,7 +157,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Session'
         default:
-          description: "Unknown response"
+          description: "Study-test server default response"
           content:
             application/json:
               schema:
@@ -189,7 +190,7 @@ paths:
               schema:
                 type: string
         default:
-          description: "Unknown response"
+          description: "Study-test server default response"
           content:
             application/json:
               schema:
@@ -213,7 +214,7 @@ paths:
             content:
               application/json: {}
           default:
-            description: "Unknown response"
+            description: "Study-test server default response"
             content:
               application/json:
                 schema:
@@ -311,8 +312,8 @@ components:
                 example: "b21d5a4d-7dc6-4618-bfdf-eaf8a6918a69"
               body:
                 type: string
-                example: "The Higgs boson mediates the Higgs field, while the W-boson mediates the weak nuclear force." 
-              isRight: 
+                example: "The Higgs boson mediates the Higgs field, while the W-boson mediates the weak nuclear force."
+              isRight:
                 type: boolean
                 example: true
 
@@ -340,7 +341,7 @@ components:
                 example: "a03e925b-678c-42ea-998e-1805435006e5"
               body:
                 type: string
-                example: "The Higgs boson mediates the Higgs field, while the W-boson mediates the weak nuclear force." 
+                example: "The Higgs boson mediates the Higgs field, while the W-boson mediates the weak nuclear force."
 
     # Session component schema
     Session:
@@ -366,23 +367,54 @@ components:
           type: string
           example: "4.2"
         userInfo:
-          type: array
-          items:
-            type: string
-          example:
-            - id: "40501c92-d006-4144-9909-79ba59352b8d"
-            - name: "Petrov I.D."
-            - group: "Group with best student group"
+          type: object
+          properties:
+            id:
+              type: string
+              example: "40501c92-d006-4144-9909-79ba59352b8d"
+            name:
+              type: string
+              example: "Petrov I.D."
+            group:
+              type: string
+              example: "Group with best student group"
         testInfo:
-          type: array
-          items:
-            type: string
-          example:
-            - totalQuestions: 25
-            - testType: "education"
-            - section: "Physics"
-            - subsection: "Quantum field theory"
-            - testAnnotation: "Brief info about Quantum field theory test"
+          type: object
+          properties:
+            totalQuestion:
+              type: number
+              example: 25
+            testType:
+              type: string
+              example: "education"
+            section:
+              type: string
+              example: "Physics"
+            subsection:
+              type: string
+              example: "Quantum field theory"
+            testAnnotation:
+              type: string
+              example: "Brief info about Quantum field theory test"
+            doneQuestions:
+              type: number
+              example: 25
+            doneQuestionsArray:
+              type: array
+              items:
+                type: object
+                properties:
+                  body:
+                    type: string
+                    example: "What is different between The Higgs boson and W-boson?"
+                  doAnswers:
+                    type: array
+                    items:
+                      type: string
+                      example:
+                        - "First selected answer"
+                        - "Second selected answer"
+                        - "Thread selected answer"
 
     # Error component schema
     Error:

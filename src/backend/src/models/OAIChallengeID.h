@@ -38,8 +38,8 @@ public:
     void fromJsonObject(QJsonObject json) override;
     void fromJson(QString jsonString) override;
 
-    QString getGid() const;
-    void setGid(const QString &id);
+    QString getId() const;
+    void setId(const QString &id);
     bool is_id_Set() const;
     bool is_id_Valid() const;
 

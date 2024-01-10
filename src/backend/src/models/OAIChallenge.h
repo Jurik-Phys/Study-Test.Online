@@ -39,13 +39,13 @@ public:
     void fromJsonObject(QJsonObject json) override;
     void fromJson(QString jsonString) override;
 
-    QString getGid() const;
-    void setGid(const QString &id);
+    QString getId() const;
+    void setId(const QString &id);
     bool is_id_Set() const;
     bool is_id_Valid() const;
 
-    double getTotalQuestion() const;
-    void setTotalQuestion(const double &total_question);
+    double getTotalQuestions() const;
+    void setTotalQuestions(const double &total_questions);
     bool is_total_questions_Set() const;
     bool is_total_questions_Valid() const;
 
@@ -89,7 +89,7 @@ private:
     bool m_id_isSet;
     bool m_id_isValid;
 
-    double total_question;
+    double total_questions;
     bool m_total_questions_isSet;
     bool m_total_questions_isValid;
 

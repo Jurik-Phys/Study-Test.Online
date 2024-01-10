@@ -20,7 +20,8 @@
 
 #include <QJsonObject>
 
-#include <QList>
+#include "OAISession_testInfo.h"
+#include "OAISession_userInfo.h"
 #include <QString>
 
 #include "OAIEnum.h"
@@ -39,8 +40,8 @@ public:
     void fromJsonObject(QJsonObject json) override;
     void fromJson(QString jsonString) override;
 
-    QString getGid() const;
-    void setGid(const QString &id);
+    QString getId() const;
+    void setId(const QString &id);
     bool is_id_Set() const;
     bool is_id_Valid() const;
 
@@ -59,13 +60,13 @@ public:
     bool is_result_Set() const;
     bool is_result_Valid() const;
 
-    QList<QString> getUserInfo() const;
-    void setUserInfo(const QList<QString> &user_info);
+    OAISession_userInfo getUserInfo() const;
+    void setUserInfo(const OAISession_userInfo &user_info);
     bool is_user_info_Set() const;
     bool is_user_info_Valid() const;
 
-    QList<QString> getTestInfo() const;
-    void setTestInfo(const QList<QString> &test_info);
+    OAISession_testInfo getTestInfo() const;
+    void setTestInfo(const OAISession_testInfo &test_info);
     bool is_test_info_Set() const;
     bool is_test_info_Valid() const;
 
@@ -91,11 +92,11 @@ private:
     bool m_result_isSet;
     bool m_result_isValid;
 
-    QList<QString> user_info;
+    OAISession_userInfo user_info;
     bool m_user_info_isSet;
     bool m_user_info_isValid;
 
-    QList<QString> test_info;
+    OAISession_testInfo test_info;
     bool m_test_info_isSet;
     bool m_test_info_isValid;
 };

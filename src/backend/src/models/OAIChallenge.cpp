@@ -70,7 +70,7 @@ void OAIChallenge::fromJsonObject(QJsonObject json) {
     m_id_isValid = ::OpenAPI::fromJsonValue(id, json[QString("id")]);
     m_id_isSet = !json[QString("id")].isNull() && m_id_isValid;
 
-    m_total_questions_isValid = ::OpenAPI::fromJsonValue(total_question, json[QString("totalQuestions")]);
+    m_total_questions_isValid = ::OpenAPI::fromJsonValue(total_questions, json[QString("totalQuestions")]);
     m_total_questions_isSet = !json[QString("totalQuestions")].isNull() && m_total_questions_isValid;
 
     m_max_time_isValid = ::OpenAPI::fromJsonValue(max_time, json[QString("maxTime")]);
@@ -105,7 +105,7 @@ QJsonObject OAIChallenge::asJsonObject() const {
         obj.insert(QString("id"), ::OpenAPI::toJsonValue(id));
     }
     if (m_total_questions_isSet) {
-        obj.insert(QString("totalQuestions"), ::OpenAPI::toJsonValue(total_question));
+        obj.insert(QString("totalQuestions"), ::OpenAPI::toJsonValue(total_questions));
     }
     if (m_max_time_isSet) {
         obj.insert(QString("maxTime"), ::OpenAPI::toJsonValue(max_time));
@@ -128,10 +128,10 @@ QJsonObject OAIChallenge::asJsonObject() const {
     return obj;
 }
 
-QString OAIChallenge::getGid() const {
+QString OAIChallenge::getId() const {
     return id;
 }
-void OAIChallenge::setGid(const QString &id) {
+void OAIChallenge::setId(const QString &id) {
     this->id = id;
     this->m_id_isSet = true;
 }
@@ -144,11 +144,11 @@ bool OAIChallenge::is_id_Valid() const{
     return m_id_isValid;
 }
 
-double OAIChallenge::getTotalQuestion() const {
-    return total_question;
+double OAIChallenge::getTotalQuestions() const {
+    return total_questions;
 }
-void OAIChallenge::setTotalQuestion(const double &total_question) {
-    this->total_question = total_question;
+void OAIChallenge::setTotalQuestions(const double &total_questions) {
+    this->total_questions = total_questions;
     this->m_total_questions_isSet = true;
 }
 
@@ -304,7 +304,7 @@ bool OAIChallenge::isSet() const {
 
 bool OAIChallenge::isValid() const {
     // only required properties are required for the object to be considered valid
-    return m_id_isValid && m_max_time_isValid && m_test_type_isValid && m_section_isValid && m_subsection_isValid && m_annotation_isValid && m_q_ids_isValid && true;
+    return m_id_isValid && m_total_questions_isValid && m_max_time_isValid && m_test_type_isValid && m_section_isValid && m_subsection_isValid && m_annotation_isValid && m_q_ids_isValid && true;
 }
 
 } // namespace OpenAPI

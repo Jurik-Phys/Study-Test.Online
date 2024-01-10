@@ -65,10 +65,10 @@ QJsonObject OAIChallengeID::asJsonObject() const {
     return obj;
 }
 
-QString OAIChallengeID::getGid() const {
+QString OAIChallengeID::getId() const {
     return id;
 }
-void OAIChallengeID::setGid(const QString &id) {
+void OAIChallengeID::setId(const QString &id) {
     this->id = id;
     this->m_id_isSet = true;
 }
