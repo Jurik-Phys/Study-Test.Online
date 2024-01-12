@@ -21,6 +21,7 @@ class DataManager {
         bool       addChallengeToFile(const QJsonObject&);
         bool       delChallengeFromFile(const QString&);
         bool       addSessionToFile(const QJsonObject&);
+        bool       addAnswerToFile(const QJsonObject&);
 
     private:
         // Pattern singletone
@@ -35,6 +36,9 @@ class DataManager {
 
         QString mQuestionsJsonName;
         QFile   mQuestionsJsonFile;
+
+        QString mAnswersJsonName;
+        QFile   mAnswersJsonFile;
 };
 
 #endif

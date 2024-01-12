@@ -42,6 +42,7 @@ public slots:
 
 private:
     TestManager* mTestManager;
+    DataManager* mDataManager;
 };
 
 }
