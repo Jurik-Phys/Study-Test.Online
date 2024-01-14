@@ -28,11 +28,16 @@ class TestManager {
         QString createSession(const QString&);
         OpenAPI::OAIQuestion getNextQuestion(const QString&);
 
+        bool checkAnswer(const QJsonObject);
+
     private:
         // Pattern singletone
         static TestManager* p_instance;
         TestManager();
         DataManager* mDataManager;
+
+        bool isSessionExtists(const QString&);
+        bool isSessionOpens(const QString&);
 };
 
 

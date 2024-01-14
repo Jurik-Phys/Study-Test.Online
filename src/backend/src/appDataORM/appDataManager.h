@@ -18,6 +18,7 @@ class DataManager {
         QJsonObject getQuestion(const QString&);
         QJsonArray getAllChallenges();
         QJsonArray getAllChallenges(const QString&);
+        QJsonArray getAllAnswers();
         bool       addChallengeToFile(const QJsonObject&);
         bool       delChallengeFromFile(const QString&);
         bool       addSessionToFile(const QJsonObject&);
@@ -39,6 +40,9 @@ class DataManager {
 
         QString mAnswersJsonName;
         QFile   mAnswersJsonFile;
+
+        bool isAnswerSessionExists(const QString&);
+        QJsonObject prepareAnswerToWrite(const QJsonObject&);
 };
 
 #endif

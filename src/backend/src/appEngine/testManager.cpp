@@ -78,6 +78,51 @@ OpenAPI::OAIQuestion TestManager::getNextQuestion(const QString& sessionId){
     return res;
 }
 
+bool TestManager::isSessionExtists(const QString& session_id){
+    bool res = false;
+    QJsonObject sessionData(mDataManager->getSession(session_id));
+
+    if (!sessionData.isEmpty()){
+        res = true;
+    }
+
+    return res;
+}
+
+bool TestManager::isSessionOpens(const QString& session_id){
+    bool res = false;
+    QJsonObject sessionData(mDataManager->getSession(session_id));
+
+    if (sessionData["result"].toString() == "" ){
+        res = true;
+    }
+
+    return res;
+}
+
+bool TestManager::checkAnswer(const QJsonObject answerData){
+    bool res = true;
+    QJsonArray answersJsonArrayData;
+
+    if (isSessionExtists(answerData["session_id"].toString())){
+
+        if (isSessionOpens(answerData["session_id"].toString())){
+            res = true;
+        }
+        else {
+            qDebug() << "[EE] Session" << answerData["session_id"] << "closed. Break answer";
+            res = false;
+        }
+    }
+    else {
+        qDebug() << "[EE] User session" << answerData["session_id"] << "doesn't exist";
+        res = false;
+    }
+
+    return res;
+}
+
+
 
 // Pattern singletone
 TestManager* TestManager::getInstance(){

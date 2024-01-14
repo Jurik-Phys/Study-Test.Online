@@ -57,7 +57,10 @@ void OAISessionUsersApiHandler::pushAnswer(OAIPushAnswer_request oai_push_answer
     {
         qDebug() << "Push answer";
         qDebug() << oai_push_answer_request.asJson();
-        mDataManager->addAnswerToFile(oai_push_answer_request.asJsonObject());
+        if (mTestManager->checkAnswer(oai_push_answer_request.asJsonObject())){
+            mDataManager->addAnswerToFile(oai_push_answer_request.asJsonObject());
+        }
+
         reqObj->pushAnswerResponse();
     }
 }

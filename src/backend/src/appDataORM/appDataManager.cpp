@@ -196,14 +196,18 @@ bool DataManager::addSessionToFile(const QJsonObject& newSessionJSON){
             }
             else {
                 qDebug() << "[*] При записи файла " << mSessionsJsonName << "возникла ошибка" << jsonParseError.errorString();
+                mSessionsJsonFile.close();
             }
         }
         else {
             qDebug() << "[*] Парсинг файла" << mSessionsJsonName << "вызвал ошибку" << jsonParseError.errorString();
+            mSessionsJsonFile.close();
         }
     }
     else{
         qDebug() << "[*] Ошибка чтения файла данных" << mSessionsJsonName;
+        mSessionsJsonFile.close();
+
         // Create new file and write new session data
         QJsonArray jsonArrayData;
         jsonArrayData.append(QJsonValue(newSessionJSON));
@@ -217,6 +221,7 @@ bool DataManager::addSessionToFile(const QJsonObject& newSessionJSON){
         }
         else {
             qDebug() << "[*] При записи файла " << mSessionsJsonName << "возникла ошибка" << jsonParseError.errorString();
+            mSessionsJsonFile.close();
         }
     }
     return res;
@@ -307,67 +312,102 @@ bool DataManager::addAnswerToFile(const QJsonObject& solutionDataJSON){
         if (jsonParseError.error == QJsonParseError::NoError){
             QJsonArray jsonArrayData = QJsonValue(jsonData.object().value("Answers")).toArray();
 
-            // jsonData = QJsonDocument(updJsonObj);
+            qDebug() << "File " << mAnswersJsonName << "is exists and parsed";
 
-            // if (mSessionsJsonFile.open(QIODevice::WriteOnly | QIODevice::Text)){
-            //     if (jsonParseError.error == QJsonParseError::NoError){
-            //         mSessionsJsonFile.write(jsonData.toJson());
-            //         mSessionsJsonFile.close();
-            //         res = true;
-            //     }
-            // }
-            // else {
-            //     qDebug() << "[*] При записи файла " << mAnswersJsonName << "возникла ошибка" << jsonParseError.errorString();
-            // }
+            if (!isAnswerSessionExists(solutionDataJSON["session_id"].toString())){
+                // First answer from this session
+                qDebug() << "This answer is first from this session";
+
+                // Container for all next solutions
+                QJsonObject currentSolution;
+                currentSolution = prepareAnswerToWrite(solutionDataJSON);
+                jsonArrayData.append(currentSolution);
+
+                solutions["Answers"] = jsonArrayData;
+                // qDebug() << "[ > ] solutions:" << solutions;
+
+                if (mAnswersJsonFile.open(QIODevice::WriteOnly | QIODevice::Text)){
+                    mAnswersJsonFile.write(QJsonDocument(solutions).toJson());
+                    mAnswersJsonFile.close();
+                    res = true;
+                }
+                else {
+                    qDebug() << "[*] При записи файла " << mAnswersJsonName << "возникла ошибка" << jsonParseError.errorString();
+                }
+            }
+            else {
+                qDebug() << "This answer not first for this session";
+
+                QJsonArray jsonArrayData = QJsonValue(jsonData.object().value("Answers")).toArray();
+                int index = 0;
+                for (QJsonArray::iterator it = jsonArrayData.begin(); it != jsonArrayData.end(); it++){
+                    QJsonObject tmpJsonObject = it->toObject();
+                    if (tmpJsonObject["sId"].toString().toLower() == solutionDataJSON["session_id"].toString().toLower()){
+                        qDebug() << "[II] Found sId" << tmpJsonObject["sId"].toString();
+
+                        // Create modified body with answers
+                        QJsonArray tmpBody = tmpJsonObject["body"].toArray();
+
+                        qDebug() << "[II] tmpBody" << tmpBody;
+                        qDebug() << "[II] current question ID" << solutionDataJSON["question_id"].toString();
+
+                        // Check for exists answer for current question
+                        bool skip = false;
+                        for (QJsonArray::iterator itX = tmpBody.begin(); itX != tmpBody.end(); itX++){
+                            QJsonObject tmpJsonObjectX = itX->toObject();
+                            if (tmpJsonObjectX["qId"].toString().toLower() == solutionDataJSON["question_id"].toString().toLower()){
+                                skip = true;
+                                qDebug() << "[II] Question was done before. Skip it";
+                            }
+                        }
+
+                        if (!skip){
+                            qDebug() << "[II] Add answer";
+
+                            // Element of user answer array (qId and selected answers)
+                            QJsonValue preparedUserAnswer(prepareAnswerToWrite(solutionDataJSON)["body"].toArray().first());
+                            // qDebug() << "Prepare: " << preparedUserAnswer;
+
+                            QJsonArray tmpBodyNext(tmpJsonObject["body"].toArray());
+                            tmpBodyNext.append(preparedUserAnswer);
+
+                            tmpJsonObject["body"] = tmpBodyNext;
+                            jsonArrayData.replace(index, tmpJsonObject);
+                        }
+
+                    }
+                    index++;
+                }
+                solutions["Answers"] = jsonArrayData;
+                // qDebug() << "[ > ] solutions:" << solutions;
+
+                if (mAnswersJsonFile.open(QIODevice::WriteOnly | QIODevice::Text)){
+                    mAnswersJsonFile.write(QJsonDocument(solutions).toJson());
+                    mAnswersJsonFile.close();
+                    res = true;
+                }
+                else {
+                    qDebug() << "[*] При записи файла " << mAnswersJsonName << "возникла ошибка" << jsonParseError.errorString();
+                }
+
+            }
         }
         else {
             qDebug() << "[*] Парсинг файла" << mAnswersJsonName << "вызвал ошибку" << jsonParseError.errorString();
         }
     }
     else{
-        qDebug() << "[*] Ошибка чтения файла данных" << mAnswersJsonName;
+        qDebug() << "[*] Create new file"  << mAnswersJsonName << "and write first solution data ";
         // Create new file and write first solution data
 
-        // Container for all solutions
+        // Container for all next solutions
         QJsonArray solutionsArray;
-
-        // First level key
-         // sId:
-         // name: session identifier
-        //  type: string
-        QJsonObject solutionLevelOne;
-        solutionLevelOne["sId"] = solutionDataJSON["session_id"];
-
-        // First level key
-        // body:
-        //  name: solution body
-        //  type: array
-        QJsonArray body;
-
-        // Second level key
-        // qId
-        //  name: question identifier
-        //  type: string
-        QJsonObject solutionLevelTwo;
-        solutionLevelTwo["qId"] = solutionDataJSON["question_id"];
-
-        // Second level key
-        // answers <<selected answers>>
-        //  name: users answers
-        //  type: array
-        QJsonArray userAnswers = solutionDataJSON["answers"].toArray();
-        solutionLevelTwo["answers"] = userAnswers;
-
-        // Fill first level key "body"
-        body.append(solutionLevelTwo);
-
-        // Set first level key "body" from array "body"
-        solutionLevelOne["body"] = body;
-
-        solutionsArray.append(solutionLevelOne);
+        QJsonObject currentSolution;
+        currentSolution = prepareAnswerToWrite(solutionDataJSON);
+        solutionsArray.append(currentSolution);
 
         solutions["Answers"] = solutionsArray;
-        qDebug() << solutions;
+        // qDebug() << "[ > ] solutions:" << solutions;
 
         if (mAnswersJsonFile.open(QIODevice::WriteOnly | QIODevice::Text)){
             mAnswersJsonFile.write(QJsonDocument(solutions).toJson());
@@ -380,6 +420,87 @@ bool DataManager::addAnswerToFile(const QJsonObject& solutionDataJSON){
     }
     return res;
 }
+
+QJsonObject DataManager::prepareAnswerToWrite(const QJsonObject& solutionDataJSON){
+    // First level key
+    // sId:
+    // name: session identifier
+    //  type: string
+    QJsonObject solutionLevelOne;
+    solutionLevelOne["sId"] = solutionDataJSON["session_id"];
+
+    // First level key
+    // body:
+    //  name: solution body
+    //  type: array
+    QJsonArray body;
+
+    // Second level key
+    // qId
+    //  name: question identifier
+    //  type: string
+    QJsonObject solutionLevelTwo;
+    solutionLevelTwo["qId"] = solutionDataJSON["question_id"];
+
+    // Second level key
+    // answers <<selected answers>>
+    //  name: users answers
+    //  type: array
+    QJsonArray userAnswers = solutionDataJSON["answers"].toArray();
+    solutionLevelTwo["answers"] = userAnswers;
+
+    // Fill first level key "body"
+    body.append(solutionLevelTwo);
+
+    // Set first level key "body" from array "body"
+    solutionLevelOne["body"] = body;
+
+    return solutionLevelOne;
+}
+
+QJsonArray DataManager::getAllAnswers(){
+    QJsonDocument   jsonData;
+    QJsonArray      jsonArrayData;
+    QJsonParseError jsonParseError;
+
+    if (mAnswersJsonFile.open(QIODevice::ReadOnly | QIODevice::Text)){
+        jsonData = QJsonDocument::fromJson(QByteArray(mAnswersJsonFile.readAll()), &jsonParseError);
+        mAnswersJsonFile.close();
+
+        if (jsonParseError.error == QJsonParseError::NoError){
+            jsonArrayData = QJsonValue(jsonData.object().value("Answers")).toArray();
+        }
+        else {
+            qDebug() << "[*] Парсинг файла" << mAnswersJsonName << "вызвал ошибку" << jsonParseError.errorString();
+            jsonArrayData = QJsonArray();
+        }
+    }
+    else{
+        qDebug() << "[*] Ошибка чтения файла данных" << mAnswersJsonName;
+        jsonArrayData = QJsonArray();
+    }
+
+    return jsonArrayData;
+}
+
+bool DataManager::isAnswerSessionExists(const QString& session_id){
+    bool res = false;
+
+    QJsonArray answersJsonArrayData(getAllAnswers());
+
+    QJsonObject tmpJsonObject;
+    for (QJsonArray::iterator it = answersJsonArrayData.begin(); it != answersJsonArrayData.end(); it++){
+        tmpJsonObject = it->toObject();
+        qDebug() << tmpJsonObject;
+        if (tmpJsonObject["sId"].toString().toLower() == session_id.toLower()){
+            qDebug() << "[II] Session exists";
+            res = true;
+        }
+    }
+
+    return res;
+}
+
 
 // Pattern singletone
 DataManager* DataManager::getInstance(){
