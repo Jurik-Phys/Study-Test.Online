@@ -228,27 +228,10 @@ bool DataManager::addSessionToFile(const QJsonObject& newSessionJSON){
 }
 
 QJsonObject DataManager::getSession(const QString& sessionId){
-    QJsonDocument   jsonData;
-    QJsonParseError jsonParseError;
     QJsonArray      jsonArrayData;
     QJsonObject     outJsonData;
 
-    if (mSessionsJsonFile.open(QIODevice::ReadOnly | QIODevice::Text)){
-        jsonData = QJsonDocument::fromJson(QByteArray(mSessionsJsonFile.readAll()), &jsonParseError);
-        mSessionsJsonFile.close();
-
-        if (jsonParseError.error == QJsonParseError::NoError){
-            jsonArrayData = QJsonValue(jsonData.object().value("Sessions")).toArray();
-        }
-        else {
-            qDebug() << "[*] Парсинг файла" << mSessionsJsonName << "вызвал ошибку" << jsonParseError.errorString();
-            jsonArrayData = QJsonArray();
-        }
-    }
-    else{
-        qDebug() << "[*] Ошибка чтения файла данных" << mSessionsJsonName;
-        jsonArrayData = QJsonArray();
-    }
+    jsonArrayData = getAllSessions();
 
     // Output json after "id filter"
     for (QJsonArray::iterator it = jsonArrayData.begin(); it !=  jsonArrayData.end(); it++){
@@ -340,6 +323,7 @@ bool DataManager::addAnswerToFile(const QJsonObject& solutionDataJSON){
 
                 QJsonArray jsonArrayData = QJsonValue(jsonData.object().value("Answers")).toArray();
                 int index = 0;
+                bool skipAddAnswer = false;
                 for (QJsonArray::iterator it = jsonArrayData.begin(); it != jsonArrayData.end(); it++){
                     QJsonObject tmpJsonObject = it->toObject();
                     if (tmpJsonObject["sId"].toString().toLower() == solutionDataJSON["session_id"].toString().toLower()){
@@ -352,16 +336,15 @@ bool DataManager::addAnswerToFile(const QJsonObject& solutionDataJSON){
                         qDebug() << "[II] current question ID" << solutionDataJSON["question_id"].toString();
 
                         // Check for exists answer for current question
-                        bool skip = false;
                         for (QJsonArray::iterator itX = tmpBody.begin(); itX != tmpBody.end(); itX++){
                             QJsonObject tmpJsonObjectX = itX->toObject();
                             if (tmpJsonObjectX["qId"].toString().toLower() == solutionDataJSON["question_id"].toString().toLower()){
-                                skip = true;
+                                skipAddAnswer = true;
                                 qDebug() << "[II] Question was done before. Skip it";
                             }
                         }
 
-                        if (!skip){
+                        if (!skipAddAnswer){
                             qDebug() << "[II] Add answer";
 
                             // Element of user answer array (qId and selected answers)
@@ -381,15 +364,16 @@ bool DataManager::addAnswerToFile(const QJsonObject& solutionDataJSON){
                 solutions["Answers"] = jsonArrayData;
                 // qDebug() << "[ > ] solutions:" << solutions;
 
-                if (mAnswersJsonFile.open(QIODevice::WriteOnly | QIODevice::Text)){
-                    mAnswersJsonFile.write(QJsonDocument(solutions).toJson());
-                    mAnswersJsonFile.close();
-                    res = true;
+                if (skipAddAnswer != true){
+                    if (mAnswersJsonFile.open(QIODevice::WriteOnly | QIODevice::Text)){
+                        mAnswersJsonFile.write(QJsonDocument(solutions).toJson());
+                        mAnswersJsonFile.close();
+                        res = true;
+                    }
+                    else {
+                        qDebug() << "[*] При записи файла " << mAnswersJsonName << "возникла ошибка" << jsonParseError.errorString();
+                    }
                 }
-                else {
-                    qDebug() << "[*] При записи файла " << mAnswersJsonName << "возникла ошибка" << jsonParseError.errorString();
-                }
-
             }
         }
         else {
@@ -501,6 +485,30 @@ bool DataManager::isAnswerSessionExists(const QString& session_id){
     return res;
 }
 
+QJsonArray DataManager::getAllSessions(){
+    QJsonParseError jsonParseError;
+    QJsonArray      jsonArrayData;
+    QJsonDocument   jsonData;
+
+    if (mSessionsJsonFile.open(QIODevice::ReadOnly | QIODevice::Text)){
+        jsonData = QJsonDocument::fromJson(QByteArray(mSessionsJsonFile.readAll()), &jsonParseError);
+        mSessionsJsonFile.close();
+
+        if (jsonParseError.error == QJsonParseError::NoError){
+            jsonArrayData = QJsonValue(jsonData.object().value("Sessions")).toArray();
+        }
+        else {
+            qDebug() << "[*] Парсинг файла" << mSessionsJsonName << "вызвал ошибку" << jsonParseError.errorString();
+            jsonArrayData = QJsonArray();
+        }
+    }
+    else{
+        qDebug() << "[*] Ошибка чтения файла данных" << mSessionsJsonName;
+        jsonArrayData = QJsonArray();
+    }
+
+    return jsonArrayData;
+}
 
 // Pattern singletone
 DataManager* DataManager::getInstance(){

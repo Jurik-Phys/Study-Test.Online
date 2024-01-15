@@ -110,18 +110,28 @@ bool TestManager::checkAnswer(const QJsonObject answerData){
             res = true;
         }
         else {
-            qDebug() << "[EE] Session" << answerData["session_id"] << "closed. Break answer";
+            qDebug() << "[EE] Answer Error. Session" << answerData["session_id"] << "closed. Break answer";
             res = false;
         }
     }
     else {
-        qDebug() << "[EE] User session" << answerData["session_id"] << "doesn't exist";
+        qDebug() << "[EE] Answer Error.  User session" << answerData["session_id"] << "doesn't exist";
         res = false;
     }
 
     return res;
 }
 
+bool TestManager::markQuestionAsDone(const QJsonObject answer){
+    bool res = false;
+    QJsonArray allSessionsDataA(mDataManager->getAllSessions());
+
+    qDebug() << "[ markQuestionAsDone ]";
+    qDebug() << "[ question_id ]" << answer["question_id"];
+    qDebug() << "[ session_id ]" << answer["session_id"];
+
+    return res;
+}
 
 
 // Pattern singletone

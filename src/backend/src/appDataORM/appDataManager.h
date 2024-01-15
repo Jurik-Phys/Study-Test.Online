@@ -14,6 +14,7 @@ class DataManager {
         // Pattern singletone
         static DataManager* getInstance();
 
+        QJsonArray  getAllSessions();
         QJsonObject getSession(const QString&);
         QJsonObject getQuestion(const QString&);
         QJsonArray getAllChallenges();

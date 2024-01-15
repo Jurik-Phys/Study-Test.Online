@@ -29,6 +29,7 @@ class TestManager {
         OpenAPI::OAIQuestion getNextQuestion(const QString&);
 
         bool checkAnswer(const QJsonObject);
+        bool markQuestionAsDone(const QJsonObject);
 
     private:
         // Pattern singletone
