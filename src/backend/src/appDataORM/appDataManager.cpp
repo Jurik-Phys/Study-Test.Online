@@ -4,7 +4,7 @@
 #include <QDebug>
 
 DataManager::DataManager(){
-    qDebug() << "[*] DataManager was created";
+    // qDebug() << "[*] DataManager was created";
     mChallengesJsonName = "challengs.json";
     mChallengesJsonFile.setFileName(mChallengesJsonName);
 

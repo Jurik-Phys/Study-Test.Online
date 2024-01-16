@@ -2,9 +2,9 @@
 #ifndef BACK_APP_QT_TEST_H
 #define BACK_APP_QT_TEST_H 1
 
-// #include <QtCore>
 #include <QtTest>
 #include <QtDebug>
+#include "./../src/appDataORM/appDataManager.h"
 
 class BackAppQtTest : public QObject
 {
@@ -13,7 +13,7 @@ class BackAppQtTest : public QObject
     private slots:
        void testOne();
        void testTwo();
-       void testThree();
+       void appDataManagerGetSessionQtTest();
 };
 
 #endif

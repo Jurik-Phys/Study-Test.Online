@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDART 14)
 
 find_package(Qt5Test REQUIRED)
 
-set(SOURCE_EXE backAppQtTest.cpp)
+set(SOURCE_EXE backAppQtTest.cpp ./../src/appDataORM/appDataManager.cpp)
 
 add_executable(backAppQtTest ${SOURCE_EXE})
 

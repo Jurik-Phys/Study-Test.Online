@@ -6,7 +6,7 @@
 
 TestManager::TestManager(){
     // Constructor stub
-    qDebug() << "[*] TestManager was created";
+    // qDebug() << "[*] TestManager was created";
     mDataManager = DataManager::getInstance();
     QRandomGenerator::system()->generate();
 }
