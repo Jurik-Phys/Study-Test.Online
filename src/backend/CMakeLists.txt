@@ -14,4 +14,7 @@ ExternalProject_Add(QHTTPENGINE
 include_directories(${EXTERNAL_INSTALL_LOCATION}/include)
 link_directories(${EXTERNAL_INSTALL_LOCATION}/lib)
 
+include_directories(tests)
+add_subdirectory(tests)
+
 add_subdirectory(src)
