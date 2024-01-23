@@ -27,8 +27,8 @@ OAIChallengesAdministratorApiHandler::OAIChallengesAdministratorApiHandler(){
 }
 
 OAIChallengesAdministratorApiHandler::~OAIChallengesAdministratorApiHandler(){
-    delete mTestManager;
-    delete mDataManager;
+    // delete mTestManager;
+    // delete mDataManager;
 }
 
 void OAIChallengesAdministratorApiHandler::addChallenge(OAIChallenge oai_challenge) {

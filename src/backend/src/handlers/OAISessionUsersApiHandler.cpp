@@ -29,7 +29,8 @@ OAISessionUsersApiHandler::OAISessionUsersApiHandler(){
 }
 
 OAISessionUsersApiHandler::~OAISessionUsersApiHandler(){
-    delete mTestManager;
+    // delete mTestManager;
+    // delete mDataManager;
 }
 
 void OAISessionUsersApiHandler::getQuestionBySessionID(QString session_id) {

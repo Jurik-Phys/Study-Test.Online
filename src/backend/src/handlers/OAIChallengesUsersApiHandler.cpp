@@ -26,8 +26,8 @@ OAIChallengesUsersApiHandler::OAIChallengesUsersApiHandler(){
 }
 
 OAIChallengesUsersApiHandler::~OAIChallengesUsersApiHandler(){
-    delete mTestManager;
-    delete mDataManager;
+    // delete mTestManager;
+    // delete mDataManager;
 }
 
 void OAIChallengesUsersApiHandler::getAllChallenges() {
