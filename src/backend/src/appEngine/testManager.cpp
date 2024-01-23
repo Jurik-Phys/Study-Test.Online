@@ -69,12 +69,10 @@ OpenAPI::OAIQuestion TestManager::getNextQuestion(const QString& sessionId){
     int randomQuestionId = QRandomGenerator::system()->bounded(nextQuestionArraySize);
     QString nextQuestionsGid = sessionJsonData["nextQuestionsId"].toArray()[randomQuestionId].toString();
     QJsonObject nextQuestionData = mDataManager->getQuestion(nextQuestionsGid);
-    qDebug() << QString::fromUtf8(QJsonDocument(nextQuestionData).toJson());
 
     OpenAPI::OAIQuestion res;
     res.fromJsonObject(nextQuestionData);
 
-    // OpenAPI::OAIQuestion res(QString::fromUtf8(QJsonDocument(nextQuestionData).toJson()));
     return res;
 }
 
@@ -126,10 +124,42 @@ bool TestManager::markQuestionAsDone(const QJsonObject answer){
     bool res = false;
     QJsonArray allSessionsDataA(mDataManager->getAllSessions());
 
-    qDebug() << "[ markQuestionAsDone ]";
-    qDebug() << "[ question_id ]" << answer["question_id"];
-    qDebug() << "[ session_id ]" << answer["session_id"];
+    qDebug() << "[II] > markQuestionAsDone > ";
 
+    for (int sIdx = 0; sIdx < allSessionsDataA.size(); sIdx++){
+        QJsonObject tempSessionJsonObject = allSessionsDataA[sIdx].toObject();
+        if (tempSessionJsonObject["id"].toString().toLower() == answer["session_id"].toString().toLower()){
+            QJsonArray tmpNextQuestionsIdArray(tempSessionJsonObject["nextQuestionsId"].toArray());
+            QJsonArray tmpPrevQuestionsIdArray(tempSessionJsonObject["prevQuestionsId"].toArray());
+            qDebug() << "[II] >> Before changes << ";
+            qDebug() << "Session ID: "           << allSessionsDataA[sIdx].toObject()["id"];
+            qDebug() << "Next Questions Array: " << allSessionsDataA[sIdx].toObject()["nextQuestionsId"];
+            qDebug() << "Prev Questions Array: " << allSessionsDataA[sIdx].toObject()["prevQuestionsId"];
+            for (int idx = 0; idx < tmpNextQuestionsIdArray.size(); idx++){
+                if (tmpNextQuestionsIdArray[idx] == answer["question_id"]){
+                    // remove question from "Next Questions"
+                    tmpNextQuestionsIdArray.removeAt(idx);
+                    tempSessionJsonObject["nextQuestionsId"] = tmpNextQuestionsIdArray;
+
+                    // insert question to "Previous Questions"
+                    tmpPrevQuestionsIdArray.append(answer["question_id"]);
+                    tempSessionJsonObject["prevQuestionsId"] = tmpPrevQuestionsIdArray;
+                    break;
+                }
+            }
+            allSessionsDataA[sIdx] = tempSessionJsonObject;
+            qDebug() << "[II] >> After changes << ";
+            qDebug() << "Session ID: "           << allSessionsDataA[sIdx].toObject()["id"];
+            qDebug() << "Next Questions Array: " << allSessionsDataA[sIdx].toObject()["nextQuestionsId"];
+            qDebug() << "Prev Questions Array: " << allSessionsDataA[sIdx].toObject()["prevQuestionsId"];
+
+            QJsonObject sessionsJsonObj;
+            sessionsJsonObj["Sessions"] = allSessionsDataA;
+            mDataManager->putAllSessionsToFile(sessionsJsonObj);
+            res = true;
+            break;
+        }
+    }
     return res;
 }
 

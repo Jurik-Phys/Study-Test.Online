@@ -227,6 +227,27 @@ bool DataManager::addSessionToFile(const QJsonObject& newSessionJSON){
     return res;
 }
 
+bool DataManager::putAllSessionsToFile(const QJsonObject& sessionsJsonObj){
+    bool res = false;
+    QJsonParseError jsonParseError;
+
+    // Open file for write sessions data
+    if (mSessionsJsonFile.open(QIODevice::WriteOnly | QIODevice::Text)){
+        if (jsonParseError.error == QJsonParseError::NoError){
+            mSessionsJsonFile.write(QJsonDocument(sessionsJsonObj).toJson());
+            mSessionsJsonFile.close();
+            qDebug() << "[II] Modified session write successfully";
+            res = true;
+        }
+    }
+    else {
+        qDebug() << "[*] При записи файла " << mSessionsJsonName << "возникла ошибка" << jsonParseError.errorString();
+        mSessionsJsonFile.close();
+    }
+
+    return res;
+};
+
 QJsonObject DataManager::getSession(const QString& sessionId){
     QJsonArray      jsonArrayData;
     QJsonObject     outJsonData;
@@ -332,7 +353,6 @@ bool DataManager::addAnswerToFile(const QJsonObject& solutionDataJSON){
                         // Create modified body with answers
                         QJsonArray tmpBody = tmpJsonObject["body"].toArray();
 
-                        qDebug() << "[II] tmpBody" << tmpBody;
                         qDebug() << "[II] current question ID" << solutionDataJSON["question_id"].toString();
 
                         // Check for exists answer for current question

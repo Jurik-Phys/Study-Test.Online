@@ -23,6 +23,7 @@ class DataManager {
         bool       addChallengeToFile(const QJsonObject&);
         bool       delChallengeFromFile(const QString&);
         bool       addSessionToFile(const QJsonObject&);
+        bool       putAllSessionsToFile(const QJsonObject&);
         bool       addAnswerToFile(const QJsonObject&);
 
     private:

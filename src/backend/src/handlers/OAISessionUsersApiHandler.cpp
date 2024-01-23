@@ -38,7 +38,6 @@ void OAISessionUsersApiHandler::getQuestionBySessionID(QString session_id) {
     if( reqObj != nullptr )
     {
         OAIQuestion res(mTestManager->getNextQuestion(session_id));
-        qDebug() << res.asJson();
         reqObj->getQuestionBySessionIDResponse(res);
     }
 }
@@ -56,8 +55,7 @@ void OAISessionUsersApiHandler::pushAnswer(OAIPushAnswer_request oai_push_answer
     auto reqObj = qobject_cast<OAISessionUsersApiRequest*>(sender());
     if( reqObj != nullptr )
     {
-        qDebug() << "Push answer";
-        qDebug() << oai_push_answer_request.asJson();
+        qDebug() << "[II] Push answer";
         if (mTestManager->checkAnswer(oai_push_answer_request.asJsonObject())){
             if (mDataManager->addAnswerToFile(oai_push_answer_request.asJsonObject())){
                 qDebug() << "[II] Answer was processed";
