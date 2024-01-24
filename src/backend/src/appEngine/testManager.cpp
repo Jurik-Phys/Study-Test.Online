@@ -42,6 +42,7 @@ QString TestManager::createSession(const QString& challengeId){
         testInfo["section"]         = challengeJsonDoc["section"];
         testInfo["subsection"]      = challengeJsonDoc["subsection"];
         testInfo["testAnnotation"]  = challengeJsonDoc["testAnnotation"];
+        testInfo["doneQuestions"]   = 0;
         testSessionInfo["testInfo"] = testInfo;
 
         // Session private data
@@ -144,6 +145,9 @@ bool TestManager::markQuestionAsDone(const QJsonObject answer){
                     // insert question to "Previous Questions"
                     tmpPrevQuestionsIdArray.append(answer["question_id"]);
                     tempSessionJsonObject["prevQuestionsId"] = tmpPrevQuestionsIdArray;
+
+                    // TODO set count of done questions
+
                     break;
                 }
             }
