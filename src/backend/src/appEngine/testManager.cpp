@@ -147,8 +147,10 @@ bool TestManager::markQuestionAsDone(const QJsonObject answer){
                     tmpPrevQuestionsIdArray.append(answer["question_id"]);
                     tempSessionJsonObject["prevQuestionsId"] = tmpPrevQuestionsIdArray;
 
-                    // TODO set count of done questions
-
+                    // Increase done questions count
+                    QJsonObject tmpTestInfo(tempSessionJsonObject["testInfo"].toObject());
+                    tmpTestInfo["doneQuestions"] = tmpTestInfo["doneQuestions"].toInt() + 1;
+                    tempSessionJsonObject["testInfo"] = tmpTestInfo;
                     break;
                 }
             }
@@ -157,6 +159,7 @@ bool TestManager::markQuestionAsDone(const QJsonObject answer){
             qDebug() << "Session ID: "           << allSessionsDataA[sIdx].toObject()["id"];
             qDebug() << "Next Questions Array: " << allSessionsDataA[sIdx].toObject()["nextQuestionsId"];
             qDebug() << "Prev Questions Array: " << allSessionsDataA[sIdx].toObject()["prevQuestionsId"];
+            qDebug() << "Session TestInfo:     " << allSessionsDataA[sIdx].toObject()["testInfo"];
 
             QJsonObject sessionsJsonObj;
             sessionsJsonObj["Sessions"] = allSessionsDataA;
