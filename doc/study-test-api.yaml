@@ -381,7 +381,7 @@ components:
         testInfo:
           type: object
           properties:
-            totalQuestion:
+            totalQuestions:
               type: number
               example: 25
             testType:

@@ -47,7 +47,7 @@ void BackAppQtTest::appDataManagerGetSessionQtTest(){
     subSect.append("Раздел 3. Основы производственной санитарии");
     tstInfo["subsection"] = subSect;
     tstInfo["testType"] = QJsonValue("education");
-    tstInfo["totalQuestion"] = QJsonValue(68);
+    tstInfo["totalQuestions"] = QJsonValue(68);
     modlSession["testInfo"] = tstInfo;
     QJsonObject usrInfo;
     usrInfo["group"] = QJsonValue("Some group of people");

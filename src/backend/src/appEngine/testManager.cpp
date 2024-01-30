@@ -38,7 +38,7 @@ QString TestManager::createSession(const QString& challengeId){
         testSessionInfo["userInfo"] = userInfo;
 
         QJsonObject testInfo;
-        testInfo["totalQuestion"]   = challengeJsonDoc["qIDs"].toArray().size();
+        testInfo["totalQuestions"]  = challengeJsonDoc["qIDs"].toArray().size();
         testInfo["testType"]        = challengeJsonDoc["testType"];
         testInfo["section"]         = challengeJsonDoc["section"];
         testInfo["subsection"]      = challengeJsonDoc["subsection"];
@@ -151,12 +151,25 @@ bool TestManager::markQuestionAsDone(const QJsonObject answer){
                     QJsonObject tmpTestInfo(tempSessionJsonObject["testInfo"].toObject());
                     tmpTestInfo["doneQuestions"] = tmpTestInfo["doneQuestions"].toInt() + 1;
                     tempSessionJsonObject["testInfo"] = tmpTestInfo;
+
+                    // Check session status. Pending or completed
+                    int totalQuestions = tmpTestInfo["totalQuestions"].toInt();
+                    int doneQuestions  = tmpTestInfo["doneQuestions"].toInt();
+                    qDebug() << "[II] totalQuestions:" << totalQuestions;
+                    if (totalQuestions == doneQuestions){
+                        qDebug() << "[II] << Completed >> doneQuestions:" << doneQuestions;
+                        tempSessionJsonObject["status"] = "Completed";
+                        qDebug() << "[II] doneQuestions:" << doneQuestions;
+                    }
+                        qDebug() << "[II] doneQuestions:" << doneQuestions;
+
                     break;
                 }
             }
             allSessionsDataA[sIdx] = tempSessionJsonObject;
             qDebug() << "[II] >> After changes << ";
-            qDebug() << "Session ID: "           << allSessionsDataA[sIdx].toObject()["id"];
+            qDebug() << "Session ID:           " << allSessionsDataA[sIdx].toObject()["id"];
+            qDebug() << "Session status:       " << allSessionsDataA[sIdx].toObject()["status"];
             qDebug() << "Next Questions Array: " << allSessionsDataA[sIdx].toObject()["nextQuestionsId"];
             qDebug() << "Prev Questions Array: " << allSessionsDataA[sIdx].toObject()["prevQuestionsId"];
             qDebug() << "Session TestInfo:     " << allSessionsDataA[sIdx].toObject()["testInfo"];

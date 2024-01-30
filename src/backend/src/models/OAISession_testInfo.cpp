@@ -64,8 +64,8 @@ void OAISession_testInfo::fromJson(QString jsonString) {
 
 void OAISession_testInfo::fromJsonObject(QJsonObject json) {
 
-    m_total_question_isValid = ::OpenAPI::fromJsonValue(total_question, json[QString("totalQuestion")]);
-    m_total_question_isSet = !json[QString("totalQuestion")].isNull() && m_total_question_isValid;
+    m_total_question_isValid = ::OpenAPI::fromJsonValue(total_question, json[QString("totalQuestions")]);
+    m_total_question_isSet = !json[QString("totalQuestions")].isNull() && m_total_question_isValid;
 
     m_test_type_isValid = ::OpenAPI::fromJsonValue(test_type, json[QString("testType")]);
     m_test_type_isSet = !json[QString("testType")].isNull() && m_test_type_isValid;
@@ -96,7 +96,7 @@ QString OAISession_testInfo::asJson() const {
 QJsonObject OAISession_testInfo::asJsonObject() const {
     QJsonObject obj;
     if (m_total_question_isSet) {
-        obj.insert(QString("totalQuestion"), ::OpenAPI::toJsonValue(total_question));
+        obj.insert(QString("totalQuestions"), ::OpenAPI::toJsonValue(total_question));
     }
     if (m_test_type_isSet) {
         obj.insert(QString("testType"), ::OpenAPI::toJsonValue(test_type));
