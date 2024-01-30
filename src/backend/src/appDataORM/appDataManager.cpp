@@ -106,14 +106,12 @@ bool DataManager::addChallengeToFile(const QJsonObject& newChallengeJSON){
             jsonData = QJsonDocument(updJsonObj);
 
             if (mChallengesJsonFile.open(QIODevice::WriteOnly | QIODevice::Text)){
-                if (jsonParseError.error == QJsonParseError::NoError){
-                    mChallengesJsonFile.write(jsonData.toJson());
-                    mChallengesJsonFile.close();
-                    res = true;
-                }
+                mChallengesJsonFile.write(jsonData.toJson());
+                mChallengesJsonFile.close();
+                res = true;
             }
             else {
-                qDebug() << "[*] При записи файла " << mChallengesJsonName << "возникла ошибка" << jsonParseError.errorString();
+                qDebug() << "[*] При записи файла " << mChallengesJsonName << "возникла ошибка";
             }
         }
         else {
@@ -152,13 +150,11 @@ bool DataManager::delChallengeFromFile(const QString& rmID){
             jsonData = QJsonDocument(updJsonObj);
 
             if (mChallengesJsonFile.open(QIODevice::WriteOnly | QIODevice::Text)){
-                if (jsonParseError.error == QJsonParseError::NoError){
-                    mChallengesJsonFile.write(jsonData.toJson());
-                    mChallengesJsonFile.close();
-                }
+                mChallengesJsonFile.write(jsonData.toJson());
+                mChallengesJsonFile.close();
             }
             else {
-                qDebug() << "[*] При записи файла " << mChallengesJsonName << "возникла ошибка" << jsonParseError.errorString();
+                qDebug() << "[*] При записи файла " << mChallengesJsonName << "возникла ошибка";
             }
         }
         else {
@@ -188,14 +184,12 @@ bool DataManager::addSessionToFile(const QJsonObject& newSessionJSON){
             jsonData = QJsonDocument(updJsonObj);
 
             if (mSessionsJsonFile.open(QIODevice::WriteOnly | QIODevice::Text)){
-                if (jsonParseError.error == QJsonParseError::NoError){
-                    mSessionsJsonFile.write(jsonData.toJson());
-                    mSessionsJsonFile.close();
-                    res = true;
-                }
+                mSessionsJsonFile.write(jsonData.toJson());
+                mSessionsJsonFile.close();
+                res = true;
             }
             else {
-                qDebug() << "[*] При записи файла " << mSessionsJsonName << "возникла ошибка" << jsonParseError.errorString();
+                qDebug() << "[*] При записи файла " << mSessionsJsonName << "возникла ошибка";
                 mSessionsJsonFile.close();
             }
         }
@@ -206,21 +200,18 @@ bool DataManager::addSessionToFile(const QJsonObject& newSessionJSON){
     }
     else{
         qDebug() << "[*] Ошибка чтения файла данных" << mSessionsJsonName;
-        mSessionsJsonFile.close();
 
         // Create new file and write new session data
         QJsonArray jsonArrayData;
         jsonArrayData.append(QJsonValue(newSessionJSON));
         updJsonObj["Sessions"] = jsonArrayData;
         if (mSessionsJsonFile.open(QIODevice::WriteOnly | QIODevice::Text)){
-            if (jsonParseError.error == QJsonParseError::NoError){
-                mSessionsJsonFile.write(QJsonDocument(updJsonObj).toJson());
-                mSessionsJsonFile.close();
-                res = true;
-            }
+            mSessionsJsonFile.write(QJsonDocument(updJsonObj).toJson());
+            mSessionsJsonFile.close();
+            res = true;
         }
         else {
-            qDebug() << "[*] При записи файла " << mSessionsJsonName << "возникла ошибка" << jsonParseError.errorString();
+            qDebug() << "[*] При записи файла " << mSessionsJsonName << "возникла ошибка";
             mSessionsJsonFile.close();
         }
     }

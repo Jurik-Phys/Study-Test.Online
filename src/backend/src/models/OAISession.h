@@ -45,6 +45,11 @@ public:
     bool is_id_Set() const;
     bool is_id_Valid() const;
 
+    QString getStatus() const;
+    void setStatus(const QString &status);
+    bool is_status_Set() const;
+    bool is_status_Valid() const;
+
     QString getBeginAt() const;
     void setBeginAt(const QString &begin_at);
     bool is_begin_at_Set() const;
@@ -79,6 +84,10 @@ private:
     QString id;
     bool m_id_isSet;
     bool m_id_isValid;
+
+    QString status;
+    bool m_status_isSet;
+    bool m_status_isValid;
 
     QString begin_at;
     bool m_begin_at_isSet;

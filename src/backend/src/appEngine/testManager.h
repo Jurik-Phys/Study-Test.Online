@@ -38,7 +38,7 @@ class TestManager {
         DataManager* mDataManager;
 
         bool isSessionExtists(const QString&);
-        bool isSessionOpens(const QString&);
+        bool isSessionPending(const QString&);
 };
 
 

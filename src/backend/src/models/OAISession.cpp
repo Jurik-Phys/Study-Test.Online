@@ -36,6 +36,9 @@ void OAISession::initializeModel() {
     m_id_isSet = false;
     m_id_isValid = false;
 
+    m_status_isSet = false;
+    m_status_isValid = false;
+
     m_begin_at_isSet = false;
     m_begin_at_isValid = false;
 
@@ -64,6 +67,9 @@ void OAISession::fromJsonObject(QJsonObject json) {
     m_id_isValid = ::OpenAPI::fromJsonValue(id, json[QString("id")]);
     m_id_isSet = !json[QString("id")].isNull() && m_id_isValid;
 
+    m_status_isValid = ::OpenAPI::fromJsonValue(status, json[QString("status")]);
+    m_status_isSet = !json[QString("status")].isNull() && m_status_isValid;
+
     m_begin_at_isValid = ::OpenAPI::fromJsonValue(begin_at, json[QString("beginAt")]);
     m_begin_at_isSet = !json[QString("beginAt")].isNull() && m_begin_at_isValid;
 
@@ -91,6 +97,9 @@ QJsonObject OAISession::asJsonObject() const {
     QJsonObject obj;
     if (m_id_isSet) {
         obj.insert(QString("id"), ::OpenAPI::toJsonValue(id));
+    }
+    if (m_status_isSet) {
+        obj.insert(QString("status"), ::OpenAPI::toJsonValue(status));
     }
     if (m_begin_at_isSet) {
         obj.insert(QString("beginAt"), ::OpenAPI::toJsonValue(begin_at));
@@ -124,6 +133,22 @@ bool OAISession::is_id_Set() const{
 
 bool OAISession::is_id_Valid() const{
     return m_id_isValid;
+}
+
+QString OAISession::getStatus() const {
+    return status;
+}
+void OAISession::setStatus(const QString &status) {
+    this->status = status;
+    this->m_status_isSet = true;
+}
+
+bool OAISession::is_status_Set() const{
+    return m_status_isSet;
+}
+
+bool OAISession::is_status_Valid() const{
+    return m_status_isValid;
 }
 
 QString OAISession::getBeginAt() const {
@@ -214,6 +239,11 @@ bool OAISession::isSet() const {
             break;
         }
 
+        if (m_status_isSet) {
+            isObjectUpdated = true;
+            break;
+        }
+
         if (m_begin_at_isSet) {
             isObjectUpdated = true;
             break;
@@ -244,7 +274,7 @@ bool OAISession::isSet() const {
 
 bool OAISession::isValid() const {
     // only required properties are required for the object to be considered valid
-    return m_id_isValid && m_begin_at_isValid && m_end_at_isValid && m_result_isValid && m_user_info_isValid && m_test_info_isValid && true;
+    return m_id_isValid && m_status_isValid && m_begin_at_isValid && m_end_at_isValid && m_result_isValid && m_user_info_isValid && m_test_info_isValid && true;
 }
 
 } // namespace OpenAPI

@@ -26,6 +26,7 @@ QString TestManager::createSession(const QString& challengeId){
 
         sessionId = QUuid::createUuid().toString(QUuid::WithoutBraces);
         testSessionInfo["id"]     = sessionId;
+        testSessionInfo["status"] = "Pending";
         testSessionInfo["beginAt"] = QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss");
         testSessionInfo["endAt"]   = "";
         testSessionInfo["result"]  = "";
@@ -88,11 +89,11 @@ bool TestManager::isSessionExtists(const QString& session_id){
     return res;
 }
 
-bool TestManager::isSessionOpens(const QString& session_id){
+bool TestManager::isSessionPending(const QString& session_id){
     bool res = false;
     QJsonObject sessionData(mDataManager->getSession(session_id));
 
-    if (sessionData["result"].toString() == "" ){
+    if (sessionData["status"].toString() == "Pending" ){
         res = true;
     }
 
@@ -105,11 +106,11 @@ bool TestManager::checkAnswer(const QJsonObject answerData){
 
     if (isSessionExtists(answerData["session_id"].toString())){
 
-        if (isSessionOpens(answerData["session_id"].toString())){
+        if (isSessionPending(answerData["session_id"].toString())){
             res = true;
         }
         else {
-            qDebug() << "[EE] Answer Error. Session" << answerData["session_id"] << "closed. Break answer";
+            qDebug() << "[EE] Answer Error. Session" << answerData["session_id"] << "completed. Break answer";
             res = false;
         }
     }

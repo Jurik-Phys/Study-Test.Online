@@ -344,6 +344,7 @@ components:
       type: object
       required:
         - id
+        - status
         - beginAt
         - endAt
         - result
@@ -353,6 +354,9 @@ components:
         id:
           type: string
           example: "221e67e4-28bc-4a0d-a6e3-4a72a1db255a"
+        status:
+          type: string
+          example: "'Pending'"
         beginAt:
           type: string
           example: "2012-04-23T18:25:43.511Z"
