@@ -16,10 +16,12 @@ class DataManager {
 
         QJsonArray  getAllSessions();
         QJsonObject getSession(const QString&);
+        QJsonArray  getAllQuestions();
         QJsonObject getQuestion(const QString&);
         QJsonArray getAllChallenges();
         QJsonArray getAllChallenges(const QString&);
-        QJsonArray getAllAnswers();
+        QJsonArray getAllSessionsAnswers();
+        QJsonArray getSessionAnswers(const QString&);
         bool       addChallengeToFile(const QJsonObject&);
         bool       delChallengeFromFile(const QString&);
         bool       addSessionToFile(const QJsonObject&);

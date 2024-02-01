@@ -256,34 +256,39 @@ QJsonObject DataManager::getSession(const QString& sessionId){
     return outJsonData;
 }
 
-QJsonObject DataManager::getQuestion(const QString& questionId){
+QJsonArray DataManager::getAllQuestions(){
+    QJsonArray res;
     QJsonDocument   jsonData;
     QJsonParseError jsonParseError;
-    QJsonArray      jsonArrayData;
-    QJsonObject     outJsonData;
 
     if (mQuestionsJsonFile.open(QIODevice::ReadOnly | QIODevice::Text)){
         jsonData = QJsonDocument::fromJson(QByteArray(mQuestionsJsonFile.readAll()), &jsonParseError);
         mQuestionsJsonFile.close();
 
         if (jsonParseError.error == QJsonParseError::NoError){
-            jsonArrayData = QJsonValue(jsonData.object().value("Questions")).toArray();
+            res = QJsonValue(jsonData.object().value("Questions")).toArray();
         }
         else {
             qDebug() << "[*] Парсинг файла" << mQuestionsJsonName << "вызвал ошибку" << jsonParseError.errorString();
-            jsonArrayData = QJsonArray();
+            res = QJsonArray();
         }
     }
     else{
         qDebug() << "[*] Ошибка чтения файла данных" << mQuestionsJsonName;
-        jsonArrayData = QJsonArray();
+        res = QJsonArray();
     }
+    return res;
+}
+
+QJsonObject DataManager::getQuestion(const QString& questionId){
+    QJsonArray      jsonArrayData;
+    QJsonObject     outJsonData;
+
+    jsonArrayData = getAllQuestions();
 
     // Output json after "id filter"
     for (QJsonArray::iterator it = jsonArrayData.begin(); it !=  jsonArrayData.end(); it++){
         QJsonObject tmpJsonObject = it->toObject();
-
-        // qDebug() << QString::fromUtf8(QJsonDocument(tmpJsonObject).toJson());
 
         if (tmpJsonObject.value("id").toString().toLower() == questionId.toLower()){
             outJsonData = tmpJsonObject;
@@ -292,6 +297,7 @@ QJsonObject DataManager::getQuestion(const QString& questionId){
 
     return outJsonData;
 }
+
 
 bool DataManager::addAnswerToFile(const QJsonObject& solutionDataJSON){
     QJsonDocument   jsonData;
@@ -307,12 +313,7 @@ bool DataManager::addAnswerToFile(const QJsonObject& solutionDataJSON){
         if (jsonParseError.error == QJsonParseError::NoError){
             QJsonArray jsonArrayData = QJsonValue(jsonData.object().value("Answers")).toArray();
 
-            qDebug() << "File " << mAnswersJsonName << "is exists and parsed";
-
             if (!isAnswerSessionExists(solutionDataJSON["session_id"].toString())){
-                // First answer from this session
-                qDebug() << "This answer is first from this session";
-
                 // Container for all next solutions
                 QJsonObject currentSolution;
                 currentSolution = prepareAnswerToWrite(solutionDataJSON);
@@ -331,8 +332,6 @@ bool DataManager::addAnswerToFile(const QJsonObject& solutionDataJSON){
                 }
             }
             else {
-                qDebug() << "This answer not first for this session";
-
                 QJsonArray jsonArrayData = QJsonValue(jsonData.object().value("Answers")).toArray();
                 int index = 0;
                 bool skipAddAnswer = false;
@@ -344,7 +343,7 @@ bool DataManager::addAnswerToFile(const QJsonObject& solutionDataJSON){
                         // Create modified body with answers
                         QJsonArray tmpBody = tmpJsonObject["body"].toArray();
 
-                        qDebug() << "[II] current question ID" << solutionDataJSON["question_id"].toString();
+                        qDebug() << "[II] Question ID" << solutionDataJSON["question_id"].toString();
 
                         // Check for exists answer for current question
                         for (QJsonArray::iterator itX = tmpBody.begin(); itX != tmpBody.end(); itX++){
@@ -356,7 +355,7 @@ bool DataManager::addAnswerToFile(const QJsonObject& solutionDataJSON){
                         }
 
                         if (!skipAddAnswer){
-                            qDebug() << "[II] Add answer";
+                            qDebug() << "[II] Add answer for question:" << solutionDataJSON["question_id"].toString();
 
                             // Element of user answer array (qId and selected answers)
                             QJsonValue preparedUserAnswer(prepareAnswerToWrite(solutionDataJSON)["body"].toArray().first());
@@ -453,9 +452,9 @@ QJsonObject DataManager::prepareAnswerToWrite(const QJsonObject& solutionDataJSO
     return solutionLevelOne;
 }
 
-QJsonArray DataManager::getAllAnswers(){
+QJsonArray DataManager::getAllSessionsAnswers(){
+    QJsonArray      res;
     QJsonDocument   jsonData;
-    QJsonArray      jsonArrayData;
     QJsonParseError jsonParseError;
 
     if (mAnswersJsonFile.open(QIODevice::ReadOnly | QIODevice::Text)){
@@ -463,30 +462,29 @@ QJsonArray DataManager::getAllAnswers(){
         mAnswersJsonFile.close();
 
         if (jsonParseError.error == QJsonParseError::NoError){
-            jsonArrayData = QJsonValue(jsonData.object().value("Answers")).toArray();
+            res = QJsonValue(jsonData.object().value("Answers")).toArray();
         }
         else {
             qDebug() << "[*] Парсинг файла" << mAnswersJsonName << "вызвал ошибку" << jsonParseError.errorString();
-            jsonArrayData = QJsonArray();
+            res = QJsonArray();
         }
     }
     else{
         qDebug() << "[*] Ошибка чтения файла данных" << mAnswersJsonName;
-        jsonArrayData = QJsonArray();
+        res = QJsonArray();
     }
 
-    return jsonArrayData;
+    return res;
 }
 
 bool DataManager::isAnswerSessionExists(const QString& session_id){
     bool res = false;
 
-    QJsonArray answersJsonArrayData(getAllAnswers());
+    QJsonArray answersJsonArrayData(getAllSessionsAnswers());
 
     QJsonObject tmpJsonObject;
     for (QJsonArray::iterator it = answersJsonArrayData.begin(); it != answersJsonArrayData.end(); it++){
         tmpJsonObject = it->toObject();
-        qDebug() << tmpJsonObject;
         if (tmpJsonObject["sId"].toString().toLower() == session_id.toLower()){
             qDebug() << "[II] Session exists";
             res = true;
@@ -519,6 +517,20 @@ QJsonArray DataManager::getAllSessions(){
     }
 
     return jsonArrayData;
+}
+
+QJsonArray DataManager::getSessionAnswers(const QString& sessionId){
+    QJsonArray res;
+    QJsonArray allAnswers(this->getAllSessionsAnswers());
+
+    for (QJsonArray::iterator it = allAnswers.begin(); it != allAnswers.end(); it++){
+        QJsonObject iAnswer = it->toObject();
+        if (iAnswer["sId"].toString().toLower() == sessionId.toLower()){
+            res = iAnswer["body"].toArray();
+        }
+    }
+
+    return res;
 }
 
 // Pattern singletone

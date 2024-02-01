@@ -39,6 +39,10 @@ class TestManager {
 
         bool isSessionExtists(const QString&);
         bool isSessionPending(const QString&);
+
+        QJsonValue getTestResults(const QJsonValue&, const QJsonArray&);
+        double checkSingleChoiceQuestion(const QJsonObject&, const QJsonObject&);
+        double checkMultipleChoiceQuestion(const QJsonObject&, const QJsonObject&);
 };
 
 

@@ -126,24 +126,19 @@ bool TestManager::markQuestionAsDone(const QJsonObject answer){
     bool res = false;
     QJsonArray allSessionsDataA(mDataManager->getAllSessions());
 
-    qDebug() << "[II] > markQuestionAsDone > ";
-
     for (int sIdx = 0; sIdx < allSessionsDataA.size(); sIdx++){
         QJsonObject tempSessionJsonObject = allSessionsDataA[sIdx].toObject();
         if (tempSessionJsonObject["id"].toString().toLower() == answer["session_id"].toString().toLower()){
             QJsonArray tmpNextQuestionsIdArray(tempSessionJsonObject["nextQuestionsId"].toArray());
             QJsonArray tmpPrevQuestionsIdArray(tempSessionJsonObject["prevQuestionsId"].toArray());
-            qDebug() << "[II] >> Before changes << ";
-            qDebug() << "Session ID: "           << allSessionsDataA[sIdx].toObject()["id"];
-            qDebug() << "Next Questions Array: " << allSessionsDataA[sIdx].toObject()["nextQuestionsId"];
-            qDebug() << "Prev Questions Array: " << allSessionsDataA[sIdx].toObject()["prevQuestionsId"];
+
             for (int idx = 0; idx < tmpNextQuestionsIdArray.size(); idx++){
                 if (tmpNextQuestionsIdArray[idx] == answer["question_id"]){
-                    // remove question from "Next Questions"
+                    // Remove question from "Next Questions"
                     tmpNextQuestionsIdArray.removeAt(idx);
                     tempSessionJsonObject["nextQuestionsId"] = tmpNextQuestionsIdArray;
 
-                    // insert question to "Previous Questions"
+                    // Insert question to "Previous Questions"
                     tmpPrevQuestionsIdArray.append(answer["question_id"]);
                     tempSessionJsonObject["prevQuestionsId"] = tmpPrevQuestionsIdArray;
 
@@ -155,27 +150,28 @@ bool TestManager::markQuestionAsDone(const QJsonObject answer){
                     // Check session status. Pending or completed
                     int totalQuestions = tmpTestInfo["totalQuestions"].toInt();
                     int doneQuestions  = tmpTestInfo["doneQuestions"].toInt();
-                    qDebug() << "[II] totalQuestions:" << totalQuestions;
                     if (totalQuestions == doneQuestions){
-                        qDebug() << "[II] << Completed >> doneQuestions:" << doneQuestions;
                         tempSessionJsonObject["status"] = "Completed";
-                        qDebug() << "[II] doneQuestions:" << doneQuestions;
-                    }
-                        qDebug() << "[II] doneQuestions:" << doneQuestions;
 
+                        // Calculating test result
+                        QJsonValue sessionId = answer["session_id"];
+                        QJsonArray questionsId = tempSessionJsonObject["prevQuestionsId"].toArray();
+                        QJsonValue testResult = getTestResults(sessionId, questionsId);
+                        tempSessionJsonObject["result"] = testResult;
+
+                        // Push "end time" to session data
+                        QDateTime currentDateTime = QDateTime::currentDateTime();
+                        QString strDateTime = currentDateTime.toString("yyyy-MM-dd hh:mm:ss");
+                        tempSessionJsonObject["endAt"] = QJsonValue(strDateTime);
+                    }
                     break;
                 }
             }
             allSessionsDataA[sIdx] = tempSessionJsonObject;
-            qDebug() << "[II] >> After changes << ";
-            qDebug() << "Session ID:           " << allSessionsDataA[sIdx].toObject()["id"];
-            qDebug() << "Session status:       " << allSessionsDataA[sIdx].toObject()["status"];
-            qDebug() << "Next Questions Array: " << allSessionsDataA[sIdx].toObject()["nextQuestionsId"];
-            qDebug() << "Prev Questions Array: " << allSessionsDataA[sIdx].toObject()["prevQuestionsId"];
-            qDebug() << "Session TestInfo:     " << allSessionsDataA[sIdx].toObject()["testInfo"];
 
             QJsonObject sessionsJsonObj;
             sessionsJsonObj["Sessions"] = allSessionsDataA;
+
             mDataManager->putAllSessionsToFile(sessionsJsonObj);
             res = true;
             break;
@@ -184,6 +180,126 @@ bool TestManager::markQuestionAsDone(const QJsonObject answer){
     return res;
 }
 
+QJsonValue TestManager::getTestResults(const QJsonValue& sessionId, const QJsonArray& questionsId){
+    double res;
+    double qCount;
+    // five-point scale
+    double scaleFactor = 5.0;
+
+    QString sId = sessionId.toString();
+    QJsonArray allQuestions;
+    QJsonArray doneAnswers;
+
+    allQuestions = mDataManager->getAllQuestions();
+    doneAnswers = mDataManager->getSessionAnswers(sId);
+
+    QJsonObject iAnswer, iQuestion;
+    for (QJsonArray::iterator itAns = doneAnswers.begin(); itAns != doneAnswers.end(); itAns++){
+        iAnswer = itAns->toObject();
+        QString answerQuestionId = iAnswer["qId"].toString().toLower();
+
+        for (QJsonArray::iterator itQuestion = allQuestions.begin(); itQuestion !=allQuestions.end(); itQuestion++){
+            iQuestion = itQuestion->toObject();
+            QString qQuestionId = iQuestion["id"].toString().toLower();
+
+            if (answerQuestionId == qQuestionId){
+                // Found done question in question db
+                QString qType = iQuestion["type"].toString().toLower();
+
+                // Single choice
+                if (qType == "single-choice"){
+                    res += this->checkSingleChoiceQuestion(iAnswer, iQuestion);
+                    break;
+                }
+
+                // Multiple choice
+                if (qType == "multiple-choice"){
+                    res += this->checkMultipleChoiceQuestion(iAnswer, iQuestion);
+                    break;
+                }
+            }
+        }
+    }
+
+    QJsonObject sessionInfo = mDataManager->getSession(sId);
+    qCount = sessionInfo["testInfo"].toObject()["totalQuestions"].toDouble();
+
+    res /= qCount;
+    res *= scaleFactor;
+    res = std::round(res * 10) / 10;
+
+    return QJsonValue(res);
+}
+
+double TestManager::checkSingleChoiceQuestion(const QJsonObject& iAnswer, const QJsonObject& iQuestion){
+    double res = 0.0;
+    QJsonArray uAnswers = iAnswer["answers"].toArray();
+    QJsonArray qAnswers = iQuestion["answers"].toArray();
+
+    // Get ID of first/singe answer for checked question
+    QJsonObject fAnswer = uAnswers.begin()->toObject();
+    QString fAnswerId = fAnswer["id"].toString().toLower();
+
+    for (QJsonArray::iterator qIt = qAnswers.begin(); qIt != qAnswers.end(); qIt++){
+        QJsonObject qAnswer = qIt->toObject();
+        QString qAnswerId = qAnswer["id"].toString().toLower();
+        if (qAnswerId == fAnswerId){
+            if (qAnswer["isRight"].toBool() == true){
+                // One ball for right single-choise question
+                res = 1.0;
+            }
+        }
+    }
+    return res;
+}
+
+double TestManager::checkMultipleChoiceQuestion(const QJsonObject& iAnswer, const QJsonObject& iQuestion){
+    double res = 0.0;
+    int rightAnswerCount = 0;
+    QJsonArray uAnswers = iAnswer["answers"].toArray();
+    QJsonArray qAnswers = iQuestion["answers"].toArray();
+
+    // Loop over user answers for current question
+    for (QJsonArray::iterator uIt = uAnswers.begin(); uIt != uAnswers.end(); uIt++){
+        QJsonObject uAnswer = uIt->toObject();
+        QString uAnswerId = uAnswer["id"].toString().toLower();
+
+        // Loop over question answers into question database
+        for (QJsonArray::iterator qIt = qAnswers.begin(); qIt != qAnswers.end(); qIt++){
+            QJsonObject qAnswer = qIt->toObject();
+            QString qAnswerId = qAnswer["id"].toString().toLower();
+            if (qAnswerId == uAnswerId){
+                if (qAnswer["isRight"].toBool() == true){
+                    // One ball for right single-choise question
+                    res += 1.0;
+                    break;
+                }
+                else {
+                    // User select unright answer
+                    res -= 1.0;
+                    break;
+                }
+            }
+        }
+    }
+
+    for (QJsonArray::iterator qIt = qAnswers.begin(); qIt != qAnswers.end(); qIt++){
+        QJsonObject qAnswer = qIt->toObject();
+        // Calculate all right answers
+        if (qAnswer["isRight"].toBool() == true){
+            rightAnswerCount += 1;
+        }
+    }
+
+    if (res < 0){
+        res = 0.0;
+    }
+    else {
+        res /= double(rightAnswerCount);
+    }
+
+    return res;
+}
 
 // Pattern singletone
 TestManager* TestManager::getInstance(){
