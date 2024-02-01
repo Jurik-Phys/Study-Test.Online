@@ -1,0 +1,34 @@
+{
+    "Sessions": [
+        {
+            "beginAt": "2024-01-30 22:54:29",
+            "endAt": "",
+            "id": "1fe0c82e-817a-4b4b-b68d-14bca476136c",
+            "nextQuestionsId": [
+            ],
+            "prevQuestionsId": [
+                "b1b9f887-2fd7-4a8d-8766-9ab4c7195be5",
+                "998a4fa5-e0af-4497-a4a9-35a9d9c6a0a5",
+                "b01d1aa0-4af6-4645-a34f-6acdebb2621b"
+            ],
+            "result": "",
+            "status": "Completed",
+            "testInfo": {
+                "doneQuestions": 3,
+                "section": "Безопасность жизнедеятельности",
+                "subsection": [
+                    "Раздел 1. Общие вопросы безопасности жизнедеятельности",
+                    "Раздел 2. Общие вопросы охраны труда",
+                    "Раздел 3. Основы производственной санитарии"
+                ],
+                "testType": "education",
+                "totalQuestions": 3
+            },
+            "userInfo": {
+                "group": "Some group of people",
+                "id": "00000000-0000-0000-0000-000000000001",
+                "name": "Petrov I.D."
+            }
+        }
+    ]
+}
