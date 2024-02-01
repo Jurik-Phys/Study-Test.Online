@@ -65,6 +65,11 @@ QString TestManager::createSession(const QString& challengeId){
 
 OpenAPI::OAIQuestion TestManager::getNextQuestion(const QString& sessionId){
     QJsonObject sessionJsonData = mDataManager->getSession(sessionId);
+    if (sessionJsonData.isEmpty()){
+        OpenAPI::OAIQuestion res;
+        qDebug() << "[EE] Session" << sessionId << "does not exist";
+        return res;
+    }
 
     // size -> random index -> value by random index -> OAIQuestion object
     int nextQuestionArraySize = sessionJsonData["nextQuestionsId"].toArray().size();
