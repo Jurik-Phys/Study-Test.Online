@@ -63,7 +63,7 @@ QString TestManager::createSession(const QString& challengeId){
     return sessionId;
 }
 
-OpenAPI::OAIQuestion TestManager::getNextQuestion(const QString& sessionId){
+OpenAPI::OAIQuestion TestManager::getNextQuestion(const QString& sessionId, bool hideAnswer){
     QJsonObject sessionJsonData = mDataManager->getSession(sessionId);
     if (sessionJsonData.isEmpty()){
         OpenAPI::OAIQuestion res;
@@ -75,7 +75,7 @@ OpenAPI::OAIQuestion TestManager::getNextQuestion(const QString& sessionId){
     int nextQuestionArraySize = sessionJsonData["nextQuestionsId"].toArray().size();
     int randomQuestionId = QRandomGenerator::system()->bounded(nextQuestionArraySize);
     QString nextQuestionsGid = sessionJsonData["nextQuestionsId"].toArray()[randomQuestionId].toString();
-    QJsonObject nextQuestionData = mDataManager->getQuestion(nextQuestionsGid);
+    QJsonObject nextQuestionData = mDataManager->getQuestion(nextQuestionsGid, hideAnswer);
 
     OpenAPI::OAIQuestion res;
     res.fromJsonObject(nextQuestionData);
@@ -203,6 +203,7 @@ QJsonValue TestManager::getTestResults(const QJsonValue& sessionId, const QJsonA
         iAnswer = itAns->toObject();
         QString answerQuestionId = iAnswer["qId"].toString().toLower();
 
+        // TODO Rewrite over getQuestion(const QString&);
         for (QJsonArray::iterator itQuestion = allQuestions.begin(); itQuestion !=allQuestions.end(); itQuestion++){
             iQuestion = itQuestion->toObject();
             QString qQuestionId = iQuestion["id"].toString().toLower();

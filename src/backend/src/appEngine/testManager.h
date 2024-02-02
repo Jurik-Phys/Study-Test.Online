@@ -26,7 +26,7 @@ class TestManager {
         // subsection
         void runSession();
         QString createSession(const QString&);
-        OpenAPI::OAIQuestion getNextQuestion(const QString&);
+        OpenAPI::OAIQuestion getNextQuestion(const QString&, bool hideAnswer = false);
 
         bool checkAnswer(const QJsonObject);
         bool markQuestionAsDone(const QJsonObject);

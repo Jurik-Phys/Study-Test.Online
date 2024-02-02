@@ -280,7 +280,7 @@ QJsonArray DataManager::getAllQuestions(){
     return res;
 }
 
-QJsonObject DataManager::getQuestion(const QString& questionId){
+QJsonObject DataManager::getQuestion(const QString& questionId, bool hideAnswer){
     QJsonArray      jsonArrayData;
     QJsonObject     outJsonData;
 
@@ -293,6 +293,18 @@ QJsonObject DataManager::getQuestion(const QString& questionId){
         if (tmpJsonObject.value("id").toString().toLower() == questionId.toLower()){
             outJsonData = tmpJsonObject;
         }
+    }
+
+    // Hide question answers status (true or false)
+    if (hideAnswer == true) {
+        QJsonArray qPrivateAnswers = outJsonData["answers"].toArray();
+        for (int i = 0; i < qPrivateAnswers.count(); i++){
+            QJsonObject tmpAnswer;
+            tmpAnswer = qPrivateAnswers[i].toObject();
+            tmpAnswer.remove("isRight");
+            qPrivateAnswers[i] = tmpAnswer;
+        }
+            outJsonData["answers"] = qPrivateAnswers;
     }
 
     return outJsonData;

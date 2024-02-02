@@ -17,7 +17,7 @@ class DataManager {
         QJsonArray  getAllSessions();
         QJsonObject getSession(const QString&);
         QJsonArray  getAllQuestions();
-        QJsonObject getQuestion(const QString&);
+        QJsonObject getQuestion(const QString&, bool hideAnswer = false);
         QJsonArray getAllChallenges();
         QJsonArray getAllChallenges(const QString&);
         QJsonArray getAllSessionsAnswers();

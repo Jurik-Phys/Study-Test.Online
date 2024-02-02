@@ -37,7 +37,7 @@ void OAISessionUsersApiHandler::getQuestionBySessionID(QString session_id) {
     auto reqObj = qobject_cast<OAISessionUsersApiRequest*>(sender());
     if( reqObj != nullptr )
     {
-        OAIQuestion res(mTestManager->getNextQuestion(session_id));
+        OAIQuestion res(mTestManager->getNextQuestion(session_id, true));
         reqObj->getQuestionBySessionIDResponse(res);
     }
 }
