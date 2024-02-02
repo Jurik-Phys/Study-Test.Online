@@ -65,9 +65,9 @@ QString TestManager::createSession(const QString& challengeId){
 
 OpenAPI::OAIQuestion TestManager::getNextQuestion(const QString& sessionId, bool hideAnswer){
     QJsonObject sessionJsonData = mDataManager->getSession(sessionId);
-    if (sessionJsonData.isEmpty()){
+    if (sessionJsonData.isEmpty() or sessionJsonData["status"].toString() == "Completed"){
         OpenAPI::OAIQuestion res;
-        qDebug() << "[EE] Session" << sessionId << "does not exist";
+        qDebug() << "[EE] No questions for session" << sessionId;
         return res;
     }
 
