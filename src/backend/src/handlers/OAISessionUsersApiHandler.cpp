@@ -42,12 +42,12 @@ void OAISessionUsersApiHandler::getQuestionBySessionID(QString session_id) {
     }
 }
 void OAISessionUsersApiHandler::getSessionState(QString session_id) {
-    Q_UNUSED(session_id);
-    qDebug() << "Hi session";
+    qDebug() << "[II] Get session state";
     auto reqObj = qobject_cast<OAISessionUsersApiRequest*>(sender());
     if( reqObj != nullptr )
     {
-        OAISession res;
+        QString returnedJSON = QJsonDocument(mDataManager->getSession(session_id)).toJson();
+        OAISession res(returnedJSON);
         reqObj->getSessionStateResponse(res);
     }
 }
