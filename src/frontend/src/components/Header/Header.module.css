@@ -1,0 +1,32 @@
+.outbox{
+  margin-top: 3vw;
+  grid-area: h;
+  background-color: #B0C4DE;
+  padding: 30px;
+  box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.5);
+  max-width: 55vw;
+  min-width: 55vw;
+  text-align: center;
+}
+
+.headText{
+  font-size: 4vh
+}
+
+.loginBlock {
+  margin-top: -27px;
+  margin-right: -25px;
+  float: right;
+}
+
+.item {
+    color: darkblue;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.activeItem {
+    color: darkblue;
+    text-decoration: none;
+    font-weight: bold;
+}

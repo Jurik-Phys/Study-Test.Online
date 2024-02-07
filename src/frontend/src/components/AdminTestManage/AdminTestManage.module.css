@@ -1,0 +1,63 @@
+.bodyStyle{
+  grid-area: b;
+  background-color: #B0C4DE;
+  box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.5);
+  max-width: 47vw;
+  min-width: 47vw;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.imageBox{
+  margin-left: 5vw;
+  margin-right: 5vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.imageBox img{
+  border: 0;
+  cursor: pointer;
+  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.5);
+  width: 60%;
+}
+
+.imageCaption{
+  margin-top: 2.5vh;
+  cursor: pointer;
+  text-align: center;
+  font-size: 1.8vh
+}
+
+.hText{
+  margin-top: 8vh;
+  font-size: 4vh
+}
+
+.placeButton{
+  margin-right: 4vw;
+  margin-bottom: 6vh;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.flatButton {
+  padding: 12px 24px;
+  min-width: 175px;
+  background-color: #FCB4CE;
+  font-size: 18px;
+  border: 0;
+  cursor: pointer;
+  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.5);
+}
+
+.flatButton:hover {
+  background-color: #D0D0D0;
+}
+
+.flatButton:active {
+  background-color: #FCB4CE;
+}

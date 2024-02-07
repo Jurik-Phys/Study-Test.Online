@@ -1,0 +1,16 @@
+.fillBackground{
+  background-color: #F5DEB3;
+  min-height: 100vh;
+}
+
+.app-wrapper {
+  display: grid;
+  grid-template-areas:
+  "h h"
+  "a b";
+
+  grid-template-columns: 1fr 10fr;
+  grid-row-gap: 4vh;
+  grid-column-gap: 2.5vw;
+  margin-left: 22.5vw;
+}

@@ -1,0 +1,36 @@
+.bodyStyle{
+  grid-area: b;
+  background-color: #B0C4DE;
+  box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.5);
+  max-width: 47vw;
+  min-width: 47vw;
+  text-align: center;
+}
+
+.imageBox{
+  margin-top: 8vh;
+  margin-left: 5vw;
+  margin-right: 5vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.imageBox img{
+  border: 0;
+  cursor: pointer;
+  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.5);
+  width: 80%;
+}
+
+.imageCaption{
+  margin-top: 2.5vh;
+  cursor: pointer;
+  text-align: center;
+  font-size: 1.8vh
+}
+
+.hText{
+  margin-top: 8vh;
+  font-size: 4vh
+}
