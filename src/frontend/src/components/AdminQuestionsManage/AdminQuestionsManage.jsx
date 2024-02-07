@@ -15,7 +15,7 @@ const AdminQuestionsManage = () => {
             <div className={style.imageCaption} onClick={ ()=>navigate('/admin-questions-view')}> Education (x)</div>
           </div>
           <div>
-            <img src="psyho.png" alt="Psychological.png" onClick={ ()=>navigate('/admin-questions-view')}/>
+            <img src="psycho.png" alt="Psychological.png" onClick={ ()=>navigate('/admin-questions-view')}/>
             <div className={style.imageCaption} onClick={ ()=>navigate('/admin-questions-view')}>Psychological (y)</div>
           </div>
           <div>

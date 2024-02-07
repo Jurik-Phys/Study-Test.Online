@@ -10,7 +10,7 @@ const ActiveLink = () => {
 const NavBar = () => {
 
   return (
-      <navbar className={style.navbar}>
+      <div className={style.navbar}>
         <div>
           <NavLink to="/user-section-select" className={ActiveLink()}>User Menu</NavLink>
         </div>
@@ -20,7 +20,7 @@ const NavBar = () => {
         <div className={style.vSpacer} >
           <NavLink to="/about-us" className={ActiveLink()}>About Us</NavLink>
         </div>
-      </navbar>
+      </div>
   );
 }
 

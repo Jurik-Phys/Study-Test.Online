@@ -1,12 +1,57 @@
 import style from './UserChallengeSelect.module.css'
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 
 const UserChallengeSelect = () => {
   const navigate = useNavigate();
+  const [ sectionTitle, setSectionTitle ] = useState(null)
+  const { sectionId } = useParams();
+
+  useEffect( () => {
+    switch (sectionId){
+      case 'safety':
+        setSectionTitle("БЖД")
+        break
+
+      case 'phys':
+        setSectionTitle("Физика")
+        break
+
+      case 'math':
+        setSectionTitle("Математика")
+        break
+
+      case 'cognitive':
+        setSectionTitle("Когнитивизм")
+        break
+
+      case 'psychoanalysis':
+        setSectionTitle("Психоанализ")
+        break
+
+      case 'behaviourism':
+        setSectionTitle("Бихевиоризм")
+        break
+
+      case 'irony':
+        setSectionTitle("Ирония")
+        break
+
+      case 'satire':
+        setSectionTitle("Сатира")
+        break
+
+      case 'anekdots':
+        setSectionTitle("Анекдоты")
+        break
+
+      default:
+    }
+  }, [sectionId])
 
   return (
       <div className={style.bodyStyle}>
-        <div className={style.hText}>Life Safety</div>
+        <div className={style.hText}>{sectionTitle}</div>
         <div className={style.text}>
           <div>
             <label className={style.sText}>

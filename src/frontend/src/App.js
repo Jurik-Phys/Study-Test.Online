@@ -24,19 +24,19 @@ function App() {
           <Header />
           <NavBar />
           <Routes>
-            <Route path="/"                       element={<UserSectionSelectPage />} />
-            <Route path="/user-section-select"    element={<UserSectionSelectPage />} />
-            <Route path="/user-subsection-select" element={<UserSubsectionSelect />} />
-            <Route path="/user-challenge-select"  element={<UserChallengeSelect />} />
-            <Route path="/user-passing-test"      element={<UserPassingTest />} />
-            <Route path="/user-passing-test-tmp"  element={<UserPassingTestTmp />} />
-            <Route path="/user-result-test"       element={<UserResultTest />} />
-            <Route path="/admin-test-manage"      element={<AdminTestManage />} />
-            <Route path="/admin-sessions-manage"  element={<AdminSessionsManage />} />
-            <Route path="/admin-sessions-view"    element={<AdminSessionsView />} />
-            <Route path="/admin-questions-manage" element={<AdminQuestionsManage />} />
-            <Route path="/admin-questions-view"   element={<AdminQuestionsView />} />
-            <Route path="/about-us"               element={<AboutUsPage />} />
+            <Route path="/"                                    element={<UserSectionSelectPage />} />
+            <Route path="/user-section-select"                 element={<UserSectionSelectPage />} />
+            <Route path="/user-subsection-select/:testTypeId?" element={<UserSubsectionSelect />} />
+            <Route path="/user-challenge-select/:sectionId?"   element={<UserChallengeSelect />} />
+            <Route path="/user-passing-test"                   element={<UserPassingTest />} />
+            <Route path="/user-passing-test-tmp"               element={<UserPassingTestTmp />} />
+            <Route path="/user-result-test"                    element={<UserResultTest />} />
+            <Route path="/admin-test-manage"                   element={<AdminTestManage />} />
+            <Route path="/admin-sessions-manage"               element={<AdminSessionsManage />} />
+            <Route path="/admin-sessions-view"                 element={<AdminSessionsView />} />
+            <Route path="/admin-questions-manage"              element={<AdminQuestionsManage />} />
+            <Route path="/admin-questions-view"                element={<AdminQuestionsView />} />
+            <Route path="/about-us"                            element={<AboutUsPage />} />
           </Routes>
         </div>
       </div>

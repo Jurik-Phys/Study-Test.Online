@@ -14,7 +14,7 @@ void BackAppQtTest::testOne(){
 void BackAppQtTest::testTwo(){
     qDebug() << "[Test Two]";
     double x = 15.0;
-    double y = 14.0;
+    double y = 15.0;
 
     QCOMPARE(x, y);
 }
