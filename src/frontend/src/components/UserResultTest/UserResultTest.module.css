@@ -11,7 +11,7 @@
 }
 
 .hText{
-  margin-top: 7vh;
+  margin-top: 15vh;
   font-size: 4vh
 }
 
@@ -22,7 +22,7 @@
 .text{
   margin-right: 10vw;
   margin-left:  3vw;
-  margin-top: 1vw;
+  margin-top: -2.0vw;
   font-size: 2vh;
   line-height: 1.3;
   text-align: left;

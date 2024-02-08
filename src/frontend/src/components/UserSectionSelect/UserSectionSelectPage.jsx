@@ -9,39 +9,42 @@ const UserSectionSelectPage = () => {
   const [eduCount, setEduCount] = useState(null);
   const [psychoCount, setPsychoCount] = useState(null);
   const [funnyCount,  setFunnyCount] = useState(null);
+  const [testTypeArray, setTestTypeArray] = useState(null)
 
   useEffect( () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:7500/challenges');
         const dataAPI = response.data
-        const testTypeArray = ["education", "psycho", "funny"]
+        setTestTypeArray(["education", "psycho", "funny"])
+        if ( testTypeArray !== null){
+          testTypeArray.map( (testType) => {
+            const count = dataAPI.filter(item => item.testType === testType).length;
+            switch (testType){
+              case 'education':
+                setEduCount(count)
+                break
 
-        testTypeArray.map( (testType) => {
-          const count = dataAPI.filter(item => item.testType === testType).length;
-          switch (testType){
-            case 'education':
-              setEduCount(count)
-              break
+              case 'psycho':
+                setPsychoCount(count)
+                break
 
-            case 'psycho':
-              setPsychoCount(count)
-              break
-
-            case 'funny':
-              setFunnyCount(count)
-              break
-            default:
-          }
-          return count
-        })
-        setLoading(false);
-      } catch (error) {
+              case 'funny':
+                setFunnyCount(count)
+                break
+              default:
+            }
+            return count
+          })
+          setLoading(false);
+        }
+      }
+      catch (error) {
         console.error('Error fetching data:', error);
       }
     };
     fetchData();
-  }, [])
+  }, [testTypeArray])
 
   if (loading){
     return (
@@ -56,16 +59,16 @@ const UserSectionSelectPage = () => {
         </div>
         <div className={style.imageBox}>
           <div>
-            <img src="edu.png" alt="Education.png" onClick={ ()=>navigate('/user-subsection-select/edu')}/>
-            <div className={style.imageCaption} onClick={ ()=>navigate('/user-subsection-select/edu')}> Education ({eduCount}) </div>
+            <img src={`${testTypeArray[0]}.png`} alt={`${testTypeArray[0]}.png`} onClick={ ()=>navigate(`/user-subsection-select/${testTypeArray[0]}`)}/>
+            <div className={style.imageCaption} onClick={ ()=>navigate(`/user-subsection-select/${testTypeArray[0]}`)}> Education ({eduCount}) </div>
           </div>
           <div>
-            <img src="psycho.png" alt="Psychological.png" onClick={ ()=>navigate('/user-subsection-select/psycho')}/>
-            <div className={style.imageCaption} onClick={ ()=>navigate('/user-subsection-select/psycho')}>Psychological ({psychoCount})</div>
+            <img src={`${testTypeArray[1]}.png`} alt={`${testTypeArray[1]}.png`} onClick={ ()=>navigate(`/user-subsection-select/${testTypeArray[1]}`)}/>
+            <div className={style.imageCaption} onClick={ ()=>navigate(`/user-subsection-select/${testTypeArray[1]}`)}>Psychological ({psychoCount})</div>
           </div>
           <div>
-            <img src="funny.png" alt="Funny.png" onClick={ ()=>navigate('/user-subsection-select/funny')}/>
-            <div className={style.imageCaption} onClick={ ()=>navigate('/user-subsection-select/funny')}>Funny ({funnyCount})</div>
+            <img src={`${testTypeArray[2]}.png`} alt={`${testTypeArray[2]}.png`} onClick={ ()=>navigate(`/user-subsection-select/${testTypeArray[2]}`)}/>
+            <div className={style.imageCaption} onClick={ ()=>navigate(`/user-subsection-select/${testTypeArray[2]}`)}>Funny ({funnyCount})</div>
           </div>
         </div>
       </div>

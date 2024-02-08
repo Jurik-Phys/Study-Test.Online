@@ -28,9 +28,9 @@ function App() {
             <Route path="/user-section-select"                 element={<UserSectionSelectPage />} />
             <Route path="/user-subsection-select/:testTypeId?" element={<UserSubsectionSelect />} />
             <Route path="/user-challenge-select/:sectionId?"   element={<UserChallengeSelect />} />
-            <Route path="/user-passing-test"                   element={<UserPassingTest />} />
+            <Route path="/user-passing-test/:sessionId?"       element={<UserPassingTest />} />
             <Route path="/user-passing-test-tmp"               element={<UserPassingTestTmp />} />
-            <Route path="/user-result-test"                    element={<UserResultTest />} />
+            <Route path="/user-result-test/:sessionId?"        element={<UserResultTest />} />
             <Route path="/admin-test-manage"                   element={<AdminTestManage />} />
             <Route path="/admin-sessions-manage"               element={<AdminSessionsManage />} />
             <Route path="/admin-sessions-view"                 element={<AdminSessionsView />} />

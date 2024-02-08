@@ -41,6 +41,10 @@
   list-style-type: none;
 }
 
+.textLiLi {
+  margin-left: 0.75em;
+}
+
 .text ul{
   margin-bottom: 2.5vw;
 }
@@ -70,4 +74,3 @@
 .flatButton:active {
   background-color: #FCB4CE;
 }
-

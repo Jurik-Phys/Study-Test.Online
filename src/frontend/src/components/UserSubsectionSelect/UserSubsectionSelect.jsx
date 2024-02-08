@@ -19,9 +19,7 @@ const UserSubsectionSelectPage = () => {
   const [ccLinks, setCcLinks]  = useState(null);
 
   useEffect( () => {
-    console.log(testTypeId)
     const fetchData = async () => {
-      console.log(testTypeId)
       try {
         const response = await axios.get('http://localhost:7500/challenges');
         const dataAPI = response.data
@@ -29,7 +27,7 @@ const UserSubsectionSelectPage = () => {
         let sectionsArray = ["-", "-", "-"]
         let linksArray = ["-", "-", "-"]
         switch (testTypeId){
-          case 'edu':
+          case 'education':
             setPageTitle("Образование")
             sectionsArray = ["Физика", "Математика", "Безопасность жизнедеятельности"]
             linksArray    = ["phys",   "math", "safety"]
