@@ -47,14 +47,11 @@ QString TestManager::createSession(const QString& challengeId){
         testSessionInfo["testInfo"] = testInfo;
 
         // Session private data
-        testSessionInfo["nextQuestionsId"] = challengeJsonDoc["qIDs"];
+        testSessionInfo["nextQuestionsId"] = randomizeNextQuestions(challengeJsonDoc["qIDs"]);
         testSessionInfo["prevQuestionsId"] = QJsonArray();
 
         // Write data to file
         mDataManager->addSessionToFile(testSessionInfo);
-
-        // qDebug() << "SessionInfo Debug";
-        // qDebug() << testSessionInfo;
     }
     else {
         qDebug() << "Challenge" << challengeId << "does not exist!";
@@ -71,10 +68,7 @@ OpenAPI::OAIQuestion TestManager::getNextQuestion(const QString& sessionId, bool
         return res;
     }
 
-    // size -> random index -> value by random index -> OAIQuestion object
-    int nextQuestionArraySize = sessionJsonData["nextQuestionsId"].toArray().size();
-    int randomQuestionId = QRandomGenerator::system()->bounded(nextQuestionArraySize);
-    QString nextQuestionsGid = sessionJsonData["nextQuestionsId"].toArray()[randomQuestionId].toString();
+    QString nextQuestionsGid = sessionJsonData["nextQuestionsId"].toArray().last().toString();
     QJsonObject nextQuestionData = mDataManager->getQuestion(nextQuestionsGid, hideAnswer);
 
     OpenAPI::OAIQuestion res;
@@ -305,6 +299,20 @@ double TestManager::checkMultipleChoiceQuestion(const QJsonObject& iAnswer, cons
     }
 
     return res;
+}
+
+QJsonArray TestManager::randomizeNextQuestions(const QJsonValue& inQuestionsId){
+    QJsonArray outQuestionsIdArray;
+    QJsonArray inQuestionsIdArray = inQuestionsId.toArray();;
+
+    while (inQuestionsIdArray.count() > 0){
+        // source array size -> random index -> return value by random index
+        int sourceArraySize = inQuestionsIdArray.count();
+        int randomIndex = QRandomGenerator::system()->bounded(sourceArraySize);
+        outQuestionsIdArray.append(inQuestionsIdArray.takeAt(randomIndex));
+    }
+
+    return outQuestionsIdArray;
 }
 
 // Pattern singletone

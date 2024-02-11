@@ -43,6 +43,7 @@ class TestManager {
         QJsonValue getTestResults(const QJsonValue&, const QJsonArray&);
         double checkSingleChoiceQuestion(const QJsonObject&, const QJsonObject&);
         double checkMultipleChoiceQuestion(const QJsonObject&, const QJsonObject&);
+        QJsonArray randomizeNextQuestions(const QJsonValue&);
 };
 
 
