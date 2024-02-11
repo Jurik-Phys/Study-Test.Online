@@ -9,14 +9,14 @@ const UserSectionSelectPage = () => {
   const [eduCount, setEduCount] = useState(null);
   const [psychoCount, setPsychoCount] = useState(null);
   const [funnyCount,  setFunnyCount] = useState(null);
-  const [testTypeArray, setTestTypeArray] = useState(null)
+
+  const testTypeArray = ["education", "psycho", "funny"]
 
   useEffect( () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:7500/challenges');
         const dataAPI = response.data
-        setTestTypeArray(["education", "psycho", "funny"])
         if ( testTypeArray !== null){
           testTypeArray.map( (testType) => {
             const count = dataAPI.filter(item => item.testType === testType).length;
@@ -44,7 +44,7 @@ const UserSectionSelectPage = () => {
       }
     };
     fetchData();
-  }, [testTypeArray])
+  }, [])
 
   if (loading){
     return (

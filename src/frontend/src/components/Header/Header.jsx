@@ -14,7 +14,7 @@ const Header = () => {
           Petrov D.K. from London
         </div>
         <div className={style.headText}>
-          <NavLink to="/" className={ActiveLink()} >-= Study-Test.Online =-</NavLink>
+          <NavLink to="/" className={ActiveLink()} >~ Study-Test.Online ~</NavLink>
         </div>
       </header>
   );

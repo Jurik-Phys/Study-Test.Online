@@ -5,10 +5,12 @@
   max-width: 47vw;
   min-width: 47vw;
   text-align: center;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
 }
 
 .imageBox{
-  margin-top: 8vh;
   margin-left: 5vw;
   margin-right: 5vw;
   display: flex;
@@ -35,6 +37,27 @@
   font-size: 4vh
 }
 
+.placeButton{
+  margin-right: 4vw;
+  margin-bottom: 6vh;
+  display: flex;
+  justify-content: flex-end;
+}
 
+.flatButton {
+  padding: 12px 24px;
+  min-width: 175px;
+  background-color: #FCB4CE;
+  font-size: 18px;
+  border: 0;
+  cursor: pointer;
+  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.5);
+}
 
+.flatButton:hover {
+  background-color: #D0D0D0;
+}
 
+.flatButton:active {
+  background-color: #FCB4CE;
+}

@@ -20,10 +20,10 @@ const printQuestionData = (question, questionNumber, questionsTotal, inputClick)
     <div>
       <div className={style.hText}>Вопрос {questionNumber}/{questionsTotal}</div>
       <div className={style.text}>
+          <div style={{ width: '40vw', height: '48vh', overflow: 'auto', border: '0px solid gray' }} >
           <label className={style.qText}>
             {question["body"]}
           </label>
-          <div style={{ width: '40vw', height: '48vh', overflow: 'auto', border: '0px solid gray' }} >
           <ul>
             {
             question["answers"].map( (answer, index) => {
@@ -45,7 +45,6 @@ const UserPassingTest = () => {
   const { sessionId } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [sLoading, setSLoading] = useState(true);
   const [question, setQuestion] = useState(null)
   const [questionNumber, setQuestionNumber] = useState(null)
   const [questionsTotal, setTotalQuestions] = useState(null)
@@ -62,31 +61,25 @@ const UserPassingTest = () => {
           const oldObj = JSON.stringify(questionNumber)
           const newObj = JSON.stringify(questionNumberLocal)
           if ( oldObj !== newObj){
-            console.log("[II] =>> 01 =>>")
             setQuestionNumber(questionNumberLocal)
             setTotalQuestions(sessionResponse["testInfo"]["totalQuestions"])
           }
-          setSLoading(false)
         }
       }
       catch (error) {
         console.error('Error fetching data:', error);
       }
     }
-    getSessionData();
 
-  }, [questionNumber, sessionId])
-
-  useEffect( () => {
     const getQuestionData = async () => {
       try {
         const response = await axios.get(`http://localhost:7500/question/${sessionId}`);
         const questResponse = response.data
+        setLoading(false)
         if (questResponse !== null && questResponse !== undefined){
           const oldObj = JSON.stringify(question)
           const newObj = JSON.stringify(questResponse)
           if ( oldObj !== newObj){
-            console.log("[II] =>> 02 =>>")
             setQuestion(questResponse)
           }
         }
@@ -96,12 +89,13 @@ const UserPassingTest = () => {
       }
     }
 
+    getSessionData();
     getQuestionData();
-    }, [question, sessionId])
+    }, [questionNumber,question, sessionId])
 
-  if (loading && sLoading){
+  if (loading){
     return (
-      <div className={style.bodyStyle}>LOADING!!!</div>
+      <div className={style.bodyStyle}></div>
     )
   }
 
@@ -175,7 +169,7 @@ const UserPassingTest = () => {
 
   return (
       <div className={style.bodyStyle}>
-          {printQuestionData(question, questionNumber, questionsTotal, inputClick)}
+        {printQuestionData(question, questionNumber, questionsTotal, inputClick)}
         <div className={style.placeButton}>
           <button className={style.flatButton} onClick={ clickButton } >Next</button>
         </div>

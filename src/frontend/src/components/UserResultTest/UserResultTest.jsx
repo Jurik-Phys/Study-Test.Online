@@ -41,7 +41,7 @@ const UserResultTest = () => {
         <div className={style.hText}>Результаты</div>
         <div className={style.text}>
           <div>
-            <label className={style.sText}>
+            <label className={style.sectionTitleText}>
               {result["testInfo"]["section"]}
             </label>
             <ul>

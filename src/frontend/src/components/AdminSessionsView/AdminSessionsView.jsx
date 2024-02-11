@@ -1,60 +1,105 @@
 import style from './AdminSessionsView.module.css'
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
+import { useEffect, useState } from "react"
+import axios from 'axios';
+
+
+const printChallengesData = (data) => {
+  return (
+    <>
+      {
+        data.map((item, index) => {
+          return (
+            <div>
+              <label className={style.sText}>
+                {index + 1}. {item.section}
+              </label>
+              <div style={{ marginLeft: '1.75em' }}>
+              {
+                item["subsection"].map( (subsection) =>{
+                  return (
+                    <div>
+                      {subsection}
+                    </div>
+                  )
+                  }
+                )
+              }
+              <div>
+                <label className={style.sText}>
+                  Аннотация.
+                </label> {item.annotation}
+              </div>
+              <div>
+                <label className={style.sText}>
+                  Количество вопросов:
+                </label> {item.totalQuestions}
+              </div>
+              <div>
+                <label className={style.sText}>
+                  Время выполнения:
+                </label> {item.maxTime} мин.
+              </div>
+              <div>
+                - - -
+              </div>
+              </div>
+            </div>
+          )}
+        )
+      }
+    </>
+  )
+}
 
 const AdminSessionsView = () => {
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { testTypeId } = useParams();
+  const [challengesData, setChallengesData] = useState(null)
+
+  useEffect( () => {
+    const fetchData = async () => {
+    try {
+      const response = await axios.get('http://localhost:7500/challenges');
+      const dataAPI = response.data
+      const challenges = dataAPI.filter(item => item.testType === testTypeId);
+      if (challenges !== null && challenges !== undefined && challenges.length !== 0){
+        const oldObj = JSON.stringify(challengesData)
+        const newObj = JSON.stringify(challenges)
+        if ( oldObj !== newObj){
+          setChallengesData(challenges)
+        }
+        setLoading(false)
+      }
+    }
+    catch (error) {
+      console.error('Error fetching data:', error);
+      }
+    };
+
+  fetchData();
+  }, [challengesData, testTypeId])
+
+  if (loading){
+    return (
+      <div className={style.bodyStyle}></div>
+    )
+  }
 
   return (
       <div className={style.bodyStyle}>
-        <div className={style.hText}>Life Safety</div>
-        Sessions viewer
-        <div className={style.text}>
-          <div>
-            <label className={style.sText}>
-              Subsection challenge number ONE
-            </label>
-            <ul>
-              <li>
-                <label className={style.sText}>
-                  Annotation.
-                </label> It is the activity of annotating something. She retained a number of copies for further annotation
-              </li>
-              <li>
-                <label className={style.sText}>
-                  Count of questions:
-                </label> 25
-              </li>
-              <li>
-                <label className={style.sText}>
-                Time to pass:
-                </label> 45 min
-              </li>
-            </ul>
+          <div className={style.hText}>
+            <div>Список испытаний</div>
+            <div>dev: read-only</div>
           </div>
-            <label className={style.sText}>
-              Subsection challenge number TWO
-            </label>
-            <ul>
-              <li>
-                <label className={style.sText}>
-                  Annotation.
-                </label> Ivanovo Power Engineering Institute was founded on the basis of Ivanovo-Voznesensk Polytechnic Institute in 1930
-              </li>
-              <li>
-                <label className={style.sText}>
-                  Count of questions:
-                </label> 35
-              </li>
-              <li>
-                <label className={style.sText}>
-                Time to pass:
-                </label> 60 min
-              </li>
-            </ul>
+        <div className={style.text}>
+          <div style={{ width: '40vw', height: '48vh', overflow: 'auto', border: '0px solid gray' }} >
+          {printChallengesData(challengesData) }
+          </div>
         </div>
         <div className={style.placeButton}>
           <button className={style.flatButton} onClick={ ()=>navigate(-1)} >Back</button>
-          <button className={style.flatButton} onClick={ ()=>navigate("/admin-sessions-view")} >Next</button>
         </div>
       </div>
   );
