@@ -4,7 +4,7 @@ info:
   title: Study-Test.Online - сервис проведения тестирования
   version: 0.0.1
 servers:
-  - url: http://localhost:7500/
+  - url: http://5.188.51.63:7500/
     description: Backend server of Study-Test.Online; сreated with Qt & C++
 tags:
   - name: "Challenges [Users]"
