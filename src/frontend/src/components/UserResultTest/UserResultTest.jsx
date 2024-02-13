@@ -12,7 +12,7 @@ const UserResultTest = () => {
   useEffect( () => {
     const getResultData = async () => {
       try {
-        const response = await axios.get(`http://localhost:7500/session/${sessionId}`);
+        const response = await axios.get(`http://5.188.51.63:7500/session/${sessionId}`);
         const getResult = response.data
         setLoading(false)
         if (getResult !== null && getResult !== undefined){

@@ -21,7 +21,7 @@ const UserSubsectionSelectPage = () => {
   useEffect( () => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:7500/challenges');
+        const response = await axios.get('http://5.188.51.63:7500/challenges');
         const dataAPI = response.data
 
         let sectionsArray = ["-", "-", "-"]

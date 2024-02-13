@@ -98,7 +98,7 @@ const UserChallengeSelect = () => {
   useEffect( () => {
     const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:7500/challenges');
+      const response = await axios.get('http://5.188.51.63:7500/challenges');
       const dataAPI = response.data
       setSection(getSectionById(sectionId))
       const challenges = dataAPI.filter(item => item.section === section);
@@ -138,7 +138,7 @@ const UserChallengeSelect = () => {
         const postObj = {
           id: challengeId
         }
-        const response = await axios.post('http://localhost:7500/session', postObj);
+        const response = await axios.post('http://5.188.51.63:7500/session', postObj);
         console.log('Response:', response.data);
         // Move to test page
         navigate(`/user-passing-test/${response.data}`)

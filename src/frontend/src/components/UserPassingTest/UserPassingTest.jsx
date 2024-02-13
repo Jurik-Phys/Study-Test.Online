@@ -54,7 +54,7 @@ const UserPassingTest = () => {
   useEffect( () => {
     const getSessionData = async () => {
       try {
-        const response = await axios.get(`http://localhost:7500/session/${sessionId}`);
+        const response = await axios.get(`http://5.188.51.63:7500/session/${sessionId}`);
         const sessionResponse = response.data
          const questionNumberLocal = sessionResponse["testInfo"]["doneQuestions"] + 1 ;
         if (questionNumberLocal !== null && questionNumberLocal !== undefined){
@@ -73,7 +73,7 @@ const UserPassingTest = () => {
 
     const getQuestionData = async () => {
       try {
-        const response = await axios.get(`http://localhost:7500/question/${sessionId}`);
+        const response = await axios.get(`http://5.188.51.63:7500/question/${sessionId}`);
         const questResponse = response.data
         setLoading(false)
         if (questResponse !== null && questResponse !== undefined){
@@ -115,7 +115,7 @@ const UserPassingTest = () => {
       }
       const postAnswer = async () => {
         try {
-          const response = await axios.post('http://localhost:7500/answers', postObj);
+          const response = await axios.post('http://5.188.51.63:7500/answers', postObj);
           console.log('Response:', response.data);
           const lastQuestion = questionsTotal - questionNumber === 0 ? true : false
 
